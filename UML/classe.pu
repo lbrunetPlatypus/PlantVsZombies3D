@@ -1,0 +1,103 @@
+GameObject <|-- Plant
+GameObject <|-- Zombie
+GameObject <|-- Sun
+GameObject <|-- House
+GameObject <|-- Bullet
+
+Plant <|-- PeaShooter
+Plant <|-- SunPlant
+
+GameObject --> Position
+
+Gameboard *-- BoardSquare
+
+BoardSquare --> GameObject
+
+Game --> Gameboard
+Game --> Player
+
+class GameObject {
+	- position : Position
+
+ 	+ setPosition(newPosition : Position)
+}
+
+class Plant {
+ 	- hp : int
+ 	- coolDown : int
+
+}
+
+
+class SunPlant {
+	
+	+ produceSun()
+}
+
+
+class PeaShooter {
+	- attackPoint : int
+
+	+ detectZombie()
+	+ shootAt(direction : Position)
+}
+
+class Position {
+	- x : int
+	- y : int
+	- z : int
+}
+
+class Zombie {
+	- hp : int
+	- arrackPoint : int
+	- speed : int
+
+	+ detectTarget()
+	+ move()
+	+ nibble()
+	+ takeDamages()
+}
+
+class House {
+	+ detectZombie()
+}
+
+class Sun{
+	- despawn : int
+}
+
+class Bullet{
+
+}
+
+class Player {
+	- nSuns : int
+
+	+ plant()
+	+ collectSun()
+	+ choosePlant()
+}
+
+class Gameboard {
+	- squaresList : vector<BoardSquare>
+
+	+ addZombie(position : Position, zombie : Zombie)
+	+ addPlant(position : Position, plant : Plant)
+	+ addSun(position : Position)
+	+ deleteAObject(position : Position)
+
+}
+
+class BoardSquare {
+	- object : GameObject
+}
+
+class Game {
+	- player : Player
+	- gameboard : Gameboard
+	- score : int
+
+	+ play()
+	+ udpdateScore()
+}
