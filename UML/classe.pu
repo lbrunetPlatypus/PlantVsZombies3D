@@ -82,9 +82,7 @@ class Player {
 class Gameboard {
 	- squaresList : vector<BoardSquare>
 
-	+ addZombie(position : Position, zombie : Zombie)
-	+ addPlant(position : Position, plant : Plant)
-	+ addSun(position : Position)
+	+ addObject(GameObject object, position : Position)
 	+ deleteAObject(position : Position)
 
 }
