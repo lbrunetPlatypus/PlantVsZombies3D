@@ -6,6 +6,7 @@
 }
 
 void Zombie::move(){
+	setPosition(getPosition()+1);
 }
 void Zombie::nibble(){
 }
