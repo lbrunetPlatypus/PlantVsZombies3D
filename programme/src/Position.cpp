@@ -18,7 +18,7 @@ int Position::getX(){
 int Position::getY(){
 	return y;
 }
-int Position::getZ(){
+ int Position::getZ(){
 	return z;
 }
 void Position::setPosition(int _x, int _y, int _z){
@@ -27,9 +27,16 @@ void Position::setPosition(int _x, int _y, int _z){
 	z = _z;
 }
 
-const Position operator + (const Position& pos1, const Position& pos2){
-	Position result;
-	
-	result.setPosition(pos1.getX + pos2.getX, pos1.getY + pos2.getY, pos1.getZ + pos2.getZ );
+void Position::setPosition(Position pos){
+	x = pos.getX();
+	y = pos.getY();
+	z = pos.getZ();
+}
+
+Position Position::operator + (const Position& pos1){
+	Position result, pos = pos1;
+	result.setPosition(getX() + pos.getX(), pos.getY() + getY(), pos.getZ() + getZ());
 	return result;
 }
+
+

@@ -12,6 +12,6 @@ class Zombie : private GameObject{
     bool detectTarget();//detect if something is just in front of the zombie
     void move();
     void nibble();
-    bool takeDamages();//say if the zombie die or not?
+    bool takeDamages(int nbDamages);//say if the zombie die or not?
 };
 #endif

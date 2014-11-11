@@ -12,12 +12,10 @@ class Position {
 		int getY();
 		int getZ();
 		void setPosition(int x, int y, int z);
+		void setPosition(Position pos);
+
+		Position operator + (const Position& pos1);
 
 };
-const Position operator + (const Position& pos1, const Position& pos2);
-const Position operator + (const Position& pos1, const int& a);
-//const Position operator + (const int& a, const Position& pos1);
-const Position operator - (const Position& pos1, const int& a);
-//const Position operator - (const int& a, const Position& pos1);
 
 #endif

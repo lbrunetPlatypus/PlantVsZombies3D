@@ -6,10 +6,19 @@
 }
 
 void Zombie::move(){
-	setPosition(getPosition()+1);
+	setPosition(getPosition()+Position(1,0,0));
 }
-void Zombie::nibble(){
+
+void Zombie::nibble(){//makedamages to the objet in front
 }
-bool Zombie::takeDamages(){
-	return true;
+
+bool Zombie::takeDamages(int nbDamages){
+	hp -= nbDamages;
+	if (hp <= 0){
+		return true;
+	}
+	else{
+		return false;
+	}
+	
 }
