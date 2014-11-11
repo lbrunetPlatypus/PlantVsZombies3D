@@ -5,6 +5,6 @@ class Sun : private Plant{
     private :
     
     public :
-    produceSun();
+    void produceSun();
 };
 #endif

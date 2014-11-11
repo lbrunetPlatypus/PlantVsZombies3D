@@ -2,7 +2,7 @@
 
 Plant::Plant() {
 	hp = 5;
-	cooldown = 0;
+	coolDown = 0;
 }
 
 Plant::Plant(int cooldown) : Plant() {
@@ -22,9 +22,9 @@ void Plant::setHp(int hp) {
 }
     
 int Plant::getCooldown() {
-	return cooldown;
+	return coolDown;
 }
 
 void Plant::setCooldown(int cooldown) {
-	this->cooldown = cooldown;
+	this->coolDown = cooldown;
 }

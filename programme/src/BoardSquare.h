@@ -5,8 +5,12 @@ class BoardSquare {
     
     private :
     GameObject object;
+	int x;
+	int z;
     
     public :
+		
+
 };
 #endif
 

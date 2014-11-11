@@ -7,6 +7,6 @@ class GameObject {
     Position position;
     
     public :
-    setPosition(Position newPosition);
+    void setPosition(Position newPosition);
 };
 #endif
