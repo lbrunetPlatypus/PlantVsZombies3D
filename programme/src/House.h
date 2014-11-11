@@ -6,6 +6,6 @@ class House : private GameObject{
     private :
     
     public :
-    detectZombie();
+    void detectZombie();
 };
 #endif

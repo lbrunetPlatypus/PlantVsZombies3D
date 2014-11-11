@@ -7,11 +7,11 @@
 #include "GameObject.h"
 class Gameboard {
     private :
-    squaresList : vector<BoardSquare>;
+    vector<BoardSquare> squaresList;
     
     public :
-    addObject(GameObject object, Position position);
-    deleteObject(Position position);
+    void addObject(GameObject object, Position position);
+    void deleteObject(Position position);
 };
 
 #endif

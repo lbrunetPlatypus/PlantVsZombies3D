@@ -6,7 +6,7 @@ class PeaShooter : private Plant{
     int attackPoint;
     
     public :
-    detectZombie();
-    shootAt(Position position);
+    void detectZombie();
+    void shootAt(Position position);
 };
 #endif

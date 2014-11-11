@@ -11,7 +11,7 @@ class Game {
     int score;
     
     public :
-    play();
-    updateScore();
+    void play();
+    void updateScore();
 };
 #endif
