@@ -10,5 +10,5 @@ class Player {
     plant();
     collectSun();
     choosePlant();
-}
+};
 #endif

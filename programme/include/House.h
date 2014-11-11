@@ -7,5 +7,5 @@ class House : private GameObject{
     
     public :
     detectZombie();
-}
+};
 #endif

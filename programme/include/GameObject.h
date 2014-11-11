@@ -8,5 +8,5 @@ class GameObject {
     
     public :
     setPosition(Position newPosition);
-}
+};
 #endif

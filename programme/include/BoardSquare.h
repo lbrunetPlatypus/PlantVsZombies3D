@@ -7,6 +7,6 @@ class BoardSquare {
     GameObject object;
     
     public :
-}
+};
 #endif
 

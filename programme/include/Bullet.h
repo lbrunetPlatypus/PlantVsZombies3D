@@ -6,5 +6,5 @@ class Bullet : private GameObject{
     private :
     
     public :
-}
+};
 #endif

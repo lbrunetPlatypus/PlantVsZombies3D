@@ -13,5 +13,5 @@ class Game {
     public :
     play();
     updateScore();
-}
+};
 #endif

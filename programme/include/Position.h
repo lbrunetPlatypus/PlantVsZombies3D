@@ -6,5 +6,5 @@ class Position {
     int x,y,z;
     
     public :
-}
+};
 #endif
