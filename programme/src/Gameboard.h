@@ -5,9 +5,10 @@
 #include <vector>
 #include "Position.h"
 #include "GameObject.h"
+
 class Gameboard {
     private :
-    vector<BoardSquare> squaresList;
+    std::vector<BoardSquare> squaresList;
     
     public :
     void addObject(GameObject object, Position position);
