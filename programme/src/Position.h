@@ -7,6 +7,6 @@ class Position {
     
     public :
 		Position();
-		Position(x, y, z);
+		Position( int x, int y, int z);
 };
 #endif
