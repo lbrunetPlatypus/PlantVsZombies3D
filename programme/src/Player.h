@@ -7,8 +7,8 @@ class Player {
     int nSuns;
     
     public :
-    plant();
-    collectSun();
-    choosePlant();
+    void plant();
+    void collectSun();
+    void choosePlant();
 };
 #endif
