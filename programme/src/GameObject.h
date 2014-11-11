@@ -5,6 +5,7 @@ class GameObject {
     
     private :
     Position position;
+    static Gameboard gameboard;
     
     public :
     void setPosition(Position newPosition);
