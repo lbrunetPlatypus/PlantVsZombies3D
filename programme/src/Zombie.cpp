@@ -6,7 +6,7 @@
 }
 
 void Zombie::move(){
-	setPosition(getPosition()+Position(1,0,0));
+	setPosition(getPosition()+Position(1*speed,0,0));
 }
 
 void Zombie::nibble(){//makedamages to the objet in front
