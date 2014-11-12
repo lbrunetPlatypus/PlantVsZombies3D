@@ -9,10 +9,14 @@
 class Gameboard {
     private :
     std::vector<BoardSquare> squaresList;
+	int sizeX;
+	int sizeZ;
     
     public :
-    void addObject(GameObject object, Position position);
-    void deleteObject(Position position);
+	Gameboard();
+	Gameboard(int sizeX,int sizeZ);
+	void addObject(GameObject object, int squareId);
+	void deleteObject(int squareID);
 };
 
 #endif
