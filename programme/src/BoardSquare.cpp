@@ -46,3 +46,5 @@ GameObject BoardSquare::getObject(){
 int BoardSquare::getId(){
 	return id;
 }
+
+

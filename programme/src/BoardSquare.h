@@ -9,7 +9,9 @@ class BoardSquare {
 	int id;
 	int x;
 	int z;
-    
+	bool isHovered;
+	Vec3 screenCoordinate;
+
     public :
 		BoardSquare();
 		BoardSquare(int x, int z,int id);
@@ -25,7 +27,11 @@ class BoardSquare {
 		Position get2DPosition();
 		GameObject getObject();
 		int getId();
+		Vec3 getScreenCoordinate();
+		
 
+		void setHoveringStatus(bool status);
+		bool getHoveringStatus();
 		
 
 

@@ -18,6 +18,8 @@ class Gameboard {
 	Gameboard(int sizeX,int sizeZ);
 	void addObject(GameObject object, int squareId);
 	void deleteObject(int squareID);
+	void checkHoveringStatus(int x, int y);
+	void UpdateScreenCoordinate();
 };
 
 #endif

@@ -14,4 +14,17 @@ class GameObject {
     void setPosition(Position newPosition);
 	Position getPosition();
 };
+
+struct Vec3
+{
+	double x, y, z;
+	Vec3() { x = 0; y = 0; z = 0; }
+	Vec3(double a, double b, double c) :x(a), y(b), z(c){}
+};
+
+const Vec3 operator + (const Vec3& v1, const Vec3& v2);
+const Vec3 operator - (const Vec3& v1, const Vec3& v2);
+const Vec3 operator * (const Vec3& v1, const double& coeff);
+
+
 #endif
