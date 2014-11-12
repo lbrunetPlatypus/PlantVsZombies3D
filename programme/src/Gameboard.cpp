@@ -1,4 +1,5 @@
 #include "Gameboard.h"
+#include <math.h>
 
 
 Gameboard::Gameboard(){
