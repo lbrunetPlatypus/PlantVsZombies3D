@@ -1,6 +1,6 @@
 #ifndef PEASHOOTER_H
 #define PEASHOOTER_H
-#include "GameObject.h"
+#include "Plant.h"
 #include "Bullet.h"
 class PeaShooter : private Plant{
     private :
