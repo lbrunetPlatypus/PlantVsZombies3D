@@ -47,4 +47,17 @@ int BoardSquare::getId(){
 	return id;
 }
 
+Vec3 BoardSquare::getScreenCoordinate() {
+    return screenCoordinate;
+}
+
+
+void BoardSquare::setHoveringStatus(bool status) {
+    isHovered = status;
+}
+bool BoardSquare::getHoveringStatus() {
+    return isHovered;
+}
+
+
 
