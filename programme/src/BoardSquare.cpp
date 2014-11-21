@@ -13,7 +13,7 @@ BoardSquare::BoardSquare(int _x, int _z, int _id){
 	z = _z;
 }
 
-void BoardSquare::setObject(GameObject _object){
+void BoardSquare::setObject(GameObject* _object){
 	//set object position at the same time?
 	object = _object;
 }
@@ -40,7 +40,7 @@ int BoardSquare::getZ(){
 Position BoardSquare::get2DPosition(){
 	return Position(x, 0, z);
 }
-GameObject BoardSquare::getObject(){
+GameObject* BoardSquare::getObject(){
 	return object;
 }
 int BoardSquare::getId(){

@@ -20,7 +20,16 @@ Gameboard::Gameboard(int _sizeX,int _sizeZ){
 
 }
 
-void Gameboard::addObject(GameObject object,int squareId){
+std::vector<BoardSquare> Gameboard::getSquaresList() {
+    return squaresList;
+}
+
+void Gameboard::produceSun() {
+    Sun sun;
+    addObject(&sun, 1);
+}
+
+void Gameboard::addObject(GameObject* object,int squareId){
 	//set object position using the square?
 	squaresList[squareId].setObject(object);
 	

@@ -2,6 +2,12 @@
 #define GAMEOBJECT_H
 #include "Position.h"
 
+#ifdef __APPLE__
+#include "GLUT/glut.h"
+#elif _WIN32
+#include "Gl/glut.h"
+#endif
+
 class Gameboard;
 
 class GameObject {
@@ -13,6 +19,7 @@ class GameObject {
     public :
     void setPosition(Position newPosition);
 	Position getPosition();
+    virtual void draw();
 };
 
 struct Vec3

@@ -1,7 +1,7 @@
 #ifndef PLANT_H
 #define PLANT_H
 #include "GameObject.h"
-class Plant : private GameObject{
+class Plant : public GameObject{
     private :
     int hp;
     int coolDown;

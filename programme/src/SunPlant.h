@@ -1,7 +1,7 @@
 #ifndef SUNPLANT_H
 #define SUNPLANT_H
 #include "Plant.h"
-class SunPlant : private Plant{
+class SunPlant : public Plant{
     private :
     
     public :
@@ -9,5 +9,6 @@ class SunPlant : private Plant{
     SunPlant(int cooldown);
     SunPlant(int cooldown, int hp);
     void produceSun();
+    void draw();
 };
 #endif
