@@ -15,14 +15,16 @@ SunPlant::SunPlant(int cooldown, int hp) : Plant(cooldown,hp) {
 
 void SunPlant::produceSun() {
 	//call gameboard in order to produce a sun.
-    x += 100;
+    Position position = getPosition();
+    position = position + Position(100, 0, 0);
+    setPosition(position);
     glutPostRedisplay();
 }
 
 void SunPlant::draw() {
     glPushMatrix();
-    glTranslatef(x, 0, 0);
+    glTranslatef(getPosition().getX(), 0, getPosition().getZ());
     glColor3f(0, 1, 0);
-    gluSphere(gluNewQuadric(), 200, 20, 20);
+    gluSphere(gluNewQuadric(), 40, 20, 20);
     glPopMatrix();
 }

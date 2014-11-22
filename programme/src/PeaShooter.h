@@ -2,7 +2,7 @@
 #define PEASHOOTER_H
 #include "Plant.h"
 #include "Bullet.h"
-class PeaShooter : private Plant{
+class PeaShooter : public Plant{
     private :
     int attackPoint;
     
@@ -12,6 +12,7 @@ class PeaShooter : private Plant{
     int getAttackPoint();
     void setAttackPoint(int ap);
     void detectZombie();
+    void draw();
     Bullet shoot();
 };
 #endif

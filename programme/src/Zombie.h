@@ -2,7 +2,7 @@
 #define ZOMBIE_H
 #include "GameObject.h"
 
-class Zombie : private GameObject{
+class Zombie : public GameObject{
     private :
     int hp;
     int attackPoint;
@@ -13,5 +13,6 @@ class Zombie : private GameObject{
     void move();
     void nibble();
     bool takeDamages(int nbDamages);//say if the zombie die or not?
+    void draw();
 };
 #endif

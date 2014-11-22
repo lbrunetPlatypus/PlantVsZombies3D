@@ -24,15 +24,31 @@ std::vector<BoardSquare> Gameboard::getSquaresList() {
     return squaresList;
 }
 
-void Gameboard::produceSun() {
+std::vector<Sun> Gameboard::getSunList(){
+    return sunList;
+}
+
+void Gameboard::produceSun(Position position) {
     Sun sun;
-    addObject(&sun, 1);
+    BoardSquare square = getSquare(position);
+    sun.setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size+10));
+    sunList.push_back(sun);
 }
 
 void Gameboard::addObject(GameObject* object,int squareId){
 	//set object position using the square?
+    BoardSquare square = squaresList[squareId];
+    object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
 	squaresList[squareId].setObject(object);
 	
+}
+
+BoardSquare Gameboard::getSquare(Position position){
+    int i,j;
+    i = position.getX()/BoardSquare::size;
+    j = position.getZ()/BoardSquare::size;
+    
+    return getSquaresList().at(sizeZ*i+j);
 }
 
 void Gameboard::deleteObject(int squareId){

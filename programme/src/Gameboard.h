@@ -10,6 +10,7 @@
 
 class Gameboard {
     private :
+    std::vector<Sun> sunList;
     std::vector<BoardSquare> squaresList;
 	int sizeX;
 	int sizeZ;
@@ -18,9 +19,11 @@ class Gameboard {
 	Gameboard();
 	Gameboard(int sizeX,int sizeZ);
     std::vector<BoardSquare> getSquaresList();
-    void produceSun();
+    std::vector<Sun> getSunList();
+    void produceSun(Position position);
 	void addObject(GameObject* object, int squareId);
 	void deleteObject(int squareID);
+    BoardSquare getSquare(Position position);
 	void checkHoveringStatus(int x, int y);
 	void UpdateScreenCoordinate();
 };

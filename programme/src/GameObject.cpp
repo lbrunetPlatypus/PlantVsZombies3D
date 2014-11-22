@@ -10,6 +10,6 @@ Position GameObject::getPosition() {
 }
 
 void GameObject::draw(){
-    std::cout << "go" << std::endl;
+
 }
 

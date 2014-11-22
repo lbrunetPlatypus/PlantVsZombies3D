@@ -20,7 +20,15 @@ void PeaShooter::detectZombie() {
 
 }
 
-Bullet shoot() {
+void PeaShooter::draw() {
+    glPushMatrix();
+    glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+    glColor3f(0, 1, 1);
+    gluSphere(gluNewQuadric(), 40, 20, 20);
+    glPopMatrix();
+}
+
+Bullet PeaShooter::shoot() {
 	Bullet bullet;
 	return bullet;
 }
