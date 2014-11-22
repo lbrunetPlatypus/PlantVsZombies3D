@@ -4,6 +4,7 @@
 
 int x=0;
 
+
 SunPlant::SunPlant(): Plant() {
 
 }
@@ -44,6 +45,15 @@ void SunPlant::draw() {
             gluSphere(gluNewQuadric(), 1, 20, 20);
             glPopMatrix();
         }
+    
+        glColor3f(0, 1, 0);
+
+        glPushMatrix();
+        glTranslatef(-5, 0, 0);
+        glScalef(0.33, 1, 1);
+        gluSphere(gluNewQuadric(), sunRadius, 20, 20);
+        glPopMatrix();
+    
         glColor3f(0.55, 0.27, 0);
 
         glPushMatrix();
@@ -55,9 +65,82 @@ void SunPlant::draw() {
     
     glColor3f(0, 1, 0);
     glPushMatrix();
-    glTranslatef(0, 20, 0);
+    glTranslatef(-10, 25, 0);
         glRotatef(90, 1, 0, 0);
         gluCylinder(gluNewQuadric(), 5, 5, 50, 20, 20);
     glPopMatrix();
+    
+    
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+    
+    glRotatef(90, 0, 1, 0);
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+    
+    glRotatef(90, 0, 1, 0);
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+    glRotatef(90, 0, 1, 0);
+
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+
     glPopMatrix();
 }
