@@ -42,7 +42,7 @@ class BoardSquare {
         Sun* getSun();
 		int getId();
 		Vec3 getScreenCoordinate();
-		
+        void draw();
 
 		void setHoveringStatus(bool status);
 		bool getHoveringStatus();

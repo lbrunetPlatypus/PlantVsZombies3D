@@ -28,6 +28,14 @@ std::vector<Sun> Gameboard::getSunList(){
     return sunList;
 }
 
+int Gameboard::getSizeX() {
+    return sizeX;
+}
+
+int Gameboard::getSizeZ() {
+    return sizeZ;
+}
+
 void Gameboard::produceSun(Position position) {
     Sun sun;
     BoardSquare square = getSquare(position);
@@ -97,6 +105,12 @@ void Gameboard::checkHoveringStatus(int x, int y)//x, y being the mouse position
 		}
 	}
 	if (hoveredSquare != -1) squaresList[hoveredSquare].setHoveringStatus(true);
+}
+
+void Gameboard::draw() {
+    for (int i=0; i<squaresList.size(); i++) {
+        squaresList[i].draw();
+    }
 }
 
 const Vec3 operator + (const Vec3& v1, const Vec3& v2){

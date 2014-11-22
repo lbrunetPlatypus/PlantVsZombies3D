@@ -51,6 +51,20 @@ Vec3 BoardSquare::getScreenCoordinate() {
     return screenCoordinate;
 }
 
+void BoardSquare::draw() {
+    glPushMatrix();
+    glColor3f(0, 0.6, 0);
+    glBegin(GL_QUADS);
+    glVertex3f(x*size, 0, z*size);
+    glVertex3f((x+1)*size, 0, z*size);
+    glVertex3f((x+1)*size, 0, (z+1)*size);
+    glVertex3f(x*size, 0, (z+1)*size);
+    glEnd();
+    glColor3f(0.55, 0.27, 0);
+    glTranslatef((x+0.5)*size, -size/2-1, (z+0.5)*size);
+    glutSolidCube(size);
+    glPopMatrix();
+}
 
 void BoardSquare::setHoveringStatus(bool status) {
     isHovered = status;

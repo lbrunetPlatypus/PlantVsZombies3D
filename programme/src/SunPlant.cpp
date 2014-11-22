@@ -30,7 +30,7 @@ void SunPlant::draw() {
     int petalLength = 10;
     int sunRadius = 40;
     glPushMatrix();
-    glTranslatef(getPosition().getX(), 0, getPosition().getZ());
+    glTranslatef(getPosition().getX(), 30, getPosition().getZ());
     glColor3f(1, 1, 0);
     
     

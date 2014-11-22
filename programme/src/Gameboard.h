@@ -20,12 +20,15 @@ class Gameboard {
 	Gameboard(int sizeX,int sizeZ);
     std::vector<BoardSquare> getSquaresList();
     std::vector<Sun> getSunList();
+    int getSizeX();
+    int getSizeZ();
     void produceSun(Position position);
 	void addObject(GameObject* object, int squareId);
 	void deleteObject(int squareID);
     BoardSquare getSquare(Position position);
 	void checkHoveringStatus(int x, int y);
 	void UpdateScreenCoordinate();
+    void draw();
 };
 
 #endif
