@@ -9,6 +9,10 @@ class Zombie : public GameObject{
     int speed;
     
     public :
+    Zombie();
+    int getHp();
+    int getAttackPoint();
+    int getSpeed();
     bool detectTarget();//detect if something is just in front of the zombie
     void move();
     void nibble();

@@ -30,6 +30,7 @@ Sun sun;
 SunPlant sunplant;
 Zombie zombie;
 PeaShooter pea;
+Bullet bullet, temp;
 
 void display()
 {
@@ -40,7 +41,7 @@ void display()
     
     
     gluPerspective(fovy, windowWidth / windowHeight, windowNear, windowFar);
-
+    
     gluLookAt(0, 100, Z, 0, 0, 0, 0, 1, 0); //position of the camera
     glRotatef(Xangle, 1.0, 0.0, 0.0); //rotation with up/down arrow key
     glRotatef(Yangle, 0.0, 1.0, 0.0); //rotation with left/right arrow key
@@ -56,20 +57,22 @@ void display()
     //glTranslatef(-200, 0, -200);
     
     //Centering the scene
-	glTranslatef(-game.getSizeX()*BoardSquare::size / 2.0, 0, -game.getSizeZ()*BoardSquare::size / 2.0);
-
+    glTranslatef(-game.getSizeX()*BoardSquare::size/2.0, 0, -game.getSizeZ()*BoardSquare::size/2.0);
     
-    //add a sun to the case 0
-    game.addObject(&sun, 0);
-    //add a sunplant to the case 1
-    game.addObject(&sunplant, 1);
-    //add a zombie to the case 2
-    game.addObject(&zombie, 2);
-    //add a peashooter to the case 3
-    game.addObject(&pea, 3);
-
+    
     //draw the scene with its component.
     game.draw();
+    
+    int j=0;
+    while (!bullet.checkCollision(*game.getZombiesList().at(j)) && j<game.getZombiesList().size()-1 ) {
+        j++;
+    }
+    if (j<game.getZombiesList().size()-1) {
+        bullet = Bullet();
+        cout << "touche !" << endl;
+    }else {
+        bullet.draw();
+    }
     
     
     //game.getSunList().at(game.getSunList().size()-1).draw();
@@ -103,7 +106,7 @@ void reshape(int w, int h)
 
 void specialKey(int key, int x, int y) {
     switch (key) {
-        
+            
         case GLUT_KEY_LEFT :    // Rotate on x axis
             Yangle -= 5.0f;
             break;
@@ -136,13 +139,18 @@ void keyboard(unsigned char key, int x, int y)
 }
 
 
+
 void move(int value) {
     //cout << "je pop" << endl;
     //glutPostRedisplay();
     for (int i=0; i<game.getZombiesList().size(); i++) {
         game.getZombiesList().at(i)->move();
     }
-    glutTimerFunc(500, move, 1);
+    if (bullet.getPosition().getX() != 0 && bullet.getPosition().getZ()!=0) {
+        bullet.move();
+        
+    }
+    glutTimerFunc(100, move, 1);
     
 }
 
@@ -151,9 +159,15 @@ void move2(int value) {
     //glutPostRedisplay();
     if (zombiesList.size() >0) {
         game.zombieSpawn(zombiesList.at(zombiesList.size()-1));
+        
+        
         zombiesList.pop_back();
-        glutTimerFunc(5000, move2, 1);
     }
+    temp = ((PeaShooter*)game.getSquaresList().at(3).getObject())->shoot();
+    if (temp.getPosition().getX()!=0 && temp.getPosition().getZ() != 0) {
+        bullet = temp;
+    }
+    glutTimerFunc(1000, move2, 1);
     
 }
 
@@ -175,6 +189,15 @@ int main(int argc, char **argv)
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_NORMALIZE);
     
+    //add a sun to the case 0
+    game.addObject(&sun, 0);
+    //add a sunplant to the case 1
+    game.addObject(&sunplant, 1);
+    //add a peashooter to the case 3
+    game.addObject(&pea, 3);
+    
+    pea.setGameboard(&game);
+    
     for (int i=0; i<10; i++) {
         Zombie zombie;
         zombiesList.push_back(zombie);
@@ -182,6 +205,8 @@ int main(int argc, char **argv)
     
     
     game.produceSun(Position(100,0,200));
+    
+    
     move(1);
     move2(1);
     

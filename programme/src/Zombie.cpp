@@ -51,6 +51,23 @@ void drawCube(int size) {
     
 }
 
+Zombie::Zombie() {
+    hp = 100;
+    attackPoint = 10;
+    speed = 5;
+}
+
+int Zombie::getHp() {
+    return hp;
+}
+
+int Zombie::getAttackPoint() {
+    return attackPoint;
+}
+
+int Zombie::getSpeed() {
+    return speed;
+}
 
 bool Zombie::detectTarget(){
 

@@ -18,7 +18,7 @@ void drawTorus(double ra, double rb, int slices, int stacks) {
 PeaShooter::PeaShooter() {
     setPosition(Position(0,0,0));
     setCooldown(5);
-    setCooldownState(getCooldown());
+    setCooldownState(0);
 }
 
 PeaShooter::PeaShooter(int attackPoint) {

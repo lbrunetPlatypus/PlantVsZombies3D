@@ -15,3 +15,18 @@ void Bullet::move() {
     glutPostRedisplay();
 }
 
+bool Bullet::checkCollision(Zombie& zombie){
+    if (getPosition().getZ() == zombie.getPosition().getZ()) {
+        if (getPosition().getX() < zombie.getPosition().getX()) {
+            return false;
+        }
+        else {
+            zombie.takeDamages(20);
+            return true;
+        }
+    }
+    else {
+        return false;
+    }
+}
+
