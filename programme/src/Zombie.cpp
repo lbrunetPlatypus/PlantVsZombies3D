@@ -69,8 +69,19 @@ int Zombie::getSpeed() {
     return speed;
 }
 
-bool Zombie::detectTarget(){
-
+bool Zombie::detectTarget(Plant& plant){
+	
+	if (getPosition().getZ() == plant.getPosition().getZ()) {
+		if (getPosition().getX() > plant.getPosition().getX()) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	else {
+		return false;
+	}
 	 return true;
 }
 

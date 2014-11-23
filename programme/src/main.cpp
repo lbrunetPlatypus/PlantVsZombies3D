@@ -138,7 +138,56 @@ void keyboard(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
+void Mouse(int button, int state, int x, int y)
+{
+		if (state == GLUT_UP)//if no mouse input
+			switch (button) {
+			case GLUT_LEFT_BUTTON:
 
+				//_mouseLeft = false;
+				break;
+			case GLUT_MIDDLE_BUTTON:
+				//_mouseMiddle = false;
+				break;
+			case GLUT_RIGHT_BUTTON:
+				//_mouseRight = false;
+				break;
+		}
+		else//if mouse input
+			switch (button) {
+			case GLUT_LEFT_BUTTON:
+				//Collect sun or plant preselected plant
+				std::cout << "left click" << std::endl;
+				//_mouseLeft = true;
+				break;
+			case GLUT_MIDDLE_BUTTON:
+				std::cout << "middle click" << std::endl;
+				//_mouseMiddle = true;
+				break;
+			case GLUT_RIGHT_BUTTON:
+				std::cout << "right click" << std::endl;
+				//_mouseRight = true;
+				break;
+			case 4:         //Zoomout
+				/*glLoadIdentity();
+				glTranslatef(0, 0, -0.1);
+				glMultMatrixd(_matrix);
+				getMatrix();*/
+				std::cout << "scroll back" << std::endl;
+				glutPostRedisplay();
+				break;
+			case 3:         //Zoomin
+				/*glLoadIdentity();
+				glTranslatef(0, 0, 0.1);
+				glMultMatrixd(_matrix);
+				getMatrix();*/
+				std::cout << "scroll in" << std::endl;
+				glutPostRedisplay();
+				break;
+			default:
+				break;
+		}
+}
 
 void move(int value) {
     //cout << "je pop" << endl;
@@ -186,6 +235,7 @@ int main(int argc, char **argv)
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKey);
+	glutMouseFunc(Mouse);
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_NORMALIZE);
     

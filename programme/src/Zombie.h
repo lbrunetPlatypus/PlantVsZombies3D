@@ -1,6 +1,7 @@
 #ifndef ZOMBIE_H
 #define ZOMBIE_H
 #include "GameObject.h"
+#include "Plant.h"
 
 class Zombie : public GameObject{
     private :
@@ -13,7 +14,7 @@ class Zombie : public GameObject{
     int getHp();
     int getAttackPoint();
     int getSpeed();
-    bool detectTarget();//detect if something is just in front of the zombie
+	bool detectTarget(Plant& plant);//detect if something is just in front of the zombie
     void move();
     void nibble();
     bool takeDamages(int nbDamages);//say if the zombie die or not?
