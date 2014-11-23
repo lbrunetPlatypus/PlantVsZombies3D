@@ -6,6 +6,7 @@
 #include "Position.h"
 #include "GameObject.h"
 #include "Sun.h"
+#include "Bullet.h"
 #include <ctime>
 
 class Gameboard {
@@ -13,6 +14,7 @@ class Gameboard {
     std::vector<Sun> sunList;
     std::vector<Zombie*> zombiesList;
     std::vector<BoardSquare> squaresList;
+    std::vector<Bullet> bulletsList;
 	int sizeX;
 	int sizeZ;
     
@@ -22,11 +24,13 @@ class Gameboard {
     std::vector<BoardSquare> getSquaresList();
     std::vector<Sun> getSunList();
     std::vector<Zombie*> getZombiesList();
+    std::vector<Bullet> getBulletsList();
     int getSizeX();
     int getSizeZ();
     void zombieSpawn(Zombie &zombie);
     void produceSun(Position position);
 	void addObject(GameObject* object, int squareId);
+    void addBullet(Bullet bullet);
 	void deleteObject(int squareID);
     BoardSquare getSquare(Position position);
 	void checkHoveringStatus(int x, int y);
@@ -34,6 +38,7 @@ class Gameboard {
     void draw();
 	void UpdateZombies();
 	void UpdatePlants();
+    void UpdateBullets();
 };
 
 #endif
