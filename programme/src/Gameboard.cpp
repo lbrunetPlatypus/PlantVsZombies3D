@@ -122,6 +122,9 @@ void Gameboard::checkHoveringStatus(int x, int y)//x, y being the mouse position
 void Gameboard::draw() {
     for (int i=0; i<squaresList.size(); i++) {
         squaresList[i].draw();
+        if (squaresList.at(i).getObject() != nullptr) {
+            squaresList.at(i).getObject()->draw();
+        }
     }
     for (int j=0; j<zombiesList.size(); j++) {
         zombiesList[j]->draw();

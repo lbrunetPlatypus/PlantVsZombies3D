@@ -11,6 +11,7 @@ BoardSquare::BoardSquare(int _x, int _z, int _id){
 	id = _id;
 	x = _x;
 	z = _z;
+    object = nullptr;
 }
 
 void BoardSquare::setObject(GameObject* _object){
