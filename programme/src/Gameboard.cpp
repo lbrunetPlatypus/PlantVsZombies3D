@@ -59,11 +59,10 @@ void Gameboard::produceSun(Position position) {
     sunList.push_back(sun);
 }
 
-void Gameboard::addObject(GameObject* object,int squareId){
+void Gameboard::addPlant(Plant* object,int squareId){
 	//set object position using the square?
     BoardSquare square = squaresList[squareId];
     object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
-	squaresList[squareId].setObject(object);
 	squaresList[squareId].setPlant((Plant*)object);
 	
 }

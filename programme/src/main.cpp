@@ -145,7 +145,7 @@ void move2(int value) {
         zombiesList.pop_back();
     }
     
-    game.addBullet(((PeaShooter*)game.getSquaresList().at(3).getObject())->shoot());
+    game.addBullet(((PeaShooter*)game.getSquaresList().at(3).getPlant())->shoot());
     
     glutTimerFunc(1000, move2, 1);
     
@@ -170,13 +170,12 @@ int main(int argc, char **argv)
     glEnable(GL_NORMALIZE);
     
     //add a sun to the case 0
-    game.addObject(&sun, 35);
+   // game.addObject(&sun, 35);
     //add a sunplant to the case 1
 
-    game.addObject(&sunplant, 38);
-
+    game.addPlant(&sunplant, 38);
     //add a peashooter to the case 3
-    game.addObject(&pea, 3);
+    game.addPlant(&pea, 3);
     
     pea.setGameboard(&game);
     

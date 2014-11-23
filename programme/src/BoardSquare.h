@@ -10,7 +10,7 @@ using namespace std;
 class BoardSquare {
     
     private :
-    GameObject* object;
+    //GameObject* object;
     Plant* plant;
     vector<Zombie*> zombieLists;
     Sun sun;
@@ -26,7 +26,7 @@ class BoardSquare {
 		BoardSquare();
 		BoardSquare(int x, int z,int id);
 
-		void setObject(GameObject* object);
+		//void setObject(GameObject* object);
         void setPlant(Plant* _plant);
         void setSun(Sun* _sun);
 		void setX(int x);
@@ -38,7 +38,7 @@ class BoardSquare {
 		int getX();
 		int getZ();
 		Position get2DPosition();
-		GameObject* getObject();
+		//GameObject* getObject();
         Plant* getPlant();
         Sun* getSun();
 		int getId();
