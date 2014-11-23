@@ -34,6 +34,10 @@ std::vector<Zombie*> Gameboard::getZombiesList() {
     return zombiesList;
 }
 
+std::vector<Bullet> Gameboard::getBulletsList() {
+    return bulletsList;
+}
+
 int Gameboard::getSizeX() {
     return sizeX;
 }
@@ -61,6 +65,12 @@ void Gameboard::addObject(GameObject* object,int squareId){
 	squaresList[squareId].setObject(object);
 	squaresList[squareId].setPlant((Plant*)object);
 	
+}
+
+void Gameboard::addBullet(Bullet bullet) {
+    if (bullet.getPosition().getX() != 0 && bullet.getPosition().getZ() != 0) {
+        bulletsList.push_back(bullet);
+    }
 }
 
 BoardSquare Gameboard::getSquare(Position position){
@@ -121,11 +131,16 @@ void Gameboard::checkHoveringStatus(int x, int y)//x, y being the mouse position
 
 void Gameboard::draw() {
     int n = zombiesList.size();
+    int o = bulletsList.size();
     
     for (int i=0; i<squaresList.size(); i++) {
         squaresList[i].draw();
         if (squaresList.at(i).getObject() != nullptr) {
-            squaresList.at(i).getObject()->draw();
+  //          if (((Plant*)squaresList.at(i).getObject())->getHp() > 0) {
+                squaresList.at(i).getObject()->draw();
+    //        }else {
+//                squaresList.at(i).setObject(nullptr);
+      //      }
         }
     }
     for (int j=0; j<n; j++) {
@@ -134,6 +149,19 @@ void Gameboard::draw() {
             n--;
         } else {
             zombiesList[j]->draw();            
+        }
+    }
+    
+    for (int k=0; k<o; k++) {
+        int j=0;
+        while (!bulletsList.at(k).checkCollision(*zombiesList.at(j)) && j<n-1 ) {
+            j++;
+        }
+        if (j<n-1 || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
+            bulletsList.erase(bulletsList.begin() + k);
+            cout << "touche !" << endl;
+        }else {
+            bulletsList.at(k).draw();
         }
     }
 }
@@ -171,7 +199,19 @@ void Gameboard::UpdateZombies(){
 	
 }
 
-void UpdatePlants();
+void Gameboard::UpdatePlants() {
+    
+    
+}
+
+void Gameboard::UpdateBullets() {
+    for (int i=0; i<bulletsList.size(); i++) {
+        if (bulletsList.at(i).getPosition().getX() != 0 && bulletsList.at(i).getPosition().getZ()!=0) {
+            bulletsList.at(i).move();
+            
+        }
+    }
+}
 
 const Vec3 operator + (const Vec3& v1, const Vec3& v2){
 	return Vec3(v1.x + v2.x,
