@@ -52,6 +52,14 @@ Vec3 BoardSquare::getScreenCoordinate() {
     return screenCoordinate;
 }
 
+Plant* BoardSquare::getPlant(){
+	return plant;
+}
+
+void BoardSquare::setPlant(Plant* _plant){
+	plant=_plant;
+}
+
 void BoardSquare::draw() {
     glPushMatrix();
     glColor3f(0, 0.6, 0);

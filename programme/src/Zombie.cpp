@@ -93,7 +93,8 @@ void Zombie::move(){
     glutPostRedisplay();
 }
 
-void Zombie::nibble(){//makedamages to the objet in front
+void Zombie::nibble(Plant& plant, int nbDamages){//makedamages to the objet in front
+	plant.ApplyDamages(nbDamages);
 }
 
 bool Zombie::takeDamages(int nbDamages){

@@ -61,6 +61,7 @@ void display()
     
     
     //draw the scene with its component.
+	
     game.draw();
     
     int j=0;
@@ -192,9 +193,10 @@ void Mouse(int button, int state, int x, int y)
 void move(int value) {
     //cout << "je pop" << endl;
     //glutPostRedisplay();
-    for (int i=0; i<game.getZombiesList().size(); i++) {
+  /*  for (int i=0; i<game.getZombiesList().size(); i++) {
         game.getZombiesList().at(i)->move();
-    }
+    }*/
+	game.UpdateZombies();
     if (bullet.getPosition().getX() != 0 && bullet.getPosition().getZ()!=0) {
         bullet.move();
         
@@ -242,16 +244,17 @@ int main(int argc, char **argv)
     //add a sun to the case 0
     game.addObject(&sun, 0);
     //add a sunplant to the case 1
-    game.addObject(&sunplant, 1);
+    game.addObject(&sunplant, 36);
     //add a peashooter to the case 3
     game.addObject(&pea, 3);
     
     pea.setGameboard(&game);
     
-    for (int i=0; i<10; i++) {
+	
+   // for (int i=0; i<10; i++) {
         Zombie zombie;
         zombiesList.push_back(zombie);
-    }
+    //}
     
     
     game.produceSun(Position(100,0,200));

@@ -37,3 +37,14 @@ int Plant::getCooldownState() {
 void Plant::setCooldownState(int cooldownstate) {
     coolDownState = cooldownstate;
 }
+
+bool Plant::ApplyDamages(int nbDamages){//return true if plant dies
+	hp -= nbDamages;
+	if (hp <= 0){
+		return true;
+	}
+	else{
+		return false;
+	}
+
+}

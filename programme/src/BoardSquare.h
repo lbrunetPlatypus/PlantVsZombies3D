@@ -33,6 +33,7 @@ class BoardSquare {
 		void setZ(int z);
 		void set2DPosition(int x, int z);
 		void setId(int id);
+		
 
 		int getX();
 		int getZ();

@@ -59,6 +59,7 @@ void Gameboard::addObject(GameObject* object,int squareId){
     BoardSquare square = squaresList[squareId];
     object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
 	squaresList[squareId].setObject(object);
+	squaresList[squareId].setPlant((Plant*)object);
 	
 }
 
@@ -136,6 +137,41 @@ void Gameboard::draw() {
         }
     }
 }
+
+void Gameboard::UpdateZombies(){
+	float line;
+	bool plantInFront=false;
+	//for each zombie
+	for (unsigned i = 0; i < zombiesList.size(); i++){
+		line = (zombiesList[i]->getPosition().getZ()-50)/(int)100;
+		//for plant on the zombies line
+		for (int j = line; j < squaresList.size(); j += sizeZ) {
+			Plant* tempPlant = squaresList[j].getPlant();
+			if (tempPlant != nullptr){
+				plantInFront = true;
+				if (zombiesList[i]->detectTarget(*tempPlant)){
+					zombiesList[i]->nibble(*tempPlant, 3);
+				}
+				else
+				{
+					zombiesList[i]->move();
+				}
+			}
+		}
+		if (!plantInFront){
+			zombiesList[i]->move();
+		}
+	}
+	
+	
+	// if(detectTarget)
+		//nibbleOnPlant
+	//else
+		//move
+	
+}
+
+void UpdatePlants();
 
 const Vec3 operator + (const Vec3& v1, const Vec3& v2){
 	return Vec3(v1.x + v2.x,

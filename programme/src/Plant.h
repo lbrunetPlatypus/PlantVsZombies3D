@@ -17,6 +17,7 @@ class Plant : public GameObject{
     void setCooldown(int cooldown);
     int getCooldownState();
     void setCooldownState(int cooldownstate);
+	bool ApplyDamages(int nbDamages);
 
 
 

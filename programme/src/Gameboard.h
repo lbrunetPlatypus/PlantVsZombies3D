@@ -32,6 +32,8 @@ class Gameboard {
 	void checkHoveringStatus(int x, int y);
 	void UpdateScreenCoordinate();
     void draw();
+	void UpdateZombies();
+	void UpdatePlants();
 };
 
 #endif

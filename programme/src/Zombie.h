@@ -16,7 +16,7 @@ class Zombie : public GameObject{
     int getSpeed();
 	bool detectTarget(Plant& plant);//detect if something is just in front of the zombie
     void move();
-    void nibble();
+	void nibble(Plant& plant, int nbDamages);
     bool takeDamages(int nbDamages);//say if the zombie die or not?
     void draw();
 };
