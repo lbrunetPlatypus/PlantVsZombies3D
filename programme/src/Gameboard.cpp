@@ -2,6 +2,7 @@
 #include <math.h>
 #include <cstdlib>
 #include <iostream>
+#include <cmath>
 
 
 Gameboard::Gameboard(){
@@ -168,12 +169,17 @@ void Gameboard::draw() {
 
 void Gameboard::UpdateZombies(){
 	float line;
+	float column;
 	bool plantInFront=false;
 	//for each zombie
 	for (unsigned i = 0; i < zombiesList.size(); i++){
 		line = (zombiesList[i]->getPosition().getZ()-50)/(int)100;
+		column =floor((zombiesList[i]->getPosition().getX()) / 100);
+		if (column = sizeX)
+			column = sizeX-1;
 		//for plant on the zombies line
-		for (int j = line; j < squaresList.size(); j += sizeZ) {
+		for (int j = line+(column)*sizeZ; j >= line && !plantInFront; j -= sizeZ) {
+			
 			Plant* tempPlant = squaresList[j].getPlant();
 			if (tempPlant != nullptr){
 				plantInFront = true;
@@ -189,6 +195,7 @@ void Gameboard::UpdateZombies(){
 		if (!plantInFront){
 			zombiesList[i]->move();
 		}
+		plantInFront = false;
 	}
 	
 	
