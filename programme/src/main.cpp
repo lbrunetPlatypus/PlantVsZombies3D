@@ -172,20 +172,14 @@ int main(int argc, char **argv)
     //add a sun to the case 0
     game.addObject(&sun, 35);
     //add a sunplant to the case 1
-<<<<<<< HEAD
+
     game.addObject(&sunplant, 38);
-=======
-	game.addObject(&sunplant, 36);
->>>>>>> FETCH_HEAD
+
     //add a peashooter to the case 3
     game.addObject(&pea, 3);
     
     pea.setGameboard(&game);
     
-<<<<<<< HEAD
-=======
-	
->>>>>>> FETCH_HEAD
     for (int i=0; i<10; i++) {
         Zombie zombie;
         zombiesList.push_back(zombie);

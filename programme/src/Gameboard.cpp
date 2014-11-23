@@ -136,12 +136,12 @@ void Gameboard::draw() {
     
     for (int i=0; i<squaresList.size(); i++) {
         squaresList[i].draw();
-        if (squaresList.at(i).getObject() != nullptr) {
-  //          if (((Plant*)squaresList.at(i).getObject())->getHp() > 0) {
-                squaresList.at(i).getObject()->draw();
-    //        }else {
-//                squaresList.at(i).setObject(nullptr);
-      //      }
+        if (squaresList.at(i).getPlant() != nullptr) {
+            if ((squaresList.at(i).getPlant())->getHp() > 0) {
+                squaresList.at(i).getPlant()->draw();
+            }else {
+                squaresList.at(i).setPlant(nullptr);
+            }
         }
     }
     for (int j=0; j<n; j++) {
