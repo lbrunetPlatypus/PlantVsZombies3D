@@ -17,3 +17,12 @@ void GameObject::draw(){
 
 }
 
+Gameboard* GameObject::getGameboard() {
+    return gameboard;
+}
+
+void GameObject::setGameboard(Gameboard *_gameboard){
+    gameboard = _gameboard;
+}
+
+

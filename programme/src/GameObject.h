@@ -14,12 +14,14 @@ class GameObject {
     
     private :
     Position position;
-    static Gameboard gameboard;
+    Gameboard* gameboard;
     
     public :
     GameObject();
     void setPosition(Position newPosition);
 	Position getPosition();
+    Gameboard* getGameboard();
+    void setGameboard(Gameboard* _gameboard);
     virtual void draw();
 };
 

@@ -1,6 +1,5 @@
 #include "PeaShooter.h"
 #include <math.h>
-#include <iostream>
 #define PI 3.14159265358979323846
 
 void drawTorus(double ra, double rb, int slices, int stacks) {
@@ -186,7 +185,6 @@ void PeaShooter::draw() {
 }
 
 Bullet PeaShooter::shoot() {
-    std::cout << getCooldownState() << std::endl;
     if (getCooldownState()==0) {
         setCooldownState(getCooldown());
         Bullet bullet;

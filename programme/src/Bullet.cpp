@@ -10,7 +10,7 @@ void Bullet::draw() {
 
 void Bullet::move() {
     Position position = getPosition();
-    position = position + Position(10, 0, 0);
+    position = position + Position(15, 0, 0);
     setPosition(position);
     glutPostRedisplay();
 }
