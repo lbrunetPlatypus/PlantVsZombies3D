@@ -7,5 +7,6 @@ class Bullet : public GameObject{
     
     public :
     void draw();
+    void move();
 };
 #endif

@@ -60,7 +60,7 @@ bool Zombie::detectTarget(){
 void Zombie::move(){
     Position position = getPosition();
     if (getPosition().getX()>0)
-    position = position + Position(-5, 0, 0);
+    position = position + Position(-1, 0, 0);
     setPosition(position);
     glutPostRedisplay();
 }

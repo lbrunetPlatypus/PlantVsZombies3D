@@ -1,7 +1,22 @@
 #include "PeaShooter.h"
+#include <math.h>
+#define PI 3.14159265358979323846
+
+void drawTorus(double ra, double rb, int slices, int stacks) {
+    for (int i=0; i<slices; i++) {
+        for (int j=0; j<stacks; j++) {
+            glBegin(GL_QUADS);
+            glVertex3f((ra+rb*cos(i*2*PI/slices))*cos(j*2*PI/stacks), (ra+rb*cos(i*2*PI/slices))*sin(j*2*PI/stacks), rb*sin(i*2*PI/slices));
+            glVertex3f((ra+rb*cos((i+1)*2*PI/slices))*cos(j*2*PI/stacks), (ra+rb*cos((i+1)*2*PI/slices))*sin(j*2*PI/stacks), rb*sin((i+1)*2*PI/slices));
+            glVertex3f((ra+rb*cos((i+1)*2*PI/slices))*cos((j+1)*2*PI/stacks), (ra+rb*cos((i+1)*2*PI/slices))*sin((j+1)*2*PI/stacks), rb*sin((i+1)*2*PI/slices));
+            glVertex3f((ra+rb*cos(i*2*PI/slices))*cos((j+1)*2*PI/stacks), (ra+rb*cos(i*2*PI/slices))*sin((j+1)*2*PI/stacks), rb*sin(i*2*PI/slices));
+            glEnd();
+        }
+    }
+}
 
 PeaShooter::PeaShooter() {
-
+    
 }
 
 PeaShooter::PeaShooter(int attackPoint) {
@@ -23,8 +38,147 @@ void PeaShooter::detectZombie() {
 void PeaShooter::draw() {
     glPushMatrix();
     glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-    glColor3f(0, 1, 1);
-    gluSphere(gluNewQuadric(), 40, 20, 20);
+    glColor3f(0.5, 1, 0);
+    glTranslatef(0, 80, 0);
+    
+    //head
+    glPushMatrix();
+    glTranslatef(-10, -5, 0);
+    glPushMatrix();
+    glScalef(1, 0.9, 1);
+    gluSphere(gluNewQuadric(), 30, 20, 20);
+    glPopMatrix();
+
+    glColor3f(0, 1, 0);
+    //back head leaf
+    glPushMatrix();
+
+    glTranslatef(-35, 10, 0);
+    glRotatef(-30, 0, 0, 1);
+    glRotatef(-90, 1, 0, 0);
+    glScalef(1.5, 0.5, 0.5);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+    
+    //mouth 1
+        glPushMatrix();
+        glColor3f(0.5, 1, 0);
+        glTranslatef(50, 0, 0);
+        glRotatef(90, 0, 1, 0);
+        drawTorus(18, 2, 20, 20);
+        glPopMatrix();
+        glColor3f(0, 1, 0);
+    //mouth 2
+        glPushMatrix();
+        glColor3f(0.5, 1, 0);
+        glTranslatef(20, 0, 0);
+        glRotatef(90, 0, 1, 0);
+        gluCylinder(gluNewQuadric(), 10, 20, 30, 20, 20);
+        glColor3f(0, 0, 0);
+        gluCylinder(gluNewQuadric(), 10, 16, 30, 20, 20);
+        glTranslatef(0, 0, 10);
+        gluSphere(gluNewQuadric(), 12, 20, 20);
+        glPopMatrix();
+    //mouth3
+        glColor3f(0.5, 1, 0);
+        glPushMatrix();
+        glTranslatef(32, 0, 0);
+        glRotatef(-90, 0, 1, 0);
+        gluCylinder(gluNewQuadric(), 10, 20, 10, 20, 20);
+        glPopMatrix();
+    
+    glPopMatrix();
+    
+    //stem
+    glTranslatef(0, -52, 0);
+    glColor3f(0, 1, 0);
+    glPushMatrix();
+    glTranslatef(-10, 25, 0);
+    glRotatef(90, 1, 0, 0);
+    gluCylinder(gluNewQuadric(), 5, 5, 50, 20, 20);
+    glPopMatrix();
+    
+    //leaves
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+    
+    glRotatef(90, 0, 1, 0);
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+    
+    glRotatef(90, 0, 1, 0);
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+    glRotatef(90, 0, 1, 0);
+    
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+    
     glPopMatrix();
 }
 
