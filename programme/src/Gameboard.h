@@ -11,6 +11,7 @@
 class Gameboard {
     private :
     std::vector<Sun> sunList;
+    std::vector<Zombie*> zombiesList;
     std::vector<BoardSquare> squaresList;
 	int sizeX;
 	int sizeZ;
@@ -20,8 +21,10 @@ class Gameboard {
 	Gameboard(int sizeX,int sizeZ);
     std::vector<BoardSquare> getSquaresList();
     std::vector<Sun> getSunList();
+    std::vector<Zombie*> getZombiesList();
     int getSizeX();
     int getSizeZ();
+    void zombieSpawn(Zombie &zombie);
     void produceSun(Position position);
 	void addObject(GameObject* object, int squareId);
 	void deleteObject(int squareID);

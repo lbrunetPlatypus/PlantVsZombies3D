@@ -1,5 +1,7 @@
 #include "Gameboard.h"
 #include <math.h>
+#include <cstdlib>
+#include <iostream>
 
 
 Gameboard::Gameboard(){
@@ -28,12 +30,22 @@ std::vector<Sun> Gameboard::getSunList(){
     return sunList;
 }
 
+std::vector<Zombie*> Gameboard::getZombiesList() {
+    return zombiesList;
+}
+
 int Gameboard::getSizeX() {
     return sizeX;
 }
 
 int Gameboard::getSizeZ() {
     return sizeZ;
+}
+
+void Gameboard::zombieSpawn(Zombie &zombie) {
+    zombie.setPosition(Position(sizeX*BoardSquare::size, 0, (rand()%4+0.5)*BoardSquare::size));
+    std::cout <<rand()%5 << std::endl;
+    zombiesList.push_back(&zombie);
 }
 
 void Gameboard::produceSun(Position position) {
@@ -110,6 +122,9 @@ void Gameboard::checkHoveringStatus(int x, int y)//x, y being the mouse position
 void Gameboard::draw() {
     for (int i=0; i<squaresList.size(); i++) {
         squaresList[i].draw();
+    }
+    for (int j=0; j<zombiesList.size(); j++) {
+        zombiesList[j]->draw();
     }
 }
 
