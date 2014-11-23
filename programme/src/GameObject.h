@@ -17,6 +17,7 @@ class GameObject {
     static Gameboard gameboard;
     
     public :
+    GameObject();
     void setPosition(Position newPosition);
 	Position getPosition();
     virtual void draw();

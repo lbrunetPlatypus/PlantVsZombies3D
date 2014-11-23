@@ -5,6 +5,7 @@ class Plant : public GameObject{
     private :
     int hp;
     int coolDown;
+    int coolDownState;
     
     public :
     Plant();
@@ -14,6 +15,8 @@ class Plant : public GameObject{
     void setHp(int hp);
     int getCooldown();
     void setCooldown(int cooldown);
+    int getCooldownState();
+    void setCooldownState(int cooldownstate);
 
 
 

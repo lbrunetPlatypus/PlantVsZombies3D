@@ -44,7 +44,6 @@ int Gameboard::getSizeZ() {
 
 void Gameboard::zombieSpawn(Zombie &zombie) {
     zombie.setPosition(Position(sizeX*BoardSquare::size, 0, (rand()%4+0.5)*BoardSquare::size));
-    std::cout <<rand()%5 << std::endl;
     zombiesList.push_back(&zombie);
 }
 

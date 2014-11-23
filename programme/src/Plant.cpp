@@ -3,6 +3,7 @@
 Plant::Plant() {
 	hp = 5;
 	coolDown = 0;
+    coolDownState = coolDown;
 }
 
 Plant::Plant(int cooldown) : Plant() {
@@ -27,4 +28,12 @@ int Plant::getCooldown() {
 
 void Plant::setCooldown(int cooldown) {
 	this->coolDown = cooldown;
+}
+
+int Plant::getCooldownState() {
+    return coolDownState;
+}
+
+void Plant::setCooldownState(int cooldownstate) {
+    coolDownState = cooldownstate;
 }

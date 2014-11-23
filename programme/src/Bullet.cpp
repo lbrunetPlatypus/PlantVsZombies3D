@@ -10,8 +10,7 @@ void Bullet::draw() {
 
 void Bullet::move() {
     Position position = getPosition();
-    if (getPosition().getX()>0)
-        position = position + Position(-1, 0, 0);
+    position = position + Position(10, 0, 0);
     setPosition(position);
     glutPostRedisplay();
 }
