@@ -31,6 +31,24 @@ Zombie zombie;
 PeaShooter pea;
 Bullet bullet;
 
+
+/* Mouse Interface  */
+int _mouseX = 0;		/* mouse control variables */
+int _mouseY = 0;
+bool _mouseLeft = false;
+bool _mouseMiddle = false;
+bool _mouseRight = false;
+
+double _dragPosX = 0.0;
+double _dragPosY = 0.0;
+double _dragPosZ = 0.0;
+double rotAngle = 0;
+
+bool updatePos = false;
+double prevMousePosx;
+double prevMousePosy;
+bool mouseInit = false;
+
 void display()
 {
     glViewport(0, 0, width, height);
@@ -125,6 +143,57 @@ void keyboard(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
+void Mouse(int button, int state, int x, int y)
+{
+	int viewport[4];
+
+	_mouseX = x;
+	_mouseY = y;
+	if (state == GLUT_UP)//if no mouse input
+		switch (button) {
+		case GLUT_LEFT_BUTTON:
+			_mouseLeft = false;
+			break;
+		case GLUT_MIDDLE_BUTTON:
+			_mouseMiddle = false;
+			break;
+		case GLUT_RIGHT_BUTTON:
+			_mouseRight = false;
+			break;
+	}
+	else//if mouse input
+		switch (button) {
+		case GLUT_LEFT_BUTTON:
+			//Collect sun or plant preselected plant
+			_mouseLeft = true;
+			break;
+		case GLUT_MIDDLE_BUTTON:
+			_mouseMiddle = true;
+			break;
+		case GLUT_RIGHT_BUTTON:
+			_mouseRight = true;
+			break;
+		case 4:         //Zoomout
+			/*glLoadIdentity();
+			glTranslatef(0, 0, -0.1);
+			glMultMatrixd(_matrix);
+			getMatrix();
+			std::cout << "scroll back" << std::endl;
+			glutPostRedisplay();*/
+			break;
+		case 3:         //Zoomin
+			/*glLoadIdentity();
+			glTranslatef(0, 0, 0.1);
+			double _matrix[16]
+			glGetDoublev(GL_MODELVIEW_MATRIX, _matrix);
+			glMultMatrixd(GL_MODELVIEW_MATRIX);
+			getMatrix();
+			glutPostRedisplay();*/
+			break;
+		default:
+			break;
+	}
+}
 
 
 void move(int value) {
@@ -145,7 +214,11 @@ void move2(int value) {
         zombiesList.pop_back();
     }
     
-    game.addBullet(((PeaShooter*)game.getSquaresList().at(3).getPlant())->shoot());
+	for (int i = 0; i < game.getSquaresList().size(); i++)
+	{
+		if (game.getSquaresList().at(i).getPlant() != nullptr)
+			game.addBullet(((PeaShooter*)game.getSquaresList().at(i).getPlant())->shoot());
+	}
     
     glutTimerFunc(1000, move2, 1);
     
@@ -173,10 +246,14 @@ int main(int argc, char **argv)
    // game.addObject(&sun, 35);
     //add a sunplant to the case 1
 
-    game.addPlant(&sunplant, 38);
+    //game.addPlant(&sunplant, 38);
     //add a peashooter to the case 3
     game.addPlant(&pea, 3);
-    
+	PeaShooter pea1;
+	PeaShooter pea2;
+	game.addPlant(&pea1, 4);
+	game.addPlant(&pea2, 5);
+
     pea.setGameboard(&game);
     
     for (int i=0; i<10; i++) {
