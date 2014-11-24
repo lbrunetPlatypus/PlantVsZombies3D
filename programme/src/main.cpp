@@ -222,15 +222,7 @@ void display()
     glLoadIdentity();
     gluPerspective(fovy, windowWidth / windowHeight, windowNear, windowFar);
    
-   gluLookAt(camPosX, camPosY, camPosZ, lookAtX, lookATY, lookAtZ, 0, 1, 0); //position of the camera
-   //glPushMatrix();
-   //glTranslatef(-translationX, -translationY, -translationZ);
-   glRotatef(Xangle, 1.0, 0.0, 0.0); //rotation with up/down arrow key
-   glRotatef(Yangle, 0.0, 1.0, 0.0); //rotation with left/right arrow key
-   //glTranslatef(translationX, translationY, translationZ);
-   //glPopMatrix();
-  
-    //glTranslatef(-xHelicopter, 0, -yHelicopter);
+
     
     
     glMatrixMode(GL_MODELVIEW);
@@ -241,9 +233,19 @@ void display()
     glLoadIdentity();
     //glTranslatef(-200, 0, -200);
     //Centering the scene
-	glTranslatef(-game.getSizeX()*BoardSquare::size/2.0, 0, -game.getSizeZ()*BoardSquare::size/2.0);
+	
 	glTranslatef(translationX, translationY, translationZ);
     
+	gluLookAt(camPosX, camPosY, camPosZ, lookAtX, lookATY, lookAtZ, 0, 1, 0); //position of the camera
+	//glPushMatrix();
+	//glTranslatef(-translationX, -translationY, -translationZ);
+	glRotatef(Xangle, 1.0, 0.0, 0.0); //rotation with up/down arrow key
+	glRotatef(Yangle, 0.0, 1.0, 0.0); //rotation with left/right arrow key
+	glTranslatef(-game.getSizeX()*BoardSquare::size / 2.0, 0, -game.getSizeZ()*BoardSquare::size / 2.0);
+	//glTranslatef(translationX, translationY, translationZ);
+	//glPopMatrix();
+
+	//glTranslatef(-xHelicopter, 0, -yHelicopter);
     //draw the scene with its component.
     game.draw();
     
