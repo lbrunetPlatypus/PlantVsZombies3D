@@ -37,6 +37,10 @@ void PeaShooter::detectZombie() {
 
 }
 
+std::string PeaShooter::getType() {
+    return "PEASHOOTER";
+}
+
 void PeaShooter::draw() {
     glPushMatrix();
     glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());

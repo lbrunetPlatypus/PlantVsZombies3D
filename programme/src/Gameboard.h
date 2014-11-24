@@ -29,6 +29,7 @@ class Gameboard {
     int getSizeZ();
     void zombieSpawn(Zombie &zombie);
     void produceSun(Position position);
+    void addSun(Sun sun);
 	void addPlant(Plant* object, int squareId);
     void addBullet(Bullet bullet);
 	void deleteObject(int squareID);
@@ -39,6 +40,7 @@ class Gameboard {
 	void UpdateZombies();
 	void UpdatePlants();
     void UpdateBullets();
+    void UpdateSuns();
 };
 
 #endif

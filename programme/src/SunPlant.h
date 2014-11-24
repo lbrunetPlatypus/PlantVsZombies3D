@@ -1,6 +1,8 @@
 #ifndef SUNPLANT_H
 #define SUNPLANT_H
 #include "Plant.h"
+#include <string>
+#include "Sun.h"
 class SunPlant : public Plant{
     private :
     
@@ -8,7 +10,8 @@ class SunPlant : public Plant{
     SunPlant();
     SunPlant(int cooldown);
     SunPlant(int cooldown, int hp);
-    void produceSun();
+    Sun produceSun();
+    std::string getType();
     void draw();
 };
 #endif

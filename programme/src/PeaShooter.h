@@ -1,6 +1,7 @@
 #ifndef PEASHOOTER_H
 #define PEASHOOTER_H
 #include "Plant.h"
+#include <string>
 #include "Bullet.h"
 class PeaShooter : public Plant{
     private :
@@ -12,6 +13,7 @@ class PeaShooter : public Plant{
     int getAttackPoint();
     void setAttackPoint(int ap);
     void detectZombie();
+    std::string getType();
     void draw();
     Bullet shoot();
 };

@@ -7,6 +7,8 @@ class Sun : public GameObject{
     
     public :
     Sun();
+    int getDespawn();
+    void update();
     void draw();
 };
 #endif

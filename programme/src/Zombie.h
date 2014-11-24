@@ -8,12 +8,18 @@ class Zombie : public GameObject{
     int hp;
     int attackPoint;
     int speed;
+    int coolDown;
+    int coolDownState;
     
     public :
     Zombie();
     int getHp();
     int getAttackPoint();
     int getSpeed();
+    int getCooldown();
+    int getCooldownState();
+    void setCooldown(int _cooldown);
+    void setCooldownState(int _cooldownState);
 	bool detectTarget(Plant& plant);//detect if something is just in front of the zombie
     void move();
 	void nibble(Plant& plant, int nbDamages);

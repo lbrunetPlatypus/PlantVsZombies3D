@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <cmath>
+#include "PeaShooter.h"
+#include "SunPlant.h"
 
 
 Gameboard::Gameboard(){
@@ -48,25 +50,28 @@ int Gameboard::getSizeZ() {
 }
 
 void Gameboard::zombieSpawn(Zombie &zombie) {
-    zombie.setPosition(Position(sizeX*BoardSquare::size, 0, (rand()%4+0.5)*BoardSquare::size));
+    zombie.setPosition(Position(sizeX*BoardSquare::size, 0, (rand()%5+0.5)*BoardSquare::size));
     zombiesList.push_back(&zombie);
 }
 
 void Gameboard::produceSun(Position position) {
     Sun sun;
     BoardSquare square = getSquare(position);
-    sun.setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size+10));
+    sun.setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size+30));
     sunList.push_back(sun);
 }
 
-void Gameboard::addPlant(Plant* object,int squareId){
-	//set object position using the square
-    BoardSquare square = squaresList[squareId];
-    //check that th square is empty
-    if (square.getPlant() == nullptr) {
-        object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
-        squaresList[squareId].setPlant((Plant*)object);
+void Gameboard::addSun(Sun sun) {
+    if (sun.getPosition().getX() != 0 && sun.getPosition().getZ() != 0) {
+        sunList.push_back(sun);
     }
+}
+
+void Gameboard::addPlant(Plant* object,int squareId){
+	//set object position using the square?
+    BoardSquare square = squaresList[squareId];
+    object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
+	squaresList[squareId].setPlant((Plant*)object);
 	
 }
 
@@ -133,9 +138,6 @@ void Gameboard::checkHoveringStatus(int x, int y)//x, y being the mouse position
 }
 
 void Gameboard::draw() {
-    int n = zombiesList.size();
-    int o = bulletsList.size();
-    
     for (int i=0; i<squaresList.size(); i++) {
         squaresList[i].draw();
         if (squaresList.at(i).getPlant() != nullptr) {
@@ -146,26 +148,32 @@ void Gameboard::draw() {
             }
         }
     }
-    for (int j=0; j<n; j++) {
+    for (int j=0; j<zombiesList.size(); j++) {
         if (zombiesList[j]->takeDamages(0)) {
             zombiesList.erase(zombiesList.begin()+j);
-            n--;
         } else {
             zombiesList[j]->draw();            
         }
     }
     
-    for (int k=0; k<o; k++) {
+    for (int k=0; k<bulletsList.size(); k++) {
         int j=0;
-        while (!bulletsList.at(k).checkCollision(*zombiesList.at(j)) && j<n-1 ) {
+        while (!bulletsList.at(k).checkCollision(*zombiesList.at(j)) && j<zombiesList.size()-1 ) {
             j++;
         }
-        if (j<n-1 || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
+        if (j<zombiesList.size()-1 || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
             bulletsList.erase(bulletsList.begin() + k);
-			o--;
-            cout << "touche !" << endl;
         }else {
             bulletsList.at(k).draw();
+        }
+    }
+    
+    for (int l=0; l<sunList.size(); l++) {
+        if (sunList[l].getDespawn() > 0) {
+            sunList[l].draw();
+        }
+        else {
+            sunList.erase(sunList.begin()+l);
         }
     }
 }
@@ -178,7 +186,7 @@ void Gameboard::UpdateZombies(){
 	for (unsigned i = 0; i < zombiesList.size(); i++){
 		line = (zombiesList[i]->getPosition().getZ()-50)/(int)100;
 		column =floor((zombiesList[i]->getPosition().getX()) / 100);
-		if (column = sizeX)
+		if (column == sizeX)
 			column = sizeX-1;
 		//for plant on the zombies line
 		for (int j = line+(column)*sizeZ; j >= line && !plantInFront; j -= sizeZ) {
@@ -210,7 +218,19 @@ void Gameboard::UpdateZombies(){
 }
 
 void Gameboard::UpdatePlants() {
-    
+    for (int i = 0; i < squaresList.size(); i++)
+    {
+        Plant* plant = squaresList.at(i).getPlant();
+        if (plant != nullptr) {
+            if (plant->getType() == "PEASHOOTER"){
+                addBullet(((PeaShooter*)plant)->shoot());
+            }
+            
+            if (plant->getType() == "SUNPLANT") {
+                addSun(((SunPlant*)plant)->produceSun());
+            }
+        }
+    }
     
 }
 
@@ -220,6 +240,12 @@ void Gameboard::UpdateBullets() {
             bulletsList.at(i).move();
             
         }
+    }
+}
+
+void Gameboard::UpdateSuns() {
+    for (int i=0; i<sunList.size(); i++) {
+        sunList[i].update();
     }
 }
 
