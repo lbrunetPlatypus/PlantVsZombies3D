@@ -55,8 +55,14 @@ void Gameboard::zombieSpawn(Zombie &zombie) {
 void Gameboard::produceSun(Position position) {
     Sun sun;
     BoardSquare square = getSquare(position);
-    sun.setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size+10));
+    sun.setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size+30));
     sunList.push_back(sun);
+}
+
+void Gameboard::addSun(Sun sun) {
+    if (sun.getPosition().getX() != 0 && sun.getPosition().getZ() != 0) {
+        sunList.push_back(sun);
+    }
 }
 
 void Gameboard::addPlant(Plant* object,int squareId){
@@ -159,10 +165,14 @@ void Gameboard::draw() {
         }
         if (j<n-1 || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
             bulletsList.erase(bulletsList.begin() + k);
-            cout << "touche !" << endl;
+            o--;
         }else {
             bulletsList.at(k).draw();
         }
+    }
+    
+    for (int l=0; l<sunList.size(); l++) {
+        sunList[l].draw();
     }
 }
 
@@ -174,7 +184,7 @@ void Gameboard::UpdateZombies(){
 	for (unsigned i = 0; i < zombiesList.size(); i++){
 		line = (zombiesList[i]->getPosition().getZ()-50)/(int)100;
 		column =floor((zombiesList[i]->getPosition().getX()) / 100);
-		if (column = sizeX)
+		if (column == sizeX)
 			column = sizeX-1;
 		//for plant on the zombies line
 		for (int j = line+(column)*sizeZ; j >= line && !plantInFront; j -= sizeZ) {

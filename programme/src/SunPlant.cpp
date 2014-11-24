@@ -6,7 +6,10 @@ int x=0;
 
 
 SunPlant::SunPlant(): Plant() {
-
+    setPosition(Position(0,0,0));
+    setCooldown(5);
+    setCooldownState(0);
+    
 }
 
 SunPlant::SunPlant(int cooldown) : Plant(cooldown) {
@@ -17,12 +20,21 @@ SunPlant::SunPlant(int cooldown, int hp) : Plant(cooldown,hp) {
 
 }
 
-void SunPlant::produceSun() {
+Sun SunPlant::produceSun() {
 	//call gameboard in order to produce a sun.
-    Position position = getPosition();
-    position = position + Position(100, 0, 0);
-    setPosition(position);
-    glutPostRedisplay();
+    if (getCooldownState() <= 0) {
+        setCooldownState(getCooldown());
+        Sun sun;
+        sun.setPosition(getPosition()+Position(0, 0, 30));
+        return sun;
+    } else {
+        setCooldownState(getCooldownState()-1);
+        return Sun();
+    }
+}
+
+std::string SunPlant::getType() {
+    return "SUNPLANT";
 }
 
 void SunPlant::draw() {

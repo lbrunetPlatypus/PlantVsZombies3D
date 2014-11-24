@@ -1,5 +1,6 @@
 #include "Plant.h"
 
+
 Plant::Plant() {
 	hp = 5;
 	coolDown = 0;
@@ -47,4 +48,8 @@ bool Plant::ApplyDamages(int nbDamages){//return true if plant dies
 		return false;
 	}
 
+}
+
+std::string Plant::getType() {
+    return "";
 }
