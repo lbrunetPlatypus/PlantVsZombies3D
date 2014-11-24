@@ -70,8 +70,10 @@ void Gameboard::addSun(Sun sun) {
 void Gameboard::addPlant(Plant* object,int squareId){
 	//set object position using the square?
     BoardSquare square = squaresList[squareId];
+    if (square.getPlant() ==nullptr) {
     object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
-	squaresList[squareId].setPlant((Plant*)object);
+	squaresList[squareId].setPlant(object);
+    }
 	
 }
 
@@ -116,7 +118,7 @@ void Gameboard::draw() {
     
     for (int k=0; k<bulletsList.size(); k++) {
         int j=0;
-        while (!bulletsList.at(k).checkCollision(*zombiesList.at(j)) && j<zombiesList.size()-1 ) {
+        while (zombiesList.size()>0 && !bulletsList.at(k).checkCollision(*zombiesList.at(j)) && j<zombiesList.size()-1 ) {
             j++;
         }
         if (j<zombiesList.size()-1 || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {

@@ -39,6 +39,14 @@ Zombie zombie;
 PeaShooter pea;
 Bullet bullet;
 
+// Plants table
+vector<PeaShooter> peaShootersList;
+vector<SunPlant> sunPlantsList;
+int plantSelection = 0;
+
+// Player Info
+
+
 //Camera Position
 static GLfloat camPosX = 0;
 static GLfloat camPosY = 100;
@@ -301,7 +309,19 @@ void keyboard(unsigned char key, int x, int y)
         case 27:
             exit(0);
             break;
+        case 's': {
+            sunPlantsList.push_back(SunPlant());
+            int square;
+            game.addPlant(&sunPlantsList[plantSelection], plantSelection);
+            break;}
+        case 'p': {
+            peaShootersList.push_back(PeaShooter());
+            int square;
+            game.addPlant(&peaShootersList[plantSelection], plantSelection);
+            plantSelection++;
+            break;}
         default:
+            
             break;
             
     }
@@ -436,6 +456,7 @@ void move(int value) {
     //cout << "je pop" << endl;
     //glutPostRedisplay();
     game.UpdateZombies();
+    game.UpdateSuns();
     
     game.UpdateBullets();
     glutTimerFunc(100, move, 1);
@@ -450,11 +471,7 @@ void move2(int value) {
         zombiesList.pop_back();
     }
     
-    for (int i = 0; i < game.getSquaresList().size(); i++)
-    {
-        if (game.getSquaresList().at(i).getPlant() != nullptr)
-            game.addBullet(((PeaShooter*)game.getSquaresList().at(i).getPlant())->shoot());
-    }
+    game.UpdatePlants();
     
     glutTimerFunc(1000, move2, 1);
     
@@ -464,16 +481,18 @@ int main(int argc, char **argv)
 {
     
     glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
+    glutInitWindowSize(600, 600);
+    glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - 600)/2,(glutGet(GLUT_SCREEN_HEIGHT) - 600)/2); //centering the window
+    glutCreateWindow("Plant vs Zombie");
+    
     translationX = 0;
     translationY = 0;
     translationZ = -game.getSizeZ()*BoardSquare::size / 2.0; //to zoom in/out the scene
     glEnable(GL_DEPTH_TEST);
     glFrontFace(GL_CCW);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize(600, 600);
-    glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - 600)/2,(glutGet(GLUT_SCREEN_HEIGHT) - 600)/2); //centering the window
-    glutCreateWindow("Plant vs Zombie");
+    
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glutDisplayFunc(display);
@@ -494,14 +513,17 @@ int main(int argc, char **argv)
     
     //game.addPlant(&sunplant, 38);
     //add a peashooter to the case 3
-	game.produceSun(Position(50, 100, 300));
-    game.addPlant(&pea, 3);
-    PeaShooter pea1;
-    PeaShooter pea2;
-    game.addPlant(&pea1, 4);
-    game.addPlant(&pea2, 5);
     
-    pea.setGameboard(&game);
+    
+    //pea.setGameboard(&game);
+    
+    for (int i=0; i<100; i++) {
+        peaShootersList.push_back(PeaShooter());
+    }
+    
+    for (int i=0; i<100; i++) {
+        sunPlantsList.push_back(SunPlant());
+    }
     
     for (int i=0; i<10; i++) {
         Zombie zombie;
@@ -509,7 +531,7 @@ int main(int argc, char **argv)
     }
     
     
-    //game.produceSun(Position(100,0,200));
+    game.produceSun(Position(100,0,200));
     
     
     move(1);
