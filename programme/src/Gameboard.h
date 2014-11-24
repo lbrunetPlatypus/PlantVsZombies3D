@@ -40,6 +40,7 @@ class Gameboard {
 	void UpdateZombies();
 	void UpdatePlants();
     void UpdateBullets();
+    void UpdateSuns();
 };
 
 #endif

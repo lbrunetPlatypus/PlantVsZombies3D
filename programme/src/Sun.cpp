@@ -1,6 +1,15 @@
 #include "Sun.h"
 
 Sun::Sun() {
+    despawn = 50;
+}
+
+int Sun::getDespawn(){
+    return despawn;
+}
+
+void Sun::update() {
+    despawn--;
 }
 
 void Sun::draw() {

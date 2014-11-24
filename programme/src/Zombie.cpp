@@ -55,6 +55,8 @@ Zombie::Zombie() {
     hp = 100;
     attackPoint = 10;
     speed = 5;
+    coolDown = 5;
+    coolDownState = 0;
 }
 
 int Zombie::getHp() {
@@ -67,6 +69,22 @@ int Zombie::getAttackPoint() {
 
 int Zombie::getSpeed() {
     return speed;
+}
+
+int Zombie::getCooldown() {
+    return coolDown;
+}
+
+int Zombie::getCooldownState() {
+    return coolDownState;
+}
+
+void Zombie::setCooldown(int _cooldown){
+    coolDown = _cooldown;
+}
+
+void Zombie::setCooldownState(int _cooldownState) {
+    coolDownState = _cooldownState;
 }
 
 bool Zombie::detectTarget(Plant& plant){
@@ -94,7 +112,12 @@ void Zombie::move(){
 }
 
 void Zombie::nibble(Plant& plant, int nbDamages){//makedamages to the objet in front
-	plant.ApplyDamages(nbDamages);
+    if (coolDownState == 0) {
+        coolDownState = coolDown;
+        plant.ApplyDamages(nbDamages);
+    }else {
+        coolDownState--;
+    }
 }
 
 bool Zombie::takeDamages(int nbDamages){
