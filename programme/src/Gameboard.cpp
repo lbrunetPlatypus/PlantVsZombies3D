@@ -159,6 +159,7 @@ void Gameboard::draw() {
         }
         if (j<n-1 || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
             bulletsList.erase(bulletsList.begin() + k);
+			o--;
             cout << "touche !" << endl;
         }else {
             bulletsList.at(k).draw();
