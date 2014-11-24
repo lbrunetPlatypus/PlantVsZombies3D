@@ -34,8 +34,9 @@ class Gameboard {
     void addBullet(Bullet bullet);
 	void deleteObject(int squareID);
     BoardSquare getSquare(Position position);
-	void checkHoveringStatus(int x, int y);
-	void UpdateScreenCoordinate();
+	void checkSunHoveringStatus(int x, int y);
+	void UpdateSunScreenCoordinate();
+
     void draw();
 	void UpdateZombies();
 	void UpdatePlants();

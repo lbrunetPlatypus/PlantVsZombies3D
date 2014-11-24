@@ -93,49 +93,7 @@ void Gameboard::deleteObject(int squareId){
 
 }
 
-void Gameboard::UpdateScreenCoordinate()
-{
-	/*GLint viewport[4];
-	GLdouble modelview[16];
-	GLdouble projection[16];
-	GLdouble winX, winY, winZ;
 
-	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-	glGetDoublev(GL_PROJECTION_MATRIX, projection);
-	glGetIntegerv(GL_VIEWPORT, viewport);
-	for (unsigned i = 0; i<squaresList.size(); i++)
-	{
-		double mm[16];
-		//mult(modelview, joints[i].global_t, mm);
-
-		gluProject((GLdouble)squaresList[i].get2DPosition().getX(), squaresList[i].get2DPosition().getY(), (GLdouble)squaresList[i].get2DPosition().getZ(),
-			modelview, projection, viewport,
-			&winX, &winY, &winZ);
-		squaresList[i].setScreenCoordinateX(winX);
-		squaresList[i].setScreenCoordinateY((double)glutGet(GLUT_WINDOW_HEIGHT) - winY) ;
-	}*/
-	
-}
-
-void Gameboard::checkHoveringStatus(int x, int y)//x, y being the mouse position on screen
-{
-	double distance = 0.0f;
-	double minDistance = 1000.0f;
-	int hoveredSquare = -1;
-	for (unsigned i = 0; i < squaresList.size(); i++)
-	{
-		squaresList[i].setHoveringStatus(false);
-		distance = sqrt((x - squaresList[i].getScreenCoordinate().x)*(x - squaresList[i].getScreenCoordinate().y)
-			+ (y - squaresList[i].getScreenCoordinate().y)*(y - squaresList[i].getScreenCoordinate().y));
-		if (distance > 50) continue;
-		if (distance < minDistance)
-		{
-			hoveredSquare = i;
-			minDistance = distance;
-		}
-	}
-	if (hoveredSquare != -1) squaresList[hoveredSquare].setHoveringStatus(true);
-}
 
 void Gameboard::draw() {
     for (int i=0; i<squaresList.size(); i++) {
@@ -168,6 +126,8 @@ void Gameboard::draw() {
         }
     }
     
+
+	UpdateSunScreenCoordinate();
     for (int l=0; l<sunList.size(); l++) {
         if (sunList[l].getDespawn() > 0) {
             sunList[l].draw();
@@ -243,6 +203,54 @@ void Gameboard::UpdateBullets() {
     }
 }
 
+void Gameboard::UpdateSunScreenCoordinate()
+{
+
+	GLint viewport[4];
+	GLdouble modelview[16];
+	GLdouble projection[16];
+	GLdouble winX, winY, winZ;
+	GLdouble prevwinX, prevwinY, prevwinZ;
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);//!!!!!!!!!!!!!!!!!!!!!
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	for (unsigned i = 0; i<sunList.size(); i++)
+	{
+		gluProject((int)sunList[i].getPosition().getX(), (int)sunList[i].getPosition().getY(), (int)sunList[i].getPosition().getZ(),
+			modelview, projection, viewport,
+			&winX, &winY, &winZ);
+		
+		sunList[i].setScreencoordX( winX);
+		sunList[i].setScreencoordY(winY);
+		/*std::cout << "winX =    " << winX << std::endl;
+		std::cout << "sunX =    " << sunList[i].getScreenCoordX() << std::endl;
+		std::cout << "winY =    " << winY << std::endl;
+		std::cout << "sunY =    " << sunList[i].getScreenCoordY() << std::endl;*/
+	}
+
+}
+
+void Gameboard::checkSunHoveringStatus(int x, int y)//x, y being the mouse position on screen
+{
+	double distance = 0.0f;
+	double minDistance = 20.0f;
+	int hoveredSun = -1;
+	for (unsigned i = 0; i < sunList.size(); i++)
+	{
+		sunList[i].setIsHovered(false);
+		distance = sqrt((x - sunList[i].getScreenCoordX())*(x - sunList[i].getScreenCoordX())
+			+ (y - sunList[i].getScreenCoordY())*(y - sunList[i].getScreenCoordY()));
+		//std::cout << "distance " << distance << " sunId  " << i << std::endl;
+		//if (distance > 50) continue;
+		if (distance < minDistance)
+		{
+			hoveredSun = i;
+			minDistance = distance;
+		}
+	}
+	if (hoveredSun != -1) sunList[hoveredSun].setIsHovered(true);
+}
 void Gameboard::UpdateSuns() {
     for (int i=0; i<sunList.size(); i++) {
         sunList[i].update();

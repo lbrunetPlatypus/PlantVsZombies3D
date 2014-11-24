@@ -426,6 +426,12 @@ void mouseMoveEvent(int x, int y)
     }
 }
 
+void mousePassiveFunc(int x, int y)
+{
+	//std::cout <<"mouse   " << y << std::endl;
+	game.checkSunHoveringStatus(x, y);
+}
+
 void move(int value) {
     //cout << "je pop" << endl;
     //glutPostRedisplay();
@@ -475,7 +481,7 @@ int main(int argc, char **argv)
     glutMouseFunc(Mouse);
     //glutMouseWheelFunc(MouseWheel);
     glutMotionFunc(mouseMoveEvent);
-    //glutPassiveMotionFunc(mousePassiveFunc);
+    glutPassiveMotionFunc(mousePassiveFunc);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKey);
     
@@ -488,6 +494,7 @@ int main(int argc, char **argv)
     
     //game.addPlant(&sunplant, 38);
     //add a peashooter to the case 3
+	game.produceSun(Position(50, 100, 300));
     game.addPlant(&pea, 3);
     PeaShooter pea1;
     PeaShooter pea2;
