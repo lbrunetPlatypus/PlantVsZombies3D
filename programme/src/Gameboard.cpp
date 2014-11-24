@@ -68,10 +68,13 @@ void Gameboard::addSun(Sun sun) {
 }
 
 void Gameboard::addPlant(Plant* object,int squareId){
-	//set object position using the square?
+	//set object position using the square
     BoardSquare square = squaresList[squareId];
-    object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
-	squaresList[squareId].setPlant((Plant*)object);
+    //check that th square is empty
+    if (square.getPlant() == nullptr) {
+        object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
+        squaresList[squareId].setPlant((Plant*)object);
+    }
 	
 }
 
