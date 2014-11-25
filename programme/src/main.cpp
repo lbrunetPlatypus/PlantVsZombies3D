@@ -562,7 +562,7 @@ void mousePassiveFunc(int x, int y)
 	//glTranslatef(-translationX, -translationY, -translationZ);
     game.checkSunHoveringStatus(x, y);
 	currentHoveredSquare=game.checkSquareHoveringStatus(x, y);
-	std::cout << currentHoveredSquare << std::endl;
+	//std::cout << currentHoveredSquare << std::endl;
 	//Collect sun or plant preselected plant
 	nbSun = +game.selectSun();
 

@@ -40,7 +40,6 @@ int BoardSquare::getId(){
 	return id;
 }
 
-
 Plant* BoardSquare::getPlant(){
 	return plant;
 }

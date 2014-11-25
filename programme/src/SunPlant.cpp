@@ -6,6 +6,7 @@ int x=0;
 
 
 SunPlant::SunPlant(): Plant() {
+    setHp(30);
     setPosition(Position(0,0,0));
     setCooldown(10);
     setCooldownState(getCooldownState());

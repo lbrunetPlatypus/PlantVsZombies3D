@@ -48,10 +48,10 @@ void drawCube(int size) {
 }
 
 Zombie::Zombie() {
-    hp = 100;
-    attackPoint = 3;
+    hp = 200;
+    attackPoint = 10;
     speed = 5;
-    coolDown = 5;
+    coolDown = 10;
     coolDownState = 0;
 }
 
