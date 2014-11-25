@@ -9,6 +9,7 @@
 #include "getbmp.h"
 
 #define COOLDOWN 5;
+#define SUN_COOLDOWN 10;
 
 #ifdef __APPLE__
 #include "GLUT/glut.h"
@@ -40,6 +41,7 @@ static GLfloat translationZ; //to zoom in/out the scene
 //Game info
 vector<Zombie> zombiesList; //list of zombie to spawn
 int spawnCooldown = COOLDOWN;
+int sunCooldown = 0;
 Gameboard game(9,5);
 static int nbSunPeaShooter = 100;
 static int nbSunSunFlower = 50;
@@ -627,6 +629,14 @@ void move2(int value) {
         spawnCooldown--;
     }
     
+    if ( sunCooldown == 0) {
+        game.produceSun(Position(rand()%game.getSizeX()*50, 0, rand()%game.getSizeZ()*50));
+        sunCooldown = SUN_COOLDOWN;
+    }
+    else {
+        sunCooldown--;
+    }
+    
    game.UpdatePlants();
     
     glutTimerFunc(1000, move2, 1);
@@ -635,7 +645,19 @@ void move2(int value) {
 
 int main(int argc, char **argv)
 {
+    for (int i=0; i<50; i++) {
+        peaShootersList.push_back(PeaShooter());
+    }
     
+    for (int i=0; i<50; i++) {
+        sunPlantsList.push_back(SunPlant());
+    }
+    
+    for (int i=0; i<30; i++) {
+        Zombie zombie;
+        zombiesList.push_back(zombie);
+    }
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(600, 600);
@@ -665,21 +687,6 @@ int main(int argc, char **argv)
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_NORMALIZE);
 
-    for (int i=0; i<100; i++) {
-        peaShootersList.push_back(PeaShooter());
-    }
-    
-    for (int i=0; i<100; i++) {
-        sunPlantsList.push_back(SunPlant());
-    }
-    
-    for (int i=0; i<30; i++) {
-        Zombie zombie;
-        zombiesList.push_back(zombie);
-    }
-    
-    
-    game.produceSun(Position(100,0,200));
     
     
     move(1);
