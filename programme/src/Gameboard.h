@@ -32,15 +32,13 @@ class Gameboard {
     void addSun(Sun sun);
 	void addPlant(Plant* object, int squareId);
     void addBullet(Bullet bullet);
-	void deleteObject(int squareID);
     BoardSquare getSquare(Position position);
 	void checkSunHoveringStatus(int x, int y);
 	void UpdateSunScreenCoordinate();
 	int selectSun();
 	int checkSquareHoveringStatus(int x, int y);
 	void UpdateSquareScreenCoordinate();
-
-
+    
 
     void draw(GLuint texture[]);
 	void UpdateZombies();

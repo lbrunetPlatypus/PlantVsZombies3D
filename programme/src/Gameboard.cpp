@@ -49,36 +49,54 @@ int Gameboard::getSizeZ() {
     return sizeZ;
 }
 
+//spawn zombies
 void Gameboard::zombieSpawn(Zombie &zombie) {
+    //set a line to the zombie
     zombie.setPosition(Position(sizeX*BoardSquare::size, 0, (rand()%5+0.5)*BoardSquare::size));
+    //add it to the list of zombies
     zombiesList.push_back(&zombie);
 }
 
+//Produce a sun at a position
 void Gameboard::produceSun(Position position) {
+    //create a sun
     Sun sun;
+    //get the square thanks to the position
     BoardSquare square = getSquare(position);
+    //set the position to 30 in front of the center of the square
     sun.setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size+30));
+    //add it !
     sunList.push_back(sun);
 }
 
+//add a Sun on the board
 void Gameboard::addSun(Sun sun) {
+    //if the sun is well defined ie not in (0,0,0)
     if (sun.getPosition().getX() != 0 && sun.getPosition().getZ() != 0) {
+        //add it
         sunList.push_back(sun);
     }
 }
 
+//add a plant on a square of the gameboard
 void Gameboard::addPlant(Plant* object,int squareId){
 	//set object position using the square?
     BoardSquare square = squaresList[squareId];
+    //if the sqaure doesn't already have a plant
     if (square.getPlant() ==nullptr) {
-    object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
-	squaresList[squareId].setPlant(object);
+        //set the position to the center of the square
+        object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
+        //set plant to the square
+        squaresList[squareId].setPlant(object);
     }
 	
 }
 
+//add a bullet on the gameboard
 void Gameboard::addBullet(Bullet bullet) {
+    //the bullet is defined ie not positionned on (0,0,0)
     if (bullet.getPosition().getX() != 0 && bullet.getPosition().getZ() != 0) {
+        //add it !
         bulletsList.push_back(bullet);
     }
 }
@@ -91,62 +109,86 @@ BoardSquare Gameboard::getSquare(Position position){
     return getSquaresList().at(sizeZ*i+j);
 }
 
-void Gameboard::deleteObject(int squareId){
-
-}
-
-
-
 void Gameboard::draw(GLuint texture[]) {
 	UpdateSquareScreenCoordinate();
+    
+    //draw all Plants and Squares
     for (int i=0; i<squaresList.size(); i++) {
-        squaresList[i].draw();
+        //draw the board square
+        squaresList[i].draw(texture);
+        //check if the board square contain a plant
         if (squaresList.at(i).getPlant() != nullptr) {
+            //check if the plant has enough HP
             if ((squaresList.at(i).getPlant())->getHp() > 0) {
+                //draw the plant with the texture
                 squaresList.at(i).getPlant()->draw(texture);
             }else {
+                //erase the plant from the square
                 squaresList.at(i).setPlant(nullptr);
             }
         }
     }
+    
+    //draw all zombies
     for (int j=0; j<zombiesList.size(); j++) {
+        //check if the zombie has enough HP
         if (zombiesList[j]->takeDamages(0)) {
+            //delete the zombie from zombiesList
             zombiesList.erase(zombiesList.begin()+j);
         } else {
+            //else draw the zombie with the texture
             zombiesList[j]->draw(texture);
         }
     }
     
+    //draw all bullets shoot by peashooters
     for (int k=0; k<bulletsList.size(); k++) {
+        //iterator
         int j=0;
+        //check for each zombie
+        //while the zombieslist is not empty AND do not collide with the bullet
         while (!zombiesList.empty() && !bulletsList.at(k).checkCollision(*zombiesList.at(j)) && j<zombiesList.size()-1 ) {
+            //check next zombie
             j++;
         }
         
+        //if there is still zombies
         if (!zombiesList.empty()) {
+            //if there is a collision with a zombie OR a the border
             if (bulletsList.at(k).checkCollision(*zombiesList.at(j)) || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
+                //erase the bullet
                 bulletsList.erase(bulletsList.begin() + k);
             }else {
+                //draw the bullet
                 bulletsList.at(k).draw(texture);
             }
         }
+        //if there is no zombie left
         else {
+            //if the bullet collide with the border
             if (bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
+                //erase the bullet
                 bulletsList.erase(bulletsList.begin() + k);
             }else {
+                //draw the bullet
                 bulletsList.at(k).draw(texture);
             }
         }
         
     }
     
-
 	UpdateSunScreenCoordinate();
+    
+    //draw all suns
     for (int l=0; l<sunList.size(); l++) {
+        //if the sun has not reached his despawn time
         if (sunList[l].getDespawn() > 0) {
+            //draw the sun
             sunList[l].draw(texture);
         }
+        //if has reached
         else {
+            //erase the sun
             sunList.erase(sunList.begin()+l);
         }
     }
@@ -191,17 +233,25 @@ void Gameboard::UpdateZombies(){
 	
 }
 
+//Update plants
 void Gameboard::UpdatePlants() {
+    //for each squarelist
     for (int i = 0; i < squaresList.size(); i++)
     {
         Plant* plant = squaresList.at(i).getPlant();
+        //if there is a plant
         if (plant != nullptr) {
+            //if the plant is a Peashooter
             if (plant->getType() == "PEASHOOTER"){
+                //if there are zombies
                 if (!zombiesList.empty())
+                    //shoot !
                     addBullet(((PeaShooter*)plant)->shoot());
             }
             
+            //if the plant is a Sunplant
             if (plant->getType() == "SUNPLANT") {
+                //add a sun
                 addSun(((SunPlant*)plant)->produceSun());
             }
         }
@@ -209,14 +259,19 @@ void Gameboard::UpdatePlants() {
     
 }
 
+//Update bullets
 void Gameboard::UpdateBullets() {
+    //for each bullet
     for (int i=0; i<bulletsList.size(); i++) {
+        //if the bullet is not defined that means that the bullet is placed a (0,0,0)
         if (bulletsList.at(i).getPosition().getX() != 0 && bulletsList.at(i).getPosition().getZ()!=0) {
+            //move the bullet !
             bulletsList.at(i).move();
             
         }
     }
 }
+
 
 void Gameboard::UpdateSunScreenCoordinate()
 {
@@ -351,8 +406,11 @@ int Gameboard::selectSun(){
 		return 0;
 }
 
+//Update suns
 void Gameboard::UpdateSuns() {
+    //for each sun
     for (int i=0; i<sunList.size(); i++) {
+        //up to date
         sunList[i].update();
     }
 }

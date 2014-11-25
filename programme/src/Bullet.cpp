@@ -21,7 +21,7 @@ bool Bullet::checkCollision(Zombie& zombie){
             return false;
         }
         else {
-            zombie.takeDamages(20);
+            zombie.takeDamages(10);
             return true;
         }
     }
