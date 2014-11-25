@@ -1,6 +1,7 @@
 #include <fstream>
 
 #include "getbmp.h"
+#include <iostream>
 
 using namespace std;
 
