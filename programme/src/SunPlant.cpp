@@ -22,7 +22,7 @@ SunPlant::SunPlant(int cooldown, int hp) : Plant(cooldown,hp) {
 
 Sun SunPlant::produceSun() {
 	//call gameboard in order to produce a sun.
-    if (getCooldownState() <= 0) {
+    if (getCooldownState() == 0) {
         setCooldownState(getCooldown());
         Sun sun;
         sun.setPosition(getPosition()+Position(0, 0, 30));

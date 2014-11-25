@@ -41,9 +41,9 @@ void Sun::draw(GLuint texture[]) {
     glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
     glTranslatef(0, 20, 0);
 	if (getIsHovered())
-		glColor3f(0.7, 0.7, 0.7);
+		glColor3f(0.7, 0.7, 0);
 	else
-    glColor3f(1, 1, 0);
+        glColor3f(1, 1, 0);
     gluSphere(gluNewQuadric(), 20, 20, 20);
     glPopMatrix();
 }
