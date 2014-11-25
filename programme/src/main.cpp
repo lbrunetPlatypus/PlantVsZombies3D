@@ -283,20 +283,19 @@ void DrawGrid()
 
 void PlayerBarViewport(){
 	glViewport(0, 0, 9 * windowWidth / 10, windowHeight / 10);
-	/*
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D(0, widthWindow, 0, heightWindow / 10);
+	gluOrtho2D(0, windowWidth, 0, windowHeight / 10);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 	glColor3f(0, 1, 0);
 	glRasterPos2d(0, 0);
-	writeBitmapString("Frame per second : " + std::to_string(period * 1000));
+	glutSolidCube(1);
+	//writeBitmapString("Frame per second : " + std::to_string(period * 1000));
 	glPopMatrix();
-	*/
 
 }
 void display()
@@ -338,20 +337,18 @@ void display()
 
 	DrawGrid();
     game.draw(texture);
-	
-    
     //game.getSunList().at(game.getSunList().size()-1).draw();
     
-    
+	PlayerBarViewport();
     
     
     
     
     glDisable(GL_DEPTH_TEST); // Disable depth testing.
-    
+	
     
     glFlush();
-	PlayerBarViewport();
+	
     glutSwapBuffers();
     
 }
@@ -493,6 +490,11 @@ void Mouse(int button, int state, int x, int y)
     else{//if mouse input
         switch (button) {
             case GLUT_LEFT_BUTTON:
+
+			
+				//std::cout << currentHoveredSquare << std::endl;
+				//Collect sun or plant preselected plant
+				
 				if (currentHoveredSquare != -1){
 					//std::cout << "click"<< std::endl;
                     if (plantSelection == 1 && nbSun>=nbSunPeaShooter) {
@@ -507,6 +509,9 @@ void Mouse(int button, int state, int x, int y)
                         compteurPlant += 1;
 						nbSun -= nbSunSunFlower;
                     }
+					else if (plantSelection == 0){
+						nbSun += game.selectSun();
+					}
 					
 				}
                 _mouseLeft = true;
@@ -589,11 +594,8 @@ void mousePassiveFunc(int x, int y)
 	//glRotatef(-Yangle, 0.0, 1.0, 0.0); //rotation with left/right arrow key
 	//glRotatef(-Xangle, 1.0, 0.0, 0.0); //rotation with up/down arrow key
 	//glTranslatef(-translationX, -translationY, -translationZ);
-    game.checkSunHoveringStatus(x, y);
-	currentHoveredSquare=game.checkSquareHoveringStatus(x, y);
-	//std::cout << currentHoveredSquare << std::endl;
-	//Collect sun or plant preselected plant
-	nbSun += game.selectSun();
+	game.checkSunHoveringStatus(x, y);
+	currentHoveredSquare = game.checkSquareHoveringStatus(x, y);
 
 }
 
