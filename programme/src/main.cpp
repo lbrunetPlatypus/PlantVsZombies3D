@@ -8,6 +8,8 @@
 #include "BoardSquare.h"
 #include "getbmp.h"
 
+#define COOLDOWN 5;
+
 #ifdef __APPLE__
 #include "GLUT/glut.h"
 #elif _WIN32
@@ -32,20 +34,20 @@ double _right = 0.0;
 double _bottom = 0.0;
 double _top = 0.0;
 
-vector<Zombie> zombiesList;
-vector<Bullet*> bulletsList;
+
+//Game info
+vector<Zombie> zombiesList; //list of zombie to spawn
+int spawnCooldown = COOLDOWN;
 Gameboard game(9,5);
-Sun sun;
-SunPlant sunplant;
-Zombie zombie;
-PeaShooter pea;
-Bullet bullet;
+
 
 // Plants table
 vector<PeaShooter> peaShootersList;
 vector<SunPlant> sunPlantsList;
 int compteurPlant = 0;
 int plantSelection = 0; //1 for peas 2 for sun
+
+
 // Player Info
 
 
@@ -382,7 +384,7 @@ void specialKey(int key, int x, int y) {
     glutPostRedisplay();		// Redraw the scene
 }
 
-
+//press a key
 void keyboard(unsigned char key, int x, int y)
 {
     switch(key)
@@ -404,6 +406,7 @@ void keyboard(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
+//release a key
 void keyboardUp (unsigned char key, int x, int y) {
     switch(key)
     {
@@ -418,7 +421,7 @@ void keyboardUp (unsigned char key, int x, int y) {
             break;
             
     }
-    glutPostRedisplay(); // Set the state of the current key to not pressed
+    glutPostRedisplay();
 }
 
 //
@@ -567,8 +570,7 @@ void mousePassiveFunc(int x, int y)
 
 
 void move(int value) {
-    //cout << "je pop" << endl;
-    //glutPostRedisplay();
+
     game.UpdateZombies();
     //game.UpdateSuns();
     
@@ -578,11 +580,13 @@ void move(int value) {
 }
 
 void move2(int value) {
-    //cout << "je te kill" << endl;
-    //glutPostRedisplay();
-    if (zombiesList.size() >0) {
+    if (zombiesList.size() >0 && spawnCooldown == 0) {
         game.zombieSpawn(zombiesList.at(zombiesList.size()-1));
         zombiesList.pop_back();
+        spawnCooldown = COOLDOWN;
+    }
+    else {
+        spawnCooldown--;
     }
     
    game.UpdatePlants();
@@ -622,20 +626,7 @@ int main(int argc, char **argv)
     
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_NORMALIZE);
-    
-    //add a sun to the case 0
-    // game.addObject(&sun, 35);
-    //add a sunplant to the case 1
-    
-    //game.addPlant(&sunplant, 38);
-    //add a peashooter to the case 3
-    //game.addPlant(&pea, 1);
-    //game.addPea(1);
-    PeaShooter pea1, pea2, pea3, pea4, pea5;
-    
-    
-    //pea.setGameboard(&game);
-    
+
     for (int i=0; i<100; i++) {
         peaShootersList.push_back(PeaShooter());
     }
@@ -644,7 +635,7 @@ int main(int argc, char **argv)
         sunPlantsList.push_back(SunPlant());
     }
     
-    for (int i=0; i<10; i++) {
+    for (int i=0; i<30; i++) {
         Zombie zombie;
         zombiesList.push_back(zombie);
     }
