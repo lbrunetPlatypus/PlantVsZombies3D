@@ -22,7 +22,7 @@ static GLfloat Xangle = 5.0, Yangle = 0.0; // Angles to rotate
 static GLfloat translationX ;
 static GLfloat translationY;
 static GLfloat translationZ; //to zoom in/out the scene
-
+static int nbSun = 0;
 //static GLfloat Z = 700.0; //position on Z-axis
 static GLfloat windowWidth = 1000.0, windowHeight = 1000.0, windowNear = 1.0, windowFar = 4800.0, fovy = 90; //projection parameters
 double _left = 0.0;		/* ortho view volume params */
@@ -223,6 +223,23 @@ void reshape(int w, int h)
     height = h;
 }
 
+void worldAxis(){
+	//world coordinate system Axis shown at (10,10,10)
+	glPushMatrix();
+	glTranslatef(0, 3, 0);
+	glBegin(GL_LINES);
+	glColor3f(1, 0, 0.0);			// red for x axis
+	glVertex3f(0, 0, 0);
+	glVertex3f(600, 0, 0);
+	glColor3f(0, 1, 0.0);				// green for y axis
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 600, 0);
+	glColor3f(0.0, 0.0, 1.0);				// Blue for z axis
+	glVertex3f(0, 0, 600);
+	glEnd();
+	glPopMatrix();
+}
+
 void display()
 {
     glViewport(0, 0, width, height);
@@ -241,9 +258,11 @@ void display()
     glLoadIdentity();
     //glTranslatef(-200, 0, -200);
     //Centering the scene
-    
+	glPushMatrix();
+	worldAxis();
+	glPopMatrix();
     glTranslatef(translationX, translationY, translationZ);
-    
+ 
     gluLookAt(camPosX, camPosY, camPosZ, lookAtX, lookATY, lookAtZ, 0, 1, 0); //position of the camera
     //glPushMatrix();
     //glTranslatef(-translationX, -translationY, -translationZ);
@@ -255,7 +274,9 @@ void display()
     
     //glTranslatef(-xHelicopter, 0, -yHelicopter);
     //draw the scene with its component.
+	
     game.draw();
+	
     
     //game.getSunList().at(game.getSunList().size()-1).draw();
     
@@ -372,6 +393,7 @@ void Mouse(int button, int state, int x, int y)
         switch (button) {
             case GLUT_LEFT_BUTTON:
                 //Collect sun or plant preselected plant
+				nbsun =+game.selectSun();
                 _mouseLeft = true;
                 //std::cout << "mouse left" << std::endl;
                 break;
@@ -449,14 +471,18 @@ void mouseMoveEvent(int x, int y)
 void mousePassiveFunc(int x, int y)
 {
     //std::cout <<"mouse   " << y << std::endl;
+	//glRotatef(-Yangle, 0.0, 1.0, 0.0); //rotation with left/right arrow key
+	//glRotatef(-Xangle, 1.0, 0.0, 0.0); //rotation with up/down arrow key
+	//glTranslatef(-translationX, -translationY, -translationZ);
     game.checkSunHoveringStatus(x, y);
+
 }
 
 void move(int value) {
     //cout << "je pop" << endl;
     //glutPostRedisplay();
     game.UpdateZombies();
-    game.UpdateSuns();
+    //game.UpdateSuns();
     
     game.UpdateBullets();
     glutTimerFunc(100, move, 1);
@@ -471,7 +497,7 @@ void move2(int value) {
         zombiesList.pop_back();
     }
     
-    game.UpdatePlants();
+   game.UpdatePlants();
     
     glutTimerFunc(1000, move2, 1);
     
@@ -495,12 +521,13 @@ int main(int argc, char **argv)
     
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glutPassiveMotionFunc(mousePassiveFunc);
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutMouseFunc(Mouse);
     //glutMouseWheelFunc(MouseWheel);
     glutMotionFunc(mouseMoveEvent);
-    glutPassiveMotionFunc(mousePassiveFunc);
+   
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKey);
     

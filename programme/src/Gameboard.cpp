@@ -217,6 +217,17 @@ void Gameboard::UpdateSunScreenCoordinate()
 	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);//!!!!!!!!!!!!!!!!!!!!!
 	glGetDoublev(GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv(GL_VIEWPORT, viewport);
+	/*std::cout << "____________________________________" << std::endl;
+	std::cout << projection[0] << "  " << projection[4] << "  " << projection[8] << "  " << projection[12] << std::endl;
+	std::cout << projection[1] << "  " << projection[5] << "  " << projection[9] << "  " << projection[13] << std::endl;
+	std::cout << projection[2] << "  " << projection[6] << "  " << projection[10] << "  " << projection[14] << std::endl;
+	std::cout << projection[3] << "  " << projection[7] << "  " << projection[11] << "  " << projection[15] << std::endl;*/
+	/*std::cout << "____________________________________" << std::endl;
+	std::cout << modelview[0] << "  " << modelview[4] << "  " << modelview[8] << "  " << modelview[12] << std::endl;
+	std::cout << modelview[1] << "  " << modelview[5] << "  " << modelview[9] << "  " << modelview[13] << std::endl;
+	std::cout << modelview[2] << "  " << modelview[6] << "  " << modelview[10] << "  " << modelview[14] << std::endl;
+	std::cout << modelview[3] << "  " << modelview[7] << "  " << modelview[11] << "  " << modelview[15] << std::endl;*/
+
 	for (unsigned i = 0; i<sunList.size(); i++)
 	{
 		gluProject((int)sunList[i].getPosition().getX(), (int)sunList[i].getPosition().getY(), (int)sunList[i].getPosition().getZ(),
@@ -224,11 +235,11 @@ void Gameboard::UpdateSunScreenCoordinate()
 			&winX, &winY, &winZ);
 		
 		sunList[i].setScreencoordX( winX);
-		sunList[i].setScreencoordY(winY);
-		/*std::cout << "winX =    " << winX << std::endl;
-		std::cout << "sunX =    " << sunList[i].getScreenCoordX() << std::endl;
+		sunList[i].setScreencoordY(glutGet(GLUT_WINDOW_HEIGHT) - winY);
+		std::cout << "winX =    " << winX << std::endl;
+		//std::cout << "sunX =    " << sunList[i].getScreenCoordX() << std::endl;
 		std::cout << "winY =    " << winY << std::endl;
-		std::cout << "sunY =    " << sunList[i].getScreenCoordY() << std::endl;*/
+		//std::cout << "sunY =    " << sunList[i].getScreenCoordY() << std::endl;*/
 	}
 
 }
@@ -243,7 +254,7 @@ void Gameboard::checkSunHoveringStatus(int x, int y)//x, y being the mouse posit
 		sunList[i].setIsHovered(false);
 		distance = sqrt((x - sunList[i].getScreenCoordX())*(x - sunList[i].getScreenCoordX())
 			+ (y - sunList[i].getScreenCoordY())*(y - sunList[i].getScreenCoordY()));
-		//std::cout << "distance " << distance << " sunId  " << i << std::endl;
+		std::cout << "distance " << distance << " sunId  " << i << std::endl;
 		//if (distance > 50) continue;
 		if (distance < minDistance)
 		{
@@ -253,6 +264,20 @@ void Gameboard::checkSunHoveringStatus(int x, int y)//x, y being the mouse posit
 	}
 	if (hoveredSun != -1) sunList[hoveredSun].setIsHovered(true);
 }
+
+
+int Gameboard::selectSun(){
+		for (unsigned i = 0; i<sunList.size(); i++)
+		{
+			if (sunList[i].getIsHovered())
+			{
+				sunList[i].setDespawn(0);
+				return 50;
+			}
+		}
+		return 0;
+}
+
 void Gameboard::UpdateSuns() {
     for (int i=0; i<sunList.size(); i++) {
         sunList[i].update();
