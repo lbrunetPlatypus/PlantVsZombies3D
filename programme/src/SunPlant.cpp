@@ -73,7 +73,7 @@ void SunPlant::draw(GLuint texture[]) {
     glBindTexture(GL_TEXTURE_2D, texture[2]);
     gluQuadricTexture(flowerQuad,1);
 
-    glColor3f(0.55, 0.27, 0);
+    glColor3f(1, 1, 1);
     
     glPushMatrix();
     glScalef(0.33, 1, 1);
