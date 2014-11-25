@@ -15,44 +15,16 @@
 #elif _WIN32
 #include "Gl/glut.h"
 #endif
-
 #define PI 3.14159265
-
 using namespace std;
-GLint width=0,height=0;
 
-static GLfloat Xangle = 5.0, Yangle = 0.0; // Angles to rotate
-static GLfloat translationX ;
-static GLfloat translationY;
-static GLfloat translationZ; //to zoom in/out the scene
-static int nbSunPeaShooter = 100;
-static int nbSunSunFlower = 50;
-static int nbSun = 50;
-static int currentHoveredSquare = -1;
-//static GLfloat Z = 700.0; //position on Z-axis
+//window /projection infos
+GLint width=0,height=0;
 static GLfloat windowWidth = 1000.0, windowHeight = 1000.0, windowNear = 1.0, windowFar = 4800.0, fovy = 90; //projection parameters
 double _left = 0.0;		/* ortho view volume params */
 double _right = 0.0;
 double _bottom = 0.0;
 double _top = 0.0;
-
-
-//Game info
-vector<Zombie> zombiesList; //list of zombie to spawn
-int spawnCooldown = COOLDOWN;
-Gameboard game(9,5);
-
-
-// Plants table
-vector<PeaShooter> peaShootersList;
-vector<SunPlant> sunPlantsList;
-int compteurPlant = 0;
-int plantSelection = 0; //1 for peas 2 for sun
-
-
-// Player Info
-
-
 //Camera Position
 static GLfloat camPosX = 0;
 static GLfloat camPosY = 100;
@@ -60,26 +32,32 @@ static GLfloat camPosZ = 700.0; //position on Z-axis
 static GLfloat lookAtX = 0;
 static GLfloat lookATY = 0;
 static GLfloat lookAtZ = 0; //position on Z-axis
-//Model matrices
-double _matrix[16];
-double _matrixI[16];
+//Camera movement
+static GLfloat Xangle = 5.0, Yangle = 0.0; // Angles to rotate
+static GLfloat translationX;
+static GLfloat translationY;
+static GLfloat translationZ; //to zoom in/out the scene
+//Game info
+vector<Zombie> zombiesList; //list of zombie to spawn
+int spawnCooldown = COOLDOWN;
+Gameboard game(9,5);
+static int nbSunPeaShooter = 100;
+static int nbSunSunFlower = 50;
+static int currentHoveredSquare = -1;
+// Plants table
+vector<PeaShooter> peaShootersList;
+vector<SunPlant> sunPlantsList;
+int compteurPlant = 0;
+int plantSelection = 0; //1 for peas 2 for sun
+// Player Info
+static int nbSun = 100;
+
 /* Mouse Interface  */
 int _mouseX = 0;		/* mouse control variables */
 int _mouseY = 0;
 bool _mouseLeft = false;
 bool _mouseMiddle = false;
 bool _mouseRight = false;
-
-double _dragPosX = 0.0;
-double _dragPosY = 0.0;
-double _dragPosZ = 0.0;
-double rotAngle = 0;
-
-bool updatePos = false;
-double prevMousePosx;
-double prevMousePosy;
-bool mouseInit = false;
-
 
 //textures !
 GLuint texture[15];
