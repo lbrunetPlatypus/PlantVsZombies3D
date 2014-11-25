@@ -17,8 +17,9 @@ class BoardSquare {
 	int id;
 	int x;
 	int z;
+	int screenCoordX;
+	int screenCoordY;
 	bool isHovered;
-	Vec3 screenCoordinate;
 
     public :
         const static int size = 100;
@@ -42,11 +43,14 @@ class BoardSquare {
         Plant* getPlant();
         Sun* getSun();
 		int getId();
-		Vec3 getScreenCoordinate();
         void draw();
 
-		void setHoveringStatus(bool status);
-		bool getHoveringStatus();
+		float getScreenCoordX();
+		float getScreenCoordY();
+		void setScreencoordX(float _screenCoordX);
+		void setScreencoordY(float _screenCoordY);
+		bool getIsHovered();
+		void setIsHovered(bool status);
 		
 
 

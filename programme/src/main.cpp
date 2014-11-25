@@ -23,6 +23,7 @@ static GLfloat translationX ;
 static GLfloat translationY;
 static GLfloat translationZ; //to zoom in/out the scene
 static int nbSun = 0;
+static int currentHoveredSquare = -1;
 //static GLfloat Z = 700.0; //position on Z-axis
 static GLfloat windowWidth = 1000.0, windowHeight = 1000.0, windowNear = 1.0, windowFar = 4800.0, fovy = 90; //projection parameters
 double _left = 0.0;		/* ortho view volume params */
@@ -361,6 +362,7 @@ void Mouse(int button, int state, int x, int y)
     _mouseY = y;
     if (state == GLUT_UP)//if no mouse input
     {
+		
         switch (button) {
             case GLUT_LEFT_BUTTON:
                 _mouseLeft = false;
@@ -392,8 +394,10 @@ void Mouse(int button, int state, int x, int y)
     else{//if mouse input
         switch (button) {
             case GLUT_LEFT_BUTTON:
-                //Collect sun or plant preselected plant
-				nbsun =+game.selectSun();
+				if (currentHoveredSquare != -1){
+					game.addPlant(&peaShootersList[plantSelection], currentHoveredSquare);
+					plantSelection = +1;
+				}
                 _mouseLeft = true;
                 //std::cout << "mouse left" << std::endl;
                 break;
@@ -475,6 +479,10 @@ void mousePassiveFunc(int x, int y)
 	//glRotatef(-Xangle, 1.0, 0.0, 0.0); //rotation with up/down arrow key
 	//glTranslatef(-translationX, -translationY, -translationZ);
     game.checkSunHoveringStatus(x, y);
+	currentHoveredSquare=game.checkSquareHoveringStatus(x, y);
+	std::cout << currentHoveredSquare << std::endl;
+	//Collect sun or plant preselected plant
+	nbSun = +game.selectSun();
 
 }
 

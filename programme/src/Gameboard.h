@@ -37,6 +37,10 @@ class Gameboard {
 	void checkSunHoveringStatus(int x, int y);
 	void UpdateSunScreenCoordinate();
 	int selectSun();
+	int checkSquareHoveringStatus(int x, int y);
+	void UpdateSquareScreenCoordinate();
+
+
 
     void draw();
 	void UpdateZombies();
