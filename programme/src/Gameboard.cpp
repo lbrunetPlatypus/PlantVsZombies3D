@@ -268,18 +268,19 @@ void Gameboard::checkSunHoveringStatus(int x, int y)//x, y being the mouse posit
 
 int Gameboard::checkSquareHoveringStatus(int x, int y){
 	double distance = 0.0f;
-	double minDistance = 20.0f;
+	double minDistance = 10.0f;
 	int hovered = -1;
 	for (unsigned i = 0; i < squaresList.size(); i++)
 	{
 		squaresList[i].setIsHovered(false);
 		distance = sqrt((x - squaresList[i].getScreenCoordX())*(x - squaresList[i].getScreenCoordX())
 			+ (y - squaresList[i].getScreenCoordY())*(y - squaresList[i].getScreenCoordY()));
-		//std::cout << "distance " << distance << " squareId  " << i << std::endl;
+		
 		if (distance < minDistance)
 		{
 			hovered = i;
 			minDistance = distance;
+			//std::cout << "distance " << distance << " squareId  " << i << std::endl;
 		}
 	}
 	if (hovered != -1){
@@ -306,18 +307,22 @@ void Gameboard::UpdateSquareScreenCoordinate(){
 
 	for (unsigned i = 0; i < squaresList.size(); i++)
 	{
-		gluProject((int)squaresList[i].get2DPosition().getX(), (int)squaresList[i].get2DPosition().getY(), (int)squaresList[i].get2DPosition().getZ(),
+		// attention x correspond aux colonnes (sizez) et y au ligne (sizex...
+		int posX = (int)squaresList[i].getZ()* 100 + 50;
+		int posZ = (int)squaresList[i].getX() * 100 + 50;
+		gluProject(posX, 0, posZ,
 			modelview, projection, viewport,
 			&winX, &winY, &winZ);
 
 		squaresList[i].setScreencoordX(winX);
 		squaresList[i].setScreencoordY(glutGet(GLUT_WINDOW_HEIGHT) - winY);
-		std::cout << "__________________________________________________" << i << std::endl;
-		std::cout << "posx =    " << squaresList[i].get2DPosition().getX() << std::endl;
-		std::cout << "posy =    " << squaresList[i].get2DPosition().getY() << std::endl;
+		/*std::cout << "__________________________________________________" << i << std::endl;
+		
+		std::cout << "ligne =    " << squaresList[i].getZ() <<  "posx =    " << posX << std::endl;
+		std::cout << "colone =    " << squaresList[i].getX() << "posZ =    " << posZ << std::endl;
 		
 		std::cout << "squareX =    " << squaresList[i].getScreenCoordX() << std::endl;
-		std::cout << "squareY =    " << squaresList[i].getScreenCoordY() << std::endl; 
+		std::cout << "squareY =    " << squaresList[i].getScreenCoordY() << std::endl; */
 
 	}
 }

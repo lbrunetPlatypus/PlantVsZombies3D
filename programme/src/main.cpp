@@ -240,7 +240,22 @@ void worldAxis(){
 	glEnd();
 	glPopMatrix();
 }
-
+void DrawGrid()
+{
+	glBegin(GL_LINES);
+	glColor3f(0.75f, 0.75f, 0.75f);
+	for (int i = 0; i <= game.getSizeX(); i++)
+	{
+		glVertex3f((float)i * 100, 0, 0);
+		glVertex3f((float)i * 100, 0, game.getSizeZ() * 100);
+	}
+	for (int i = 0; i <= game.getSizeZ(); i++)
+	{
+		glVertex3f(0, 0, (float)i * 100);
+		glVertex3f(game.getSizeX() * 100, 0, (float)i * 100);
+	}
+	glEnd();
+}
 void display()
 {
     glViewport(0, 0, width, height);
@@ -275,7 +290,7 @@ void display()
     
     //glTranslatef(-xHelicopter, 0, -yHelicopter);
     //draw the scene with its component.
-	
+	DrawGrid();
     game.draw();
 	
     
@@ -485,6 +500,7 @@ void mousePassiveFunc(int x, int y)
 	nbSun = +game.selectSun();
 
 }
+
 
 void move(int value) {
     //cout << "je pop" << endl;
