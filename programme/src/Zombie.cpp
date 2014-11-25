@@ -49,7 +49,7 @@ void drawCube(int size) {
 
 Zombie::Zombie() {
     hp = 100;
-    attackPoint = 10;
+    attackPoint = 3;
     speed = 5;
     coolDown = 5;
     coolDownState = 0;
@@ -107,10 +107,10 @@ void Zombie::move(){
     glutPostRedisplay();
 }
 
-void Zombie::nibble(Plant& plant, int nbDamages){//makedamages to the objet in front
+void Zombie::nibble(Plant& plant){//makedamages to the objet in front
     if (coolDownState == 0) {
         coolDownState = coolDown;
-        plant.ApplyDamages(nbDamages);
+        plant.ApplyDamages(attackPoint);
     }else {
         coolDownState--;
     }

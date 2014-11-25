@@ -119,14 +119,25 @@ void Gameboard::draw(GLuint texture[]) {
     
     for (int k=0; k<bulletsList.size(); k++) {
         int j=0;
-        while (zombiesList.size()>0 && !bulletsList.at(k).checkCollision(*zombiesList.at(j)) && j<zombiesList.size()-1 ) {
+        while (!zombiesList.empty() && !bulletsList.at(k).checkCollision(*zombiesList.at(j)) && j<zombiesList.size()-1 ) {
             j++;
         }
-        if (j<zombiesList.size()-1 || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
-            bulletsList.erase(bulletsList.begin() + k);
-        }else {
-            bulletsList.at(k).draw(texture);
+        
+        if (!zombiesList.empty()) {
+            if (bulletsList.at(k).checkCollision(*zombiesList.at(j)) || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
+                bulletsList.erase(bulletsList.begin() + k);
+            }else {
+                bulletsList.at(k).draw(texture);
+            }
         }
+        else {
+            if (bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
+                bulletsList.erase(bulletsList.begin() + k);
+            }else {
+                bulletsList.at(k).draw(texture);
+            }
+        }
+        
     }
     
 
@@ -158,7 +169,7 @@ void Gameboard::UpdateZombies(){
 			if (tempPlant != nullptr){
 				plantInFront = true;
 				if (zombiesList[i]->detectTarget(*tempPlant)){
-					zombiesList[i]->nibble(*tempPlant, 3);
+					zombiesList[i]->nibble(*tempPlant);
 				}
 				else
 				{
@@ -186,7 +197,8 @@ void Gameboard::UpdatePlants() {
         Plant* plant = squaresList.at(i).getPlant();
         if (plant != nullptr) {
             if (plant->getType() == "PEASHOOTER"){
-                addBullet(((PeaShooter*)plant)->shoot());
+                if (!zombiesList.empty())
+                    addBullet(((PeaShooter*)plant)->shoot());
             }
             
             if (plant->getType() == "SUNPLANT") {

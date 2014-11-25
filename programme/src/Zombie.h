@@ -22,7 +22,7 @@ class Zombie : public GameObject{
     void setCooldownState(int _cooldownState);
 	bool detectTarget(Plant& plant);//detect if something is just in front of the zombie
     void move();
-	void nibble(Plant& plant, int nbDamages);
+	void nibble(Plant& plant);//attack a plant with attackPoint damage
     bool takeDamages(int nbDamages);//say if the zombie die or not?
     void draw(GLuint texture[]);
 };
