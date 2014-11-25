@@ -61,6 +61,9 @@ void BoardSquare::setPlant(Plant* _plant){
 void BoardSquare::draw() {
     glPushMatrix();
     glColor3f(0, 0.6, 0);
+	if (isHovered){
+		glColor3f(0, 0.9, 0);
+	}
     glBegin(GL_QUADS);
     glVertex3f(x*size, 0, z*size);
     glVertex3f((x+1)*size, 0, z*size);
