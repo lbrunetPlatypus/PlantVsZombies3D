@@ -1,5 +1,6 @@
 #include "SunPlant.h"
 #include <math.h>
+#include <iostream>
 # define PI 3.14159265358979323846  /* pi */
 
 int x=0;
@@ -22,8 +23,10 @@ SunPlant::SunPlant(int cooldown, int hp) : Plant(cooldown,hp) {
 }
 
 Sun SunPlant::produceSun() {
+
 	//call gameboard in order to produce a sun.
     if (getCooldownState() == 0) {
+		std::cout << "suuuuuun" << std::endl;
         setCooldownState(getCooldown());
         Sun sun;
         sun.setPosition(getPosition()+Position(0, 0, 30));

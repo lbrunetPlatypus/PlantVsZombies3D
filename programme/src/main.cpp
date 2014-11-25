@@ -27,7 +27,7 @@ static GLfloat translationY;
 static GLfloat translationZ; //to zoom in/out the scene
 static int nbSunPeaShooter = 100;
 static int nbSunSunFlower = 50;
-static int nbSun = 0;
+static int nbSun = 50;
 static int currentHoveredSquare = -1;
 //static GLfloat Z = 700.0; //position on Z-axis
 static GLfloat windowWidth = 1000.0, windowHeight = 1000.0, windowNear = 1.0, windowFar = 4800.0, fovy = 90; //projection parameters
@@ -47,7 +47,7 @@ Gameboard game(9,5);
 vector<PeaShooter> peaShootersList;
 vector<SunPlant> sunPlantsList;
 int compteurPlant = 0;
-int plantSelection = 2; //1 for peas 2 for sun
+int plantSelection = 0; //1 for peas 2 for sun
 
 
 // Player Info
@@ -435,10 +435,10 @@ void keyboardUp (unsigned char key, int x, int y) {
     switch(key)
     {
         case '1':
-            plantSelection=1;
+            plantSelection=0;
             break;
         case '2':
-            plantSelection=2;
+            plantSelection=0;
             break;
         default:
             
@@ -601,7 +601,7 @@ void mousePassiveFunc(int x, int y)
 void move(int value) {
 
     game.UpdateZombies();
-    //game.UpdateSuns();
+    game.UpdateSuns();
     
     game.UpdateBullets();
     glutTimerFunc(100, move, 1);
