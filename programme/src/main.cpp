@@ -25,6 +25,8 @@ static GLfloat Xangle = 5.0, Yangle = 0.0; // Angles to rotate
 static GLfloat translationX ;
 static GLfloat translationY;
 static GLfloat translationZ; //to zoom in/out the scene
+static int nbSunPeaShooter = 100;
+static int nbSunSunFlower = 50;
 static int nbSun = 0;
 static int currentHoveredSquare = -1;
 //static GLfloat Z = 700.0; //position on Z-axis
@@ -45,7 +47,7 @@ Gameboard game(9,5);
 vector<PeaShooter> peaShootersList;
 vector<SunPlant> sunPlantsList;
 int compteurPlant = 0;
-int plantSelection = 0; //1 for peas 2 for sun
+int plantSelection = 2; //1 for peas 2 for sun
 
 
 // Player Info
@@ -82,21 +84,21 @@ bool mouseInit = false;
 //textures !
 GLuint texture[15];
 
-// Read a texture map from a BMP bitmap file.
-void loadExternalTextures(string file, GLuint &texture)
-{
-    BitMapFile *image;
-    image = getbmp(file);
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->sizeX, image->sizeY, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, image->data);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    
-}
+//// Read a texture map from a BMP bitmap file.
+//void loadExternalTextures(string file, GLuint &texture)
+//{
+//    BitMapFile *image;
+//    image = getbmp(file);
+//    glGenTextures(1, &texture);
+//    glBindTexture(GL_TEXTURE_2D, texture);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->sizeX, image->sizeY, 0,
+//                 GL_RGBA, GL_UNSIGNED_BYTE, image->data);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//    
+//}
 //
 //void invertMatrix(const GLdouble * m, GLdouble * out)
 //{
@@ -278,8 +280,29 @@ void DrawGrid()
 	}
 	glEnd();
 }
+
+void PlayerBarViewport(){
+	glViewport(0, 0, 9 * windowWidth / 10, windowHeight / 10);
+	/*
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(0, widthWindow, 0, heightWindow / 10);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glColor3f(0, 1, 0);
+	glRasterPos2d(0, 0);
+	writeBitmapString("Frame per second : " + std::to_string(period * 1000));
+	glPopMatrix();
+	*/
+
+}
 void display()
 {
+	std::cout <<"__________nbSun    "<< nbSun << std::endl;
+	
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -328,36 +351,37 @@ void display()
     
     
     glFlush();
+	PlayerBarViewport();
     glutSwapBuffers();
     
 }
 
 void setup(void)
 {
-    
-#ifdef __APPLE__
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/leaves.bmp", texture[0]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/stem.bmp", texture[1]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/coeur.bmp", texture[2]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/petals.bmp", texture[3]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieface.bmp", texture[4]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombiebody.bmp", texture[5]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombiearm.bmp", texture[6]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg.bmp", texture[7]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg2.bmp", texture[8]);
-#elif _WIN32
-    loadExternalTextures("..\img\leaves.bmp", texture[0]);
-    loadExternalTextures("..\img\stem.bmp", texture[1]);
-    loadExternalTextures("..\img\coeur.bmp", texture[2]);
-    loadExternalTextures("..\img\petals.bmp", texture[3]);
-    loadExternalTextures("..\img\zombieface.bmp", texture[4]);
-    loadExternalTextures("..\img\zombiebody.bmp", texture[5]);
-    loadExternalTextures("..\img\zombiearm.bmp", texture[6]);
-    loadExternalTextures("..\img\zombieleg.bmp", texture[7]);
-    loadExternalTextures("..\img\zombieleg2.bmp", texture[8]);
-#endif
-
-    
+//    
+//#ifdef __APPLE__
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/leaves.bmp", texture[0]);
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/stem.bmp", texture[1]);
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/coeur.bmp", texture[2]);
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/petals.bmp", texture[3]);
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieface.bmp", texture[4]);
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombiebody.bmp", texture[5]);
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombiearm.bmp", texture[6]);
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg.bmp", texture[7]);
+//    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg2.bmp", texture[8]);
+//#elif _WIN32
+//    loadExternalTextures("..\img\leaves.bmp", texture[0]);
+//    loadExternalTextures("..\img\stem.bmp", texture[1]);
+//    loadExternalTextures("..\img\coeur.bmp", texture[2]);
+//    loadExternalTextures("..\img\petals.bmp", texture[3]);
+//    loadExternalTextures("..\img\zombieface.bmp", texture[4]);
+//    loadExternalTextures("..\img\zombiebody.bmp", texture[5]);
+//    loadExternalTextures("..\img\zombiearm.bmp", texture[6]);
+//    loadExternalTextures("..\img\zombieleg.bmp", texture[7]);
+//    loadExternalTextures("..\img\zombieleg2.bmp", texture[8]);
+//#endif
+//
+//    
     glClearColor (1, 1, 1, 0.0);
     glShadeModel(GL_SMOOTH);
 }
@@ -411,10 +435,10 @@ void keyboardUp (unsigned char key, int x, int y) {
     switch(key)
     {
         case '1':
-            plantSelection=0;
+            plantSelection=1;
             break;
         case '2':
-            plantSelection=0;
+            plantSelection=2;
             break;
         default:
             
@@ -470,13 +494,18 @@ void Mouse(int button, int state, int x, int y)
         switch (button) {
             case GLUT_LEFT_BUTTON:
 				if (currentHoveredSquare != -1){
-                    if (plantSelection == 1) {
+					//std::cout << "click"<< std::endl;
+                    if (plantSelection == 1 && nbSun>=nbSunPeaShooter) {
                         game.addPlant(&peaShootersList[compteurPlant], currentHoveredSquare);
                         compteurPlant += 1;
+						nbSun -= nbSunPeaShooter;
+						
+						//std::cout << compteurPlant << std::endl;
                     }
-                    else if (plantSelection ==2) {
+                    else if (plantSelection ==2 && nbSun>=nbSunSunFlower) {
                         game.addPlant(&sunPlantsList[compteurPlant], currentHoveredSquare);
                         compteurPlant += 1;
+						nbSun -= nbSunSunFlower;
                     }
 					
 				}
@@ -562,9 +591,9 @@ void mousePassiveFunc(int x, int y)
 	//glTranslatef(-translationX, -translationY, -translationZ);
     game.checkSunHoveringStatus(x, y);
 	currentHoveredSquare=game.checkSquareHoveringStatus(x, y);
-	std::cout << currentHoveredSquare << std::endl;
+	//std::cout << currentHoveredSquare << std::endl;
 	//Collect sun or plant preselected plant
-	nbSun = +game.selectSun();
+	nbSun += game.selectSun();
 
 }
 
