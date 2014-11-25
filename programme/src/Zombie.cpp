@@ -141,6 +141,7 @@ void Zombie::draw(GLuint texture[]) {
         //head
         glPushMatrix();
         glColor3f(1, 1, 1);
+        glScalef(0.8, 1, 0.8);
         glRotatef(-90, 1, 0, 0);
 
         glRotatef(-90, 0, 0, 1);
@@ -154,7 +155,7 @@ void Zombie::draw(GLuint texture[]) {
         glTranslatef(0, 5, 0);
         glPushMatrix();
             glTranslatef(0, -40, 0);
-            glScalef(1, 2, 1);
+            glScalef(1, 2, 1.5);
             drawCube(20);
         glPopMatrix();
 

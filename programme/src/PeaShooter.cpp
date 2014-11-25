@@ -43,6 +43,16 @@ std::string PeaShooter::getType() {
 }
 
 void PeaShooter::draw(GLuint texture[]) {
+    GLUquadric* leavesquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *peaface = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    
+    glBindTexture(GL_TEXTURE_2D, texture[9]);
+    gluQuadricTexture(peaface,1);
+
+    int slices = 10;
+    int stacks = 10;
+    int r = 10;
+    
     glPushMatrix();
     glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
     glColor3f(0.5, 1, 0);
@@ -53,9 +63,11 @@ void PeaShooter::draw(GLuint texture[]) {
     glTranslatef(-10, -5, 0);
     glPushMatrix();
     glScalef(1, 0.9, 1);
-    gluSphere(gluNewQuadric(), 30, 20, 20);
+    gluSphere(peaface, 30, 20, 20);
     glPopMatrix();
 
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
+    gluQuadricTexture(leavesquad,1);
     glColor3f(0, 1, 0);
     //back head leaf
     glPushMatrix();
@@ -67,15 +79,22 @@ void PeaShooter::draw(GLuint texture[]) {
     for (int j=0;j<10; j++) {
         for (int i=0;i<10;i++) {
             glBegin(GL_QUADS);
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
             glEnd();
         }
     }
     glPopMatrix();
     
+    
+    glBindTexture(GL_TEXTURE_2D, texture[1]);
+    gluQuadricTexture(stemquad,1);
     //mouth 1
         glPushMatrix();
         glColor3f(0.5, 1, 0);
@@ -89,30 +108,34 @@ void PeaShooter::draw(GLuint texture[]) {
         glColor3f(0.5, 1, 0);
         glTranslatef(20, 0, 0);
         glRotatef(90, 0, 1, 0);
-        gluCylinder(gluNewQuadric(), 10, 20, 30, 20, 20);
+        gluCylinder(stemquad, 10, 20, 30, 20, 20);
         glColor3f(0, 0, 0);
-        gluCylinder(gluNewQuadric(), 10, 16, 30, 20, 20);
+        gluCylinder(stemquad, 10, 16, 30, 20, 20);
         glTranslatef(0, 0, 10);
-        gluSphere(gluNewQuadric(), 12, 20, 20);
+        gluSphere(stemquad, 12, 20, 20);
         glPopMatrix();
     //mouth3
         glColor3f(0.5, 1, 0);
         glPushMatrix();
         glTranslatef(32, 0, 0);
         glRotatef(-90, 0, 1, 0);
-        gluCylinder(gluNewQuadric(), 10, 20, 10, 20, 20);
+        gluCylinder(stemquad, 10, 20, 10, 20, 20);
         glPopMatrix();
     
     glPopMatrix();
     
+
     //stem
     glTranslatef(0, -52, 0);
     glColor3f(0, 1, 0);
     glPushMatrix();
     glTranslatef(-10, 25, 0);
     glRotatef(90, 1, 0, 0);
-    gluCylinder(gluNewQuadric(), 5, 5, 50, 20, 20);
+    gluCylinder(stemquad, 5, 5, 50, 20, 20);
     glPopMatrix();
+    
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
+    gluQuadricTexture(leavesquad,1);
     
     //leaves
     glPushMatrix();
@@ -123,10 +146,14 @@ void PeaShooter::draw(GLuint texture[]) {
     for (int j=0;j<10; j++) {
         for (int i=0;i<10;i++) {
             glBegin(GL_QUADS);
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
             glEnd();
         }
     }
@@ -141,10 +168,14 @@ void PeaShooter::draw(GLuint texture[]) {
     for (int j=0;j<10; j++) {
         for (int i=0;i<10;i++) {
             glBegin(GL_QUADS);
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
             glEnd();
         }
     }
@@ -159,10 +190,14 @@ void PeaShooter::draw(GLuint texture[]) {
     for (int j=0;j<10; j++) {
         for (int i=0;i<10;i++) {
             glBegin(GL_QUADS);
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
             glEnd();
         }
     }
@@ -177,14 +212,20 @@ void PeaShooter::draw(GLuint texture[]) {
     for (int j=0;j<10; j++) {
         for (int i=0;i<10;i++) {
             glBegin(GL_QUADS);
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
             glEnd();
         }
     }
     glPopMatrix();
+    
+    glDisable(GL_TEXTURE_2D);
     
     glPopMatrix();
 }

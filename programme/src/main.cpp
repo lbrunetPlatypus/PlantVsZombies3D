@@ -210,6 +210,59 @@ void loadExternalTextures(string file, GLuint &texture)
 //	return sqrt(x * x + y * y + z * z);
 //}
 //
+//write a string on the viewport
+void writeBitmapString(string string)
+{
+    for (int i=0; i<string.length() ; i++) {
+        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, string[i]);
+    }
+}
+
+void drawPlayerViewport(){
+    string fps = "player score";
+    glViewport(0, 9*height/10, width, height/10);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glOrtho(-1, 1, -1, 1, 1, 1);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glColor3f(0, 0, 0);
+    glRasterPos2d(-1, 0);
+    writeBitmapString("Plant selection :");
+    if (plantSelection == 1) {
+        glPushMatrix();
+            glTranslatef(-0.4, -1, 0);
+            glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
+            PeaShooter peashooter;
+            peashooter.draw(texture);
+        glPopMatrix();
+    }
+    else if (plantSelection == 2){
+        glPushMatrix();
+            glTranslatef(-0.4, -1, 0);
+            glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
+            SunPlant sunplant;
+            glRotatef(-90, 0, 1, 0);
+            sunplant.draw(texture);
+        glPopMatrix();
+    }
+    glColor3f(0, 0, 0);
+    glRasterPos2d(0, 0);
+    writeBitmapString("Sun : " + std::to_string(nbSun));
+    glRasterPos2f(0.5, 0);
+    glPushMatrix();
+        glTranslatef(0.4, -1, 0);
+        glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
+        Zombie zombie;
+        glRotatef(180, 0, 1, 0);
+        zombie.draw(texture);
+    glPopMatrix();
+    writeBitmapString(" X " + std::to_string(game.getZombiesList().size() + zombiesList.size()));
+    glPopMatrix();
+    
+}
+
 void pos(double *px, double *py, double *pz, const int x, const int y,
          const int *viewport)
 {
@@ -231,19 +284,6 @@ void pos(double *px, double *py, double *pz, const int x, const int y,
 // OpenGL window reshape routine.
 void reshape(int w, int h)
 {
-    glViewport(0, 0, w, h);
-    _top = 1.0;
-    _bottom = -1.0;
-    _left = -(double)w / (double)h;
-    _right = -_left;
-    
-    
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    /* glOrtho(_left,_right,_bottom,_top,_zNear,_zFar);  Ortho */
-    gluPerspective(fovy, (double)w / (double)h, windowNear, windowFar);	/* PErspective for stereo */
-    
-    glMatrixMode(GL_MODELVIEW);
     width = w;
     height = h;
 }
@@ -281,30 +321,15 @@ void DrawGrid()
 	glEnd();
 }
 
-void PlayerBarViewport(){
-	glViewport(0, 0, 9 * windowWidth / 10, windowHeight / 10);
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(0, windowWidth, 0, windowHeight / 10);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-	glColor3f(0, 1, 0);
-	glRasterPos2d(0, 0);
-	glutSolidCube(1);
-	//writeBitmapString("Frame per second : " + std::to_string(period * 1000));
-	glPopMatrix();
-
-}
 void display()
 {
 	std::cout <<"__________nbSun    "<< nbSun << std::endl;
-	
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, width, 9*height/10);
     glMatrixMode(GL_PROJECTION);
+
     glLoadIdentity();
+    glPushMatrix();
+
     gluPerspective(fovy, windowWidth / windowHeight, windowNear, windowFar);
     
     
@@ -337,15 +362,17 @@ void display()
 
 	DrawGrid();
     game.draw(texture);
-    //game.getSunList().at(game.getSunList().size()-1).draw();
+    glPopMatrix();
     
-	PlayerBarViewport();
+    //game.getSunList().at(game.getSunList().size()-1).draw();
     
     
     
     
     glDisable(GL_DEPTH_TEST); // Disable depth testing.
-	
+
+    drawPlayerViewport();
+
     
     glFlush();
 	
@@ -366,6 +393,7 @@ void setup(void)
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombiearm.bmp", texture[6]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg.bmp", texture[7]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg2.bmp", texture[8]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/stem1.bmp", texture[9]);
 #elif _WIN32
     loadExternalTextures("..\\..\\img\\leaves.bmp", texture[0]);
     loadExternalTextures("..\\..\\img\\stem.bmp", texture[1]);
@@ -376,6 +404,7 @@ void setup(void)
     loadExternalTextures("..\\..\\img\\zombiearm.bmp", texture[6]);
     loadExternalTextures("..\\..\\img\\zombieleg.bmp", texture[7]);
     loadExternalTextures("..\\..\\img\\zombieleg2.bmp", texture[8]);
+    loadExternalTextures("..\\..\\img\\stem1.bmp", texture[9]);
 #endif
 
     

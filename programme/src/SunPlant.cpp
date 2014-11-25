@@ -45,6 +45,10 @@ void SunPlant::draw(GLuint texture[]) {
     int nPetals = 20;
     int petalLength = 10;
     int sunRadius = 40;
+    int slices = 10;
+    int stacks = 10;
+    int r = 10;
+
     GLUquadric* leavesquad = gluNewQuadric(), *petalsquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *flowerQuad = gluNewQuadric();
     
     
@@ -112,21 +116,20 @@ void SunPlant::draw(GLuint texture[]) {
     
     glTranslatef(-5, -25, 15);
     glRotatef(-90, 1, 0, 0);
-    for (int j=0;j<10; j++) {
-        for (int i=0;i<10;i++) {
+    for (int i=0; i<slices; i++) {
+        for (int j=0; j<stacks; j++) {
             glBegin(GL_QUADS);
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
-            glEnd();        }
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glEnd();
+        }
+
     }
     glPopMatrix();
     
@@ -136,73 +139,67 @@ void SunPlant::draw(GLuint texture[]) {
     
     glTranslatef(-5, -25, 15);
     glRotatef(-90, 1, 0, 0);
-    for (int j=0;j<10; j++) {
-        for (int i=0;i<10;i++) {
+    for (int i=0; i<slices; i++) {
+        for (int j=0; j<stacks; j++) {
             glBegin(GL_QUADS);
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
             glEnd();
         }
     }
+
     glPopMatrix();
-    
+
     glRotatef(90, 0, 1, 0);
     glPushMatrix();
     glScalef(1.5, 1, 1);
     
     glTranslatef(-5, -25, 15);
     glRotatef(-90, 1, 0, 0);
-    for (int j=0;j<10; j++) {
-        for (int i=0;i<10;i++) {
+    for (int i=0; i<slices; i++) {
+        for (int j=0; j<stacks; j++) {
             glBegin(GL_QUADS);
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
             glEnd();
         }
     }
+
     glPopMatrix();
     glRotatef(90, 0, 1, 0);
-    
+
     glPushMatrix();
     glScalef(1.5, 1, 1);
     
     glTranslatef(-5, -25, 15);
     glRotatef(-90, 1, 0, 0);
-    for (int j=0;j<10; j++) {
-        for (int i=0;i<10;i++) {
+    for (int i=0; i<slices; i++) {
+        for (int j=0; j<stacks; j++) {
             glBegin(GL_QUADS);
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos(i*PI/10)*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*2*sin((j+1)*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j+1)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j+1)*2*PI/stacks), r*sin((i+1)*PI/slices));
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*2*PI/10), 0.5+0.5*cos((i+1)*PI/10)*sin(j*2*PI/10));
+            glVertex3f(r*cos((i+1)*PI/slices)*cos((j)*2*PI/stacks), 20*cos((i+1)*PI/slices)*sin((j)*2*PI/stacks), r*sin((i+1)*PI/slices));
             glEnd();
         }
     }
+
     glPopMatrix();
 
     glDisable(GL_TEXTURE_2D);
