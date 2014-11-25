@@ -322,6 +322,8 @@ void display()
 
 void setup(void)
 {
+    
+#ifdef __APPLE__
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/leaves.bmp", texture[0]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/stem.bmp", texture[1]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/coeur.bmp", texture[2]);
@@ -331,7 +333,19 @@ void setup(void)
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombiearm.bmp", texture[6]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombieleg.bmp", texture[7]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombieleg2.bmp", texture[8]);
+#elif _WIN32
+    loadExternalTextures("..\img\leaves.bmp", texture[0]);
+    loadExternalTextures("..\img\stem.bmp", texture[1]);
+    loadExternalTextures("..\img\coeur.bmp", texture[2]);
+    loadExternalTextures("..\img\petals.bmp", texture[3]);
+    loadExternalTextures("..\img\zombieface.bmp", texture[4]);
+    loadExternalTextures("..\img\zombiebody.bmp", texture[5]);
+    loadExternalTextures("..\img\zombiearm.bmp", texture[6]);
+    loadExternalTextures("..\img\zombieleg.bmp", texture[7]);
+    loadExternalTextures("..\img\zombieleg2.bmp", texture[8]);
+#endif
 
+    
     glClearColor (1, 1, 1, 0.0);
     glShadeModel(GL_SMOOTH);
 }
