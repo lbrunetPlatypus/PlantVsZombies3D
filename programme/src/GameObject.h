@@ -22,7 +22,7 @@ class GameObject {
 	Position getPosition();
     Gameboard* getGameboard();
     void setGameboard(Gameboard* _gameboard);
-    virtual void draw();
+    virtual void draw(GLuint texture[]);
 };
 
 struct Vec3

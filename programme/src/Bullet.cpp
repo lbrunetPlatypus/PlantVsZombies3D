@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-void Bullet::draw() {
+void Bullet::draw(GLuint texture[]) {
     glPushMatrix();
     glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
     glColor3f(0.6, 0.6, 0);

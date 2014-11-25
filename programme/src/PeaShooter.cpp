@@ -41,7 +41,7 @@ std::string PeaShooter::getType() {
     return "PEASHOOTER";
 }
 
-void PeaShooter::draw() {
+void PeaShooter::draw(GLuint texture[]) {
     glPushMatrix();
     glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
     glColor3f(0.5, 1, 0);

@@ -32,7 +32,7 @@ void Sun::setIsHovered(bool status){
 	isHovered = status;
 }
 
-void Sun::draw() {
+void Sun::draw(GLuint texture[]) {
     glPushMatrix();
     glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
     glTranslatef(0, 20, 0);

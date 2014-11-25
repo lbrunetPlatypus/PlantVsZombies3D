@@ -131,7 +131,7 @@ bool Zombie::takeDamages(int nbDamages){
 	
 }
 
-void Zombie::draw() {
+void Zombie::draw(GLuint texture[]) {
     
     glPushMatrix();
         glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());

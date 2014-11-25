@@ -97,12 +97,12 @@ void Gameboard::deleteObject(int squareId){
 
 
 
-void Gameboard::draw() {
+void Gameboard::draw(GLuint texture[]) {
     for (int i=0; i<squaresList.size(); i++) {
         squaresList[i].draw();
         if (squaresList.at(i).getPlant() != nullptr) {
             if ((squaresList.at(i).getPlant())->getHp() > 0) {
-                squaresList.at(i).getPlant()->draw();
+                squaresList.at(i).getPlant()->draw(texture);
             }else {
                 squaresList.at(i).setPlant(nullptr);
             }
@@ -112,7 +112,7 @@ void Gameboard::draw() {
         if (zombiesList[j]->takeDamages(0)) {
             zombiesList.erase(zombiesList.begin()+j);
         } else {
-            zombiesList[j]->draw();            
+            zombiesList[j]->draw(texture);
         }
     }
     
@@ -124,7 +124,7 @@ void Gameboard::draw() {
         if (j<zombiesList.size()-1 || bulletsList.at(k).getPosition().getX()>sizeX*BoardSquare::size) {
             bulletsList.erase(bulletsList.begin() + k);
         }else {
-            bulletsList.at(k).draw();
+            bulletsList.at(k).draw(texture);
         }
     }
     
@@ -132,7 +132,7 @@ void Gameboard::draw() {
 	UpdateSunScreenCoordinate();
     for (int l=0; l<sunList.size(); l++) {
         if (sunList[l].getDespawn() > 0) {
-            sunList[l].draw();
+            sunList[l].draw(texture);
         }
         else {
             sunList.erase(sunList.begin()+l);

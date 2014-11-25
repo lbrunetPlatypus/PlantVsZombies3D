@@ -7,7 +7,7 @@ class Bullet : public GameObject{
     private :
     
     public :
-    void draw();
+    void draw(GLuint texture[]);
     void move();
     bool checkCollision(Zombie& zombie);
 };

@@ -37,49 +37,51 @@ std::string SunPlant::getType() {
     return "SUNPLANT";
 }
 
-void SunPlant::draw() {
+void SunPlant::draw(GLuint texture[]) {
     int nPetals = 20;
     int petalLength = 10;
     int sunRadius = 40;
+    GLUquadric* leavesquad = gluNewQuadric(), *petalsquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *flowerQuad = gluNewQuadric();
+    
     glPushMatrix();
     glTranslatef(getPosition().getX(), 30, getPosition().getZ());
     glColor3f(1, 1, 0);
     
+    //draw petals
+    glPushMatrix();
+    glTranslatef(0, 50, 0);
+    glScalef(1, 0.7, 1);
+    for (int i=0; i<nPetals; i++) {
+        glPushMatrix();
+        glTranslatef(0, (sunRadius+petalLength/2)*cos(i*(2*PI/nPetals)), (sunRadius+petalLength/2)*sin(i*(2*PI/nPetals)));
+        glRotatef(i*(360/nPetals), 1, 0, 0);
+        glScalef(5, petalLength, 2*PI*sunRadius/nPetals/1.5);
+        gluSphere(petalsquad, 1, 20, 20);
+        glPopMatrix();
+    }
+    
+    glColor3f(0, 1, 0);
     
     glPushMatrix();
-        glTranslatef(0, 50, 0);
-        glScalef(1, 0.7, 1);
-        for (int i=0; i<nPetals; i++) {
-            glPushMatrix();
-            glTranslatef(0, (sunRadius+petalLength/2)*cos(i*(2*PI/nPetals)), (sunRadius+petalLength/2)*sin(i*(2*PI/nPetals)));
-            glRotatef(i*(360/nPetals), 1, 0, 0);
-            glScalef(5, petalLength, 2*PI*sunRadius/nPetals/1.5);
-            gluSphere(gluNewQuadric(), 1, 20, 20);
-            glPopMatrix();
-        }
+    glTranslatef(-5, 0, 0);
+    glScalef(0.33, 1, 1);
+    gluSphere(gluNewQuadric(), sunRadius, 20, 20);
+    glPopMatrix();
     
-        glColor3f(0, 1, 0);
-
-        glPushMatrix();
-        glTranslatef(-5, 0, 0);
-        glScalef(0.33, 1, 1);
-        gluSphere(gluNewQuadric(), sunRadius, 20, 20);
-        glPopMatrix();
+    glColor3f(0.55, 0.27, 0);
     
-        glColor3f(0.55, 0.27, 0);
-
-        glPushMatrix();
-            glScalef(0.33, 1, 1);
-            gluSphere(gluNewQuadric(), sunRadius, 20, 20);
-        glPopMatrix();
-        
+    glPushMatrix();
+    glScalef(0.33, 1, 1);
+    gluSphere(gluNewQuadric(), sunRadius, 20, 20);
+    glPopMatrix();
+    
     glPopMatrix();
     
     glColor3f(0, 1, 0);
     glPushMatrix();
     glTranslatef(-10, 25, 0);
-        glRotatef(90, 1, 0, 0);
-        gluCylinder(gluNewQuadric(), 5, 5, 50, 20, 20);
+    glRotatef(90, 1, 0, 0);
+    gluCylinder(gluNewQuadric(), 5, 5, 50, 20, 20);
     glPopMatrix();
     
     
@@ -136,7 +138,7 @@ void SunPlant::draw() {
     }
     glPopMatrix();
     glRotatef(90, 0, 1, 0);
-
+    
     glPushMatrix();
     glScalef(1.5, 1, 1);
     

@@ -14,7 +14,7 @@ class PeaShooter : public Plant{
     void setAttackPoint(int ap);
     void detectZombie();
     std::string getType();
-    void draw();
+    void draw(GLuint texture[]);
     Bullet shoot();
 };
 #endif

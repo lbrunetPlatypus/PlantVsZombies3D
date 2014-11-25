@@ -6,6 +6,7 @@
 #include "PeaShooter.h"
 #include "Gameboard.h"
 #include "BoardSquare.h"
+#include "getbmp.h"
 
 #ifdef __APPLE__
 #include "GLUT/glut.h"
@@ -73,6 +74,10 @@ bool updatePos = false;
 double prevMousePosx;
 double prevMousePosy;
 bool mouseInit = false;
+
+
+//textures !
+GLuint texture[5];
 
 //
 //void invertMatrix(const GLdouble * m, GLdouble * out)
@@ -255,7 +260,7 @@ void display()
     
     //glTranslatef(-xHelicopter, 0, -yHelicopter);
     //draw the scene with its component.
-    game.draw();
+    game.draw(texture);
     
     //game.getSunList().at(game.getSunList().size()-1).draw();
     
@@ -274,9 +279,9 @@ void display()
 
 void setup(void)
 {
-    
+
     glClearColor (1, 1, 1, 0.0);
-    
+    glShadeModel(GL_SMOOTH);
 }
 
 
