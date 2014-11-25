@@ -308,8 +308,8 @@ void Gameboard::UpdateSquareScreenCoordinate(){
 	for (unsigned i = 0; i < squaresList.size(); i++)
 	{
 		// attention x correspond aux colonnes (sizez) et y au ligne (sizex...
-		int posX = (int)squaresList[i].getZ()* 100 + 50;
-		int posZ = (int)squaresList[i].getX() * 100 + 50;
+		int posX = (int)squaresList[i].getX()* 100 + 50;
+		int posZ = (int)squaresList[i].getZ() * 100 + 50;
 		gluProject(posX, 0, posZ,
 			modelview, projection, viewport,
 			&winX, &winY, &winZ);
