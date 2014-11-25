@@ -44,8 +44,8 @@ Bullet bullet;
 // Plants table
 vector<PeaShooter> peaShootersList;
 vector<SunPlant> sunPlantsList;
-int plantSelection = 0;
-
+int compteurPlant = 0;
+int plantSelection = 0; //1 for peas 2 for sun
 // Player Info
 
 
@@ -390,17 +390,12 @@ void keyboard(unsigned char key, int x, int y)
         case 27:
             exit(0);
             break;
-        case 's': {
-            sunPlantsList.push_back(SunPlant());
-            int square;
-            game.addPlant(&sunPlantsList[plantSelection], plantSelection);
-            break;}
-        case 'p': {
-            peaShootersList.push_back(PeaShooter());
-            int square;
-            game.addPlant(&peaShootersList[plantSelection], plantSelection);
-            plantSelection++;
-            break;}
+        case '1':
+            plantSelection=1 ;
+            break;
+        case '2':
+            plantSelection=2;
+            break;
         default:
             
             break;
@@ -408,6 +403,24 @@ void keyboard(unsigned char key, int x, int y)
     }
     glutPostRedisplay();
 }
+
+void keyboardUp (unsigned char key, int x, int y) {
+    switch(key)
+    {
+        case '1':
+            plantSelection=0;
+            break;
+        case '2':
+            plantSelection=0;
+            break;
+        default:
+            
+            break;
+            
+    }
+    glutPostRedisplay(); // Set the state of the current key to not pressed
+}
+
 //
 //void getMatrix()
 //{
@@ -454,8 +467,15 @@ void Mouse(int button, int state, int x, int y)
         switch (button) {
             case GLUT_LEFT_BUTTON:
 				if (currentHoveredSquare != -1){
-					game.addPlant(&peaShootersList[plantSelection], currentHoveredSquare);
-					plantSelection = +1;
+                    if (plantSelection == 1) {
+                        game.addPlant(&peaShootersList[compteurPlant], currentHoveredSquare);
+                        compteurPlant += 1;
+                    }
+                    else if (plantSelection ==2) {
+                        game.addPlant(&sunPlantsList[compteurPlant], currentHoveredSquare);
+                        compteurPlant += 1;
+                    }
+					
 				}
                 _mouseLeft = true;
                 //std::cout << "mouse left" << std::endl;
@@ -597,6 +617,7 @@ int main(int argc, char **argv)
     glutMotionFunc(mouseMoveEvent);
    
     glutKeyboardFunc(keyboard);
+    glutKeyboardUpFunc(keyboardUp);
     glutSpecialFunc(specialKey);
     
     glEnable(GL_COLOR_MATERIAL);
