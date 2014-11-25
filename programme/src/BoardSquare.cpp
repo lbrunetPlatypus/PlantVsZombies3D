@@ -1,34 +1,25 @@
-#include "BoardSquare.h"	
-
-BoardSquare::BoardSquare(){
-	id = 0;
-	x = 0;
-	z = 0;
-
-}
+#include "BoardSquare.h"
 
 BoardSquare::BoardSquare(int _x, int _z, int _id){
 	id = _id;
 	x = _x;
 	z = _z;
-    //object = nullptr;
 	plant = nullptr;
 }
 
-//void BoardSquare::setObject(GameObject* _object){
-//	//set object position at the same time?
-//	object = _object;
-//}
 void BoardSquare::setX(int _x){
 	x = _x;
 }
+
 void BoardSquare::setZ(int _z){
 	z = _z;
 }
+
 void BoardSquare::set2DPosition(int _x, int _z){
 	x = _x;
 	z = _z;
 }
+
 void BoardSquare::setId(int _id){
 	id = _id;
 }
@@ -36,15 +27,15 @@ void BoardSquare::setId(int _id){
 int BoardSquare::getX(){
 	return x;
 }
+
 int BoardSquare::getZ(){
 	return z;
 }
+
 Position BoardSquare::get2DPosition(){
 	return Position(x, 0, z);
 }
-//GameObject* BoardSquare::getObject(){
-//	return object;
-//}
+
 int BoardSquare::getId(){
 	return id;
 }
@@ -58,30 +49,35 @@ void BoardSquare::setPlant(Plant* _plant){
 	plant=_plant;
 }
 
-void BoardSquare::draw() {
+void BoardSquare::draw(GLuint texture[]) {
     glPushMatrix();
-    glColor3f(0, 0.6, 0);
-    glBegin(GL_QUADS);
-    glVertex3f(x*size, 0, z*size);
-    glVertex3f((x+1)*size, 0, z*size);
-    glVertex3f((x+1)*size, 0, (z+1)*size);
-    glVertex3f(x*size, 0, (z+1)*size);
-    glEnd();
-    glColor3f(0.55, 0.27, 0);
-    glTranslatef((x+0.5)*size, -size/2-1, (z+0.5)*size);
-    glutSolidCube(size);
+        //draw grass
+        glColor3f(0, 0.6, 0);
+        glBegin(GL_QUADS);
+            glVertex3f(x*size, 0, z*size);
+            glVertex3f((x+1)*size, 0, z*size);
+            glVertex3f((x+1)*size, 0, (z+1)*size);
+            glVertex3f(x*size, 0, (z+1)*size);
+        glEnd();
+        //draw ground cube
+        glColor3f(0.55, 0.27, 0);
+        glTranslatef((x+0.5)*size, -size/2-1, (z+0.5)*size);
+        glutSolidCube(size);
     glPopMatrix();
 }
 
 float BoardSquare::getScreenCoordX(){
 	return BoardSquare::screenCoordX;
 }
+
 float BoardSquare::getScreenCoordY(){
 	return BoardSquare::screenCoordY;
 }
+
 void BoardSquare::setScreencoordX(float _screenCoordX){
 	screenCoordX = _screenCoordX;
 }
+
 void BoardSquare::setScreencoordY(float _screenCoordY){
 	screenCoordY = _screenCoordY;
 }
@@ -89,6 +85,7 @@ void BoardSquare::setScreencoordY(float _screenCoordY){
 bool BoardSquare::getIsHovered(){
 	return BoardSquare::isHovered;
 }
+
 void BoardSquare::setIsHovered(bool status){
 	isHovered = status;
 }

@@ -8,20 +8,15 @@
 #include "Gl/glut.h"
 #endif
 
-class Gameboard;
-
 class GameObject {
     
     private :
     Position position;
-    Gameboard* gameboard;
     
     public :
     GameObject();
     void setPosition(Position newPosition);
 	Position getPosition();
-    Gameboard* getGameboard();
-    void setGameboard(Gameboard* _gameboard);
     virtual void draw(GLuint texture[]);
 };
 
