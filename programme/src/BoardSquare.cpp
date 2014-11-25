@@ -50,23 +50,11 @@ void BoardSquare::setPlant(Plant* _plant){
 
 void BoardSquare::draw(GLuint texture[]) {
     glPushMatrix();
-<<<<<<< HEAD
-    glColor3f(0, 0.6, 0);
-	if (isHovered){
-		glColor3f(0, 0.9, 0);
-	}
-    glBegin(GL_QUADS);
-    glVertex3f(x*size, 0, z*size);
-    glVertex3f((x+1)*size, 0, z*size);
-    glVertex3f((x+1)*size, 0, (z+1)*size);
-    glVertex3f(x*size, 0, (z+1)*size);
-    glEnd();
-    glColor3f(0.55, 0.27, 0);
-    glTranslatef((x+0.5)*size, -size/2-1, (z+0.5)*size);
-    glutSolidCube(size);
-=======
         //draw grass
         glColor3f(0, 0.6, 0);
+		if (isHovered){
+			glColor3f(0, 0.9, 0);
+		}
         glBegin(GL_QUADS);
             glVertex3f(x*size, 0, z*size);
             glVertex3f((x+1)*size, 0, z*size);
@@ -77,7 +65,7 @@ void BoardSquare::draw(GLuint texture[]) {
         glColor3f(0.55, 0.27, 0);
         glTranslatef((x+0.5)*size, -size/2-1, (z+0.5)*size);
         glutSolidCube(size);
->>>>>>> origin/master
+
     glPopMatrix();
 }
 
