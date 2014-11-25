@@ -43,10 +43,14 @@ void SunPlant::draw(GLuint texture[]) {
     int sunRadius = 40;
     GLUquadric* leavesquad = gluNewQuadric(), *petalsquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *flowerQuad = gluNewQuadric();
     
+    
+
     glPushMatrix();
     glTranslatef(getPosition().getX(), 30, getPosition().getZ());
     glColor3f(1, 1, 0);
-    
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[3]);
+    gluQuadricTexture(petalsquad,1);
     //draw petals
     glPushMatrix();
     glTranslatef(0, 50, 0);
@@ -60,31 +64,69 @@ void SunPlant::draw(GLuint texture[]) {
         glPopMatrix();
     }
     
+
+
+    glBindTexture(GL_TEXTURE_2D, texture[2]);
+    gluQuadricTexture(flowerQuad,1);
+
+    glColor3f(0.55, 0.27, 0);
+    
+    glPushMatrix();
+    glScalef(0.33, 1, 1);
+    gluSphere(flowerQuad, sunRadius, 20, 20);
+    glPopMatrix();
+
+    
+    glBindTexture(GL_TEXTURE_2D, texture[1]);
+    gluQuadricTexture(stemquad,1);
     glColor3f(0, 1, 0);
     
     glPushMatrix();
     glTranslatef(-5, 0, 0);
     glScalef(0.33, 1, 1);
-    gluSphere(gluNewQuadric(), sunRadius, 20, 20);
+    gluSphere(stemquad, sunRadius, 20, 20);
     glPopMatrix();
     
-    glColor3f(0.55, 0.27, 0);
-    
-    glPushMatrix();
-    glScalef(0.33, 1, 1);
-    gluSphere(gluNewQuadric(), sunRadius, 20, 20);
-    glPopMatrix();
+
     
     glPopMatrix();
-    
     glColor3f(0, 1, 0);
+    
     glPushMatrix();
     glTranslatef(-10, 25, 0);
     glRotatef(90, 1, 0, 0);
-    gluCylinder(gluNewQuadric(), 5, 5, 50, 20, 20);
+    gluCylinder(stemquad, 5, 5, 50, 20, 20);
     glPopMatrix();
     
     
+    //draw Leaves
+    glPushMatrix();
+    glScalef(1.5, 1, 1);
+    
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
+    gluQuadricTexture(leavesquad,1);
+    
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();        }
+    }
+    glPopMatrix();
+    
+    glRotatef(90, 0, 1, 0);
     glPushMatrix();
     glScalef(1.5, 1, 1);
     
@@ -93,9 +135,16 @@ void SunPlant::draw(GLuint texture[]) {
     for (int j=0;j<10; j++) {
         for (int i=0;i<10;i++) {
             glBegin(GL_QUADS);
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
             glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
             glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
             glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
             glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
             glEnd();
         }
@@ -111,27 +160,16 @@ void SunPlant::draw(GLuint texture[]) {
     for (int j=0;j<10; j++) {
         for (int i=0;i<10;i++) {
             glBegin(GL_QUADS);
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
             glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
             glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
             glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
-            glEnd();
-        }
-    }
-    glPopMatrix();
-    
-    glRotatef(90, 0, 1, 0);
-    glPushMatrix();
-    glScalef(1.5, 1, 1);
-    
-    glTranslatef(-5, -25, 15);
-    glRotatef(-90, 1, 0, 0);
-    for (int j=0;j<10; j++) {
-        for (int i=0;i<10;i++) {
-            glBegin(GL_QUADS);
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
             glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
             glEnd();
         }
@@ -147,14 +185,23 @@ void SunPlant::draw(GLuint texture[]) {
     for (int j=0;j<10; j++) {
         for (int i=0;i<10;i++) {
             glBegin(GL_QUADS);
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
             glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
             glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
             glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
             glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
             glEnd();
         }
     }
     glPopMatrix();
+
+    glDisable(GL_TEXTURE_2D);
 
     glPopMatrix();
 }

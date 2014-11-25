@@ -77,8 +77,23 @@ bool mouseInit = false;
 
 
 //textures !
-GLuint texture[5];
+GLuint texture[15];
 
+// Read a texture map from a BMP bitmap file.
+void loadExternalTextures(string file, GLuint &texture)
+{
+    BitMapFile *image;
+    image = getbmp(file);
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->sizeX, image->sizeY, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, image->data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    
+}
 //
 //void invertMatrix(const GLdouble * m, GLdouble * out)
 //{
@@ -261,7 +276,35 @@ void display()
     //glTranslatef(-xHelicopter, 0, -yHelicopter);
     //draw the scene with its component.
     game.draw(texture);
-    
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
+    GLUquadric *leavesquad = gluNewQuadric();
+    gluQuadricTexture(leavesquad,1);
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glScalef(1.5, 1, 1);
+    glTranslatef(-5, -25, 15);
+    glRotatef(-90, 1, 0, 0);
+    for (int j=0;j<10; j++) {
+        for (int i=0;i<10;i++) {
+            glBegin(GL_QUADS);
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
+            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
+            
+            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
+            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
+            glEnd();
+        }
+    }
+    glPopMatrix();
+
+    glDisable(GL_TEXTURE_2D);
     //game.getSunList().at(game.getSunList().size()-1).draw();
     
     
@@ -279,6 +322,15 @@ void display()
 
 void setup(void)
 {
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/leaves.bmp", texture[0]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/stem.bmp", texture[1]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/coeur.bmp", texture[2]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/petals.bmp", texture[3]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombieface.bmp", texture[4]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombiebody.bmp", texture[5]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombiearm.bmp", texture[6]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombieleg.bmp", texture[7]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombieleg2.bmp", texture[8]);
 
     glClearColor (1, 1, 1, 0.0);
     glShadeModel(GL_SMOOTH);
