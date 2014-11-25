@@ -23,7 +23,8 @@ static GLfloat Xangle = 5.0, Yangle = 0.0; // Angles to rotate
 static GLfloat translationX ;
 static GLfloat translationY;
 static GLfloat translationZ; //to zoom in/out the scene
-
+static int nbSun = 0;
+static int currentHoveredSquare = -1;
 //static GLfloat Z = 700.0; //position on Z-axis
 static GLfloat windowWidth = 1000.0, windowHeight = 1000.0, windowNear = 1.0, windowFar = 4800.0, fovy = 90; //projection parameters
 double _left = 0.0;		/* ortho view volume params */
@@ -243,6 +244,38 @@ void reshape(int w, int h)
     height = h;
 }
 
+void worldAxis(){
+	//world coordinate system Axis shown at (10,10,10)
+	glPushMatrix();
+	glTranslatef(0, 3, 0);
+	glBegin(GL_LINES);
+	glColor3f(1, 0, 0.0);			// red for x axis
+	glVertex3f(0, 0, 0);
+	glVertex3f(600, 0, 0);
+	glColor3f(0, 1, 0.0);				// green for y axis
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 600, 0);
+	glColor3f(0.0, 0.0, 1.0);				// Blue for z axis
+	glVertex3f(0, 0, 600);
+	glEnd();
+	glPopMatrix();
+}
+void DrawGrid()
+{
+	glBegin(GL_LINES);
+	glColor3f(0.75f, 0.75f, 0.75f);
+	for (int i = 0; i <= game.getSizeX(); i++)
+	{
+		glVertex3f((float)i * 100, 0, 0);
+		glVertex3f((float)i * 100, 0, game.getSizeZ() * 100);
+	}
+	for (int i = 0; i <= game.getSizeZ(); i++)
+	{
+		glVertex3f(0, 0, (float)i * 100);
+		glVertex3f(game.getSizeX() * 100, 0, (float)i * 100);
+	}
+	glEnd();
+}
 void display()
 {
     glViewport(0, 0, width, height);
@@ -261,9 +294,11 @@ void display()
     glLoadIdentity();
     //glTranslatef(-200, 0, -200);
     //Centering the scene
-    
+	glPushMatrix();
+	worldAxis();
+	glPopMatrix();
     glTranslatef(translationX, translationY, translationZ);
-    
+ 
     gluLookAt(camPosX, camPosY, camPosZ, lookAtX, lookATY, lookAtZ, 0, 1, 0); //position of the camera
     //glPushMatrix();
     //glTranslatef(-translationX, -translationY, -translationZ);
@@ -275,36 +310,11 @@ void display()
     
     //glTranslatef(-xHelicopter, 0, -yHelicopter);
     //draw the scene with its component.
-    game.draw(texture);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
-    GLUquadric *leavesquad = gluNewQuadric();
-    gluQuadricTexture(leavesquad,1);
-    glPushMatrix();
-    glColor3f(0, 1, 0);
-    glScalef(1.5, 1, 1);
-    glTranslatef(-5, -25, 15);
-    glRotatef(-90, 1, 0, 0);
-    for (int j=0;j<10; j++) {
-        for (int i=0;i<10;i++) {
-            glBegin(GL_QUADS);
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos(j*PI/10), 0.5+0.5*cos(i*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos(j*PI/10), 20*cos(i*PI/10)*sin(j*PI/10), 10*sin(i*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos(j*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos(j*PI/10), 20*cos((i+1)*PI/10)*sin(j*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos((i+1)*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos((i+1)*PI/10)*cos((j+1)*PI/10), 20*cos((i+1)*PI/10)*sin((j+1)*PI/10), 10*sin((i+1)*PI/10));
-            
-            glTexCoord2f(0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10), 0.5+0.5*cos(i*PI/10)*cos((j+1)*PI/10));
-            glVertex3f(10*cos(i*PI/10)*cos((j+1)*PI/10), 20*cos(i*PI/10)*sin((j+1)*PI/10), 10*sin(i*PI/10));
-            glEnd();
-        }
-    }
-    glPopMatrix();
 
-    glDisable(GL_TEXTURE_2D);
+	DrawGrid();
+    game.draw(texture);
+	
+    
     //game.getSunList().at(game.getSunList().size()-1).draw();
     
     
@@ -324,15 +334,15 @@ void setup(void)
 {
     
 #ifdef __APPLE__
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/leaves.bmp", texture[0]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/stem.bmp", texture[1]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/coeur.bmp", texture[2]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/petals.bmp", texture[3]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombieface.bmp", texture[4]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombiebody.bmp", texture[5]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombiearm.bmp", texture[6]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombieleg.bmp", texture[7]);
-    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/src/zombieleg2.bmp", texture[8]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/leaves.bmp", texture[0]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/stem.bmp", texture[1]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/coeur.bmp", texture[2]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/petals.bmp", texture[3]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieface.bmp", texture[4]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombiebody.bmp", texture[5]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombiearm.bmp", texture[6]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg.bmp", texture[7]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg2.bmp", texture[8]);
 #elif _WIN32
     loadExternalTextures("..\img\leaves.bmp", texture[0]);
     loadExternalTextures("..\img\stem.bmp", texture[1]);
@@ -411,6 +421,7 @@ void Mouse(int button, int state, int x, int y)
     _mouseY = y;
     if (state == GLUT_UP)//if no mouse input
     {
+		
         switch (button) {
             case GLUT_LEFT_BUTTON:
                 _mouseLeft = false;
@@ -442,7 +453,10 @@ void Mouse(int button, int state, int x, int y)
     else{//if mouse input
         switch (button) {
             case GLUT_LEFT_BUTTON:
-                //Collect sun or plant preselected plant
+				if (currentHoveredSquare != -1){
+					game.addPlant(&peaShootersList[plantSelection], currentHoveredSquare);
+					plantSelection = +1;
+				}
                 _mouseLeft = true;
                 //std::cout << "mouse left" << std::endl;
                 break;
@@ -520,14 +534,23 @@ void mouseMoveEvent(int x, int y)
 void mousePassiveFunc(int x, int y)
 {
     //std::cout <<"mouse   " << y << std::endl;
+	//glRotatef(-Yangle, 0.0, 1.0, 0.0); //rotation with left/right arrow key
+	//glRotatef(-Xangle, 1.0, 0.0, 0.0); //rotation with up/down arrow key
+	//glTranslatef(-translationX, -translationY, -translationZ);
     game.checkSunHoveringStatus(x, y);
+	currentHoveredSquare=game.checkSquareHoveringStatus(x, y);
+	std::cout << currentHoveredSquare << std::endl;
+	//Collect sun or plant preselected plant
+	nbSun = +game.selectSun();
+
 }
+
 
 void move(int value) {
     //cout << "je pop" << endl;
     //glutPostRedisplay();
     game.UpdateZombies();
-    game.UpdateSuns();
+    //game.UpdateSuns();
     
     game.UpdateBullets();
     glutTimerFunc(100, move, 1);
@@ -542,7 +565,7 @@ void move2(int value) {
         zombiesList.pop_back();
     }
     
-    game.UpdatePlants();
+   game.UpdatePlants();
     
     glutTimerFunc(1000, move2, 1);
     
@@ -566,12 +589,13 @@ int main(int argc, char **argv)
     
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glutPassiveMotionFunc(mousePassiveFunc);
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutMouseFunc(Mouse);
     //glutMouseWheelFunc(MouseWheel);
     glutMotionFunc(mouseMoveEvent);
-    glutPassiveMotionFunc(mousePassiveFunc);
+   
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKey);
     

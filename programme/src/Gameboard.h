@@ -36,6 +36,11 @@ class Gameboard {
     BoardSquare getSquare(Position position);
 	void checkSunHoveringStatus(int x, int y);
 	void UpdateSunScreenCoordinate();
+	int selectSun();
+	int checkSquareHoveringStatus(int x, int y);
+	void UpdateSquareScreenCoordinate();
+
+
 
     void draw(GLuint texture[]);
 	void UpdateZombies();

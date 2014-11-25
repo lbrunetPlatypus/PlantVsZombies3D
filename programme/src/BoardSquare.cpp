@@ -49,9 +49,6 @@ int BoardSquare::getId(){
 	return id;
 }
 
-Vec3 BoardSquare::getScreenCoordinate() {
-    return screenCoordinate;
-}
 
 Plant* BoardSquare::getPlant(){
 	return plant;
@@ -76,12 +73,24 @@ void BoardSquare::draw() {
     glPopMatrix();
 }
 
-void BoardSquare::setHoveringStatus(bool status) {
-    isHovered = status;
+float BoardSquare::getScreenCoordX(){
+	return BoardSquare::screenCoordX;
 }
-bool BoardSquare::getHoveringStatus() {
-    return isHovered;
+float BoardSquare::getScreenCoordY(){
+	return BoardSquare::screenCoordY;
+}
+void BoardSquare::setScreencoordX(float _screenCoordX){
+	screenCoordX = _screenCoordX;
+}
+void BoardSquare::setScreencoordY(float _screenCoordY){
+	screenCoordY = _screenCoordY;
 }
 
+bool BoardSquare::getIsHovered(){
+	return BoardSquare::isHovered;
+}
+void BoardSquare::setIsHovered(bool status){
+	isHovered = status;
+}
 
 

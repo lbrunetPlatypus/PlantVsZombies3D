@@ -13,6 +13,7 @@ class Sun : public GameObject{
     public :
     Sun();
     int getDespawn();
+	void setDespawn(int _despawn);
     void update();
     void draw(GLuint texture[]);
 	float getScreenCoordX();

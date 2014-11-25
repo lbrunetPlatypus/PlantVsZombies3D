@@ -8,6 +8,10 @@ int Sun::getDespawn(){
     return despawn;
 }
 
+void  Sun::setDespawn(int _despawn){
+	despawn = _despawn;
+}
+
 void Sun::update() {
     despawn--;
 }
