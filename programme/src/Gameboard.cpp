@@ -79,7 +79,7 @@ void Gameboard::addSun(Sun sun) {
 }
 
 //add a plant on a square of the gameboard
-void Gameboard::addPlant(Plant* object,int squareId){
+bool Gameboard::addPlant(Plant* object,int squareId){
 	//set object position using the square?
     BoardSquare square = squaresList[squareId];
     //if the sqaure doesn't already have a plant
@@ -88,7 +88,9 @@ void Gameboard::addPlant(Plant* object,int squareId){
         object->setPosition(Position((square.getX()+0.5)*BoardSquare::size, 0, (square.getZ()+0.5)*BoardSquare::size));
         //set plant to the square
         squaresList[squareId].setPlant(object);
+        return true;
     }
+    return false;
 	
 }
 
@@ -335,7 +337,7 @@ void Gameboard::checkSunHoveringStatus(int x, int y)//x, y being the mouse posit
 
 int Gameboard::checkSquareHoveringStatus(int x, int y){
 	double distance = 0.0f;
-	double minDistance = 10.0f;
+	double minDistance = 200.0f;
 	int hovered = -1;
 	for (unsigned i = 0; i < squaresList.size(); i++)
 	{

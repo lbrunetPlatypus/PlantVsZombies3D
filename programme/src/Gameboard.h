@@ -30,7 +30,7 @@ class Gameboard {
     void zombieSpawn(Zombie &zombie);
     void produceSun(Position position);
     void addSun(Sun sun);
-	void addPlant(Plant* object, int squareId);
+	bool addPlant(Plant* object, int squareId);
     void addBullet(Bullet bullet);
     BoardSquare getSquare(Position position);
 	void checkSunHoveringStatus(int x, int y);

@@ -507,16 +507,17 @@ void Mouse(int button, int state, int x, int y)
 				if (currentHoveredSquare != -1){
 					//std::cout << "click"<< std::endl;
                     if (plantSelection == 1 && nbSun>=nbSunPeaShooter) {
-                        game.addPlant(&peaShootersList[compteurPlant], currentHoveredSquare);
-                        compteurPlant += 1;
-						nbSun -= nbSunPeaShooter;
-						
+                        if (game.addPlant(&peaShootersList[compteurPlant], currentHoveredSquare)) {;
+                            compteurPlant += 1;
+                            nbSun -= nbSunPeaShooter;
+                        }
 						//std::cout << compteurPlant << std::endl;
                     }
                     else if (plantSelection ==2 && nbSun>=nbSunSunFlower) {
-                        game.addPlant(&sunPlantsList[compteurPlant], currentHoveredSquare);
-                        compteurPlant += 1;
-						nbSun -= nbSunSunFlower;
+                        if (game.addPlant(&sunPlantsList[compteurPlant], currentHoveredSquare)) {;
+                            compteurPlant += 1;
+                            nbSun -= nbSunSunFlower;
+                        }
                     }
 					else if (plantSelection == 0){
 						nbSun += game.selectSun();
