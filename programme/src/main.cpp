@@ -42,7 +42,7 @@ static GLfloat translationZ; //to zoom in/out the scene
 vector<Zombie> zombiesList; //list of zombie to spawn
 int spawnCooldown = COOLDOWN;
 int sunCooldown = 0;
-Gameboard game(18,10);
+Gameboard game(9,5);
 static int nbSunPeaShooter = 100;
 static int nbSunSunFlower = 50;
 static int currentHoveredSquare = -1;
@@ -331,10 +331,14 @@ void specialKey(int key, int x, int y) {
             Yangle += 5.0f;
             break;
         case GLUT_KEY_UP :		// Rotate on y axis
-            Xangle += 5.0f;
+            if (Xangle < 90) {
+                Xangle += 5.0f;
+            }
             break;
         case GLUT_KEY_DOWN :	// Rotate on y axis
-            Xangle -= 5.0f;
+            if (Xangle > 0) {
+                Xangle -= 5.0f;
+            }
             break;
     }
     glutPostRedisplay();		// Redraw the scene
