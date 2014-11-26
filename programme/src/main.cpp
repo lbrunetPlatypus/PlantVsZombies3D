@@ -486,14 +486,15 @@ void mouseMoveEvent(int x, int y)
     if (dx == 0 && dy == 0)
         return;
     
-    if (_mouseMiddle ) {
-        //zoomIn/out
-        translationZ+= dy;
-        changed = true;
-    }
-    if (_mouseRight) {//on rotate autour de l'obj
-        Yangle += dx;
-        changed = true;
+	if (_mouseMiddle) {
+		//zoomIn/out
+		translationZ += -dy;
+		changed = true;
+	}
+	if (_mouseRight) {//on rotate autour de l'obj
+		Yangle += dx;
+		Xangle += dy;
+		changed = true;
     }
     _mouseX = x;
     _mouseY = y;
