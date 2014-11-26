@@ -26,6 +26,7 @@ double _left = 0.0;		/* ortho view volume params */
 double _right = 0.0;
 double _bottom = 0.0;
 double _top = 0.0;
+static GLenum wireShaded = GL_FILL; //wired or shaded
 //Camera Position
 static GLfloat camPosX = 0;
 static GLfloat camPosY = 100;
@@ -89,7 +90,6 @@ void writeBitmapString(string string)
 }
 
 void drawPlayerViewport(){
-    string fps = "player score";
     glViewport(0, 9*height/10, width, height/10);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -98,37 +98,42 @@ void drawPlayerViewport(){
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glColor3f(0, 0, 0);
-    glRasterPos2d(-1, 0);
-    writeBitmapString("Plant selection :");
-    if (plantSelection == 1) {
+    if (game.isGameover()) {
+        glRasterPos2d(0, 0);
+        writeBitmapString("GAME OVER !!");
+    } else {
+        glRasterPos2d(-1, 0);
+        writeBitmapString("Plant selection :");
+        if (plantSelection == 1) {
+            glPushMatrix();
+                glTranslatef(-0.4, -1, 0);
+                glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
+                PeaShooter peashooter;
+                peashooter.draw(texture);
+            glPopMatrix();
+        }
+        else if (plantSelection == 2){
+            glPushMatrix();
+                glTranslatef(-0.4, -1, 0);
+                glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
+                SunPlant sunplant;
+                glRotatef(-90, 0, 1, 0);
+                sunplant.draw(texture);
+            glPopMatrix();
+        }
+        glColor3f(0, 0, 0);
+        glRasterPos2d(0, 0);
+        writeBitmapString("Sun : " + std::to_string(nbSun));
+        glRasterPos2f(0.5, 0);
         glPushMatrix();
-            glTranslatef(-0.4, -1, 0);
+            glTranslatef(0.4, -1, 0);
             glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
-            PeaShooter peashooter;
-            peashooter.draw(texture);
+            Zombie zombie;
+            glRotatef(180, 0, 1, 0);
+            zombie.draw(texture);
         glPopMatrix();
+        writeBitmapString(" X " + std::to_string(game.getZombiesList().size() + zombiesList.size()));
     }
-    else if (plantSelection == 2){
-        glPushMatrix();
-            glTranslatef(-0.4, -1, 0);
-            glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
-            SunPlant sunplant;
-            glRotatef(-90, 0, 1, 0);
-            sunplant.draw(texture);
-        glPopMatrix();
-    }
-    glColor3f(0, 0, 0);
-    glRasterPos2d(0, 0);
-    writeBitmapString("Sun : " + std::to_string(nbSun));
-    glRasterPos2f(0.5, 0);
-    glPushMatrix();
-        glTranslatef(0.4, -1, 0);
-        glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
-        Zombie zombie;
-        glRotatef(180, 0, 1, 0);
-        zombie.draw(texture);
-    glPopMatrix();
-    writeBitmapString(" X " + std::to_string(game.getZombiesList().size() + zombiesList.size()));
     glPopMatrix();
     
 }
@@ -262,6 +267,7 @@ void display()
 		glMatrixMode(GL_MODELVIEW);
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST); // Enable depth testing.
+        glPolygonMode(GL_FRONT_AND_BACK, wireShaded);
 		glLoadIdentity();
     //Centering the scene
 		glTranslatef(translationX, translationY, translationZ);
@@ -271,7 +277,9 @@ void display()
 		glTranslatef(-game.getSizeX()*BoardSquare::size / 2.0, 0, -game.getSizeZ()*BoardSquare::size / 2.0);
     //draw the scene with its component.
         callLight();
-        drawScene();
+        if (wireShaded == GL_FILL) {
+            drawScene();
+        }
 		DrawGrid();
 		game.draw(texture);
     glPopMatrix();
@@ -375,6 +383,13 @@ void keyboardUp (unsigned char key, int x, int y) {
             break;
         case '2':
             plantSelection=0;
+            break;
+        case 'w':
+            if(wireShaded == GL_FILL)
+                wireShaded = GL_LINE;
+            else
+                wireShaded = GL_FILL;
+            
             break;
         default:
             
@@ -556,7 +571,6 @@ int main(int argc, char **argv)
     translationZ = -game.getSizeZ()*BoardSquare::size / 2.0; //to zoom in/out the scene
     glEnable(GL_DEPTH_TEST);
     glFrontFace(GL_CCW);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);

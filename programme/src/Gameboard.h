@@ -45,6 +45,7 @@ class Gameboard {
 	void UpdatePlants();
     void UpdateBullets();
     void UpdateSuns();
+    bool isGameover();
 };
 
 #endif

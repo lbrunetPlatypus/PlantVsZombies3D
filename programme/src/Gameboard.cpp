@@ -417,6 +417,15 @@ void Gameboard::UpdateSuns() {
     }
 }
 
+bool Gameboard::isGameover() {
+    for (int i=0; i<zombiesList.size(); i++) {
+        if (zombiesList[i]->getPosition().getX() <= 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 const Vec3 operator + (const Vec3& v1, const Vec3& v2){
 	return Vec3(v1.x + v2.x,
 		v1.y + v2.y,
