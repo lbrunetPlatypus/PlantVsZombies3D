@@ -42,7 +42,7 @@ static GLfloat translationZ; //to zoom in/out the scene
 vector<Zombie> zombiesList; //list of zombie to spawn
 int spawnCooldown = COOLDOWN;
 int sunCooldown = 0;
-Gameboard game(9,5);
+Gameboard game(18,10);
 static int nbSunPeaShooter = 100;
 static int nbSunSunFlower = 50;
 static int currentHoveredSquare = -1;
@@ -157,22 +157,101 @@ void DrawGrid()
 	glEnd();
 }
 
+void Normal( GLfloat p0[], GLfloat p1[], GLfloat p2[], GLfloat n[]) {
+    float x3, y3, z3, x4, y4, z4; //t: (x3, y3, z3), r: (x4, y4, z4)
+    x3 = p1[0] - p0[0]; y3 = p1[1] - p0[1]; z3 = p1[2] - p0[2]; //t=P1-P0
+    x4 = p2[0] - p0[0]; y4 = p2[1] - p0[1]; z4 = p2[2] - p0[2]; //r=P2-P0
+    // n = t x r. ‘x is the cross-product. u is perpendicular to the plane
+    n[0] = y3*z4 - y4*z3; n[1] = -(x3*z4 - x4*z3); n[2] = x3*y4 - x4*y3;
+}
+
+void callLight() {
+    glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);
+    GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+    GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
+    GLfloat specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+    GLfloat position[] = { 0, 1, 0, 0.0 };  /* Infinite light location. */
+    glEnable(GL_LIGHT0);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+}
+
+void drawFloor() {
+    GLfloat length =6000;
+    GLint nbMesh =100/2;
+    
+    GLfloat x=0.0, y=0.0, increment = 1;
+    
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[10]);
+    for (int j=0; j<2*nbMesh; j++) {
+        if (y>=1.0) {
+            y=0.0;
+        }
+        
+        glColor3f(1, 1, 1);
+        for (int i=0; i<2*nbMesh; i++) {
+            GLfloat p1[] = {-length + i*length/nbMesh, -1, -length + j*length/nbMesh};
+            GLfloat p2[] = {-length + i*length/nbMesh, -1, -length + (j+1)*length/nbMesh};
+            GLfloat p3[] = {-length + (i+1)*length/nbMesh, -1, -length + j*length/nbMesh};
+            GLfloat p4[] = {-length + (i+1)*length/nbMesh, -1, -length + (j+1)*length/nbMesh};
+            GLfloat n1[3], n2[3];
+            
+            Normal(p1, p2, p3, n1);
+            Normal(p4, p3, p2, n2);
+            
+            glNormal3f(n1[0], n1[1], n1[2]);
+            glBegin(GL_TRIANGLES);
+            glTexCoord2f(x, y);
+            glVertex3f(p1[0], p1[1], p1[2]);
+            glTexCoord2f(x, y+increment);
+            glVertex3f(p2[0], p2[1], p2[2]);
+            glTexCoord2f(x+increment, y);
+            glVertex3f(p3[0], p3[1], p3[2]);
+            glEnd();
+            glNormal3f(n2[0], n2[1], n2[2]);
+            glBegin(GL_TRIANGLES);
+            glTexCoord2f(x, y+increment);
+            glVertex3f(p2[0], p2[1], p2[2]);
+            glTexCoord2f(x+increment, y);
+            glVertex3f(p3[0], p3[1], p3[2]);
+            glTexCoord2f(x+increment, y+increment);
+            glVertex3f(p4[0], p4[1], p4[2]);
+            glEnd();
+            
+            x += increment;
+        }
+        y += increment;
+    }
+    glDisable(GL_TEXTURE_2D);
+    
+}
+
+//draw scene
+void drawScene() {
+    //draw the panoramique view = environment.
+    GLUquadric* spherequad = gluNewQuadric();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[11]);
+    gluQuadricTexture(spherequad,1);
+    
+    glColor3f(1, 1, 1);
+    glPushMatrix();
+    glRotatef(90, 1, 0, 0);
+        gluSphere(spherequad, 3000, 100, 100);
+        glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+    
+    drawFloor();
+    
+}
+
+
 void display()
 {
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_COLOR_MATERIAL);
-	GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
-	GLfloat specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-	GLfloat position[] = { 0, 1, 0, 0.0 };  /* Infinite light location. */
-	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
-	glLightfv(GL_LIGHT0, GL_POSITION, position);
-
-
 
     glViewport(0, 0, width, 9*height/10);
 
@@ -191,6 +270,8 @@ void display()
 		glRotatef(Yangle, 0.0, 1.0, 0.0); //rotation with left/right arrow key
 		glTranslatef(-game.getSizeX()*BoardSquare::size / 2.0, 0, -game.getSizeZ()*BoardSquare::size / 2.0);
     //draw the scene with its component.
+        callLight();
+        drawScene();
 		DrawGrid();
 		game.draw(texture);
     glPopMatrix();
@@ -215,6 +296,8 @@ void setup(void)
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg.bmp", texture[7]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/zombieleg2.bmp", texture[8]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/stem1.bmp", texture[9]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/floor.bmp", texture[10]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/sky.bmp", texture[11]);
 #elif _WIN32
     loadExternalTextures("..\\..\\img\\leaves.bmp", texture[0]);
     loadExternalTextures("..\\..\\img\\stem.bmp", texture[1]);
@@ -226,6 +309,8 @@ void setup(void)
     loadExternalTextures("..\\..\\img\\zombieleg.bmp", texture[7]);
     loadExternalTextures("..\\..\\img\\zombieleg2.bmp", texture[8]);
     loadExternalTextures("..\\..\\img\\stem1.bmp", texture[9]);
+    loadExternalTextures("..\\..\\img\\floor.bmp", texture[10]);
+    loadExternalTextures("..\\..\\img\\sky.bmp", texture[11]);
 #endif
 
     
