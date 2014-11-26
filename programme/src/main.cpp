@@ -159,6 +159,21 @@ void DrawGrid()
 
 void display()
 {
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
+	GLfloat specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	GLfloat position[] = { 0, 1, 0, 0.0 };  /* Infinite light location. */
+	glEnable(GL_LIGHT0);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+	glLightfv(GL_LIGHT0, GL_POSITION, position);
+
+
+
     glViewport(0, 0, width, 9*height/10);
 
     glMatrixMode(GL_PROJECTION);
