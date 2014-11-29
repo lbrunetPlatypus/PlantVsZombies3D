@@ -13,89 +13,199 @@ Gameboard *-- BoardSquare
 
 BoardSquare --> GameObject
 
-Game --> Gameboard
-Game --> Player
-
 class GameObject {
-	- position : Position
+	- Position position 
 
- 	+ setPosition(newPosition : Position)
+ 	+ GameObject() 
+    + void setPosition(Position newPosition) 
+	+ Position getPosition() 
+	+ virtual void draw(GLuint texture[], float plantAnimPos) 
 }
 
 class Plant {
- 	- hp : int
- 	- coolDown : int
+ 	- int hp 
+    - int coolDown 
+    - int coolDownState 
 
+	+ Plant() 
+    + Plant(int cooldown) 
+    + Plant(int cooldown, int hp) 
+    + int getHp() 
+    + void setHp(int hp) 
+    + int getCooldown() 
+    + void setCooldown(int cooldown) 
+    + int getCooldownState() 
+    + void setCooldownState(int cooldownstate) 
+	+ bool ApplyDamages(int nbDamages) 
+    + virtual std::string getType() 
 }
 
 
 class SunPlant {
 	
-	+ produceSun()
+	+ SunPlant() 
+    + SunPlant(int cooldown) 
+    + SunPlant(int cooldown, int hp) 
+    + Sun produceSun() 
+    + std::string getType() 
+	+ void draw(GLuint texture[], float plantAnimPos) 
 }
 
 
 class PeaShooter {
-	- attackPoint : int
+	- int attackPoint 
+    - int mouthRadius = 15 
+    - float mouthLength = 0 
+    - int angle = 0 
 
-	+ detectZombie()
-	+ shootAt(direction : Position)
+	+ PeaShooter() 
+    + PeaShooter(int attackPoint) 
+    + int getAttackPoint() 
+    + void setAttackPoint(int ap) 
+    + void detectZombie() 
+    + std::string getType() 
+	+ void draw(GLuint texture[], float plantAnimPos) 
+    + void animation() 
+    + Bullet shoot() 
 }
 
 class Position {
-	- x : int
-	- y : int
-	- z : int
+	- int x
+	- int y
+	- int z
+
+	+ Position() 
+	+ Position( int x, int y, int z) 
+	+ int getX() 
+	+ int getY() 
+	+ int getZ() 
+	+ void setPosition(int x, int y, int z) 
+	+ void setPosition(Position pos) 
+	+ Position operator + (const Position& pos1) 
 }
 
 class Zombie {
-	- hp : int
-	- arrackPoint : int
-	- speed : int
+	- int hp 
+    - float despawn 
+    - int attackPoint 
+    - int speed 
+    - int coolDown 
+    - int coolDownState 
+    - Position armPosition
+    - Position legPosition
+    - Position headPosition 
 
-	+ detectTarget()
-	+ move()
-	+ nibble()
-	+ takeDamages()
+	+ Zombie() 
+    + int getDespawn() 
+    + int getHp() 
+    + int getAttackPoint() 
+    + int getSpeed() 
+    + int getCooldown() 
+    + int getCooldownState() 
+    + void setCooldown(int _cooldown) 
+    + void setCooldownState(int _cooldownState) 
+	+ bool detectTarget(Plant& plant) 
+    + void move() 
+	+ void nibble(Plant& plant) 
+    + bool takeDamages(int nbDamages) 
+    + void draw(GLuint texture[], float animPos) 
 }
 
 class House {
-	+ detectZombie()
+	+ House() 
+    + void detectZombie() 
+	+ void draw(GLuint texture[], int length, int width, int height) 
 }
 
 class Sun{
-	- despawn : int
+	- int despawn 
+	- float screenCoordX 
+	- float screenCoordY 
+	- bool isHovered 
+
+	+ Sun() 
+    + int getDespawn() 
+	+ void setDespawn(int _despawn) 
+    + void update() 
+    + void draw(GLuint texture[]) 
+	+ float getScreenCoordX() 
+	+ float getScreenCoordY() 
+	+ void setScreencoordX(float _screenCoordX) 
+	+ void setScreencoordY(float _screenCoordY) 
+	+ bool getIsHovered() 
+	+ void setIsHovered(bool status) 
 }
 
 class Bullet{
-
-}
-
-class Player {
-	- nSuns : int
-
-	+ plant()
-	+ collectSun()
-	+ choosePlant()
+	
+	+ void draw(GLuint texture[]) 
+    + void move() 
+    + bool checkCollision(Zombie& zombie) 
 }
 
 class Gameboard {
-	- squaresList : vector<BoardSquare>
+	- std::vector<Sun> sunList 
+    - std::vector<Zombie*> zombiesList 
+    - std::vector<BoardSquare> squaresList 
+    - std::vector<Bullet> bulletsList 
+	- int sizeX 
+	- int sizeZ 
+	- House house 
 
-	+ addObject(GameObject object, position : Position)
-	+ deleteAObject(position : Position)
-
+	+ Gameboard() 
+	+ Gameboard(int sizeX,int sizeZ) 
+    + std::vector<BoardSquare> getSquaresList() 
+    + std::vector<Sun> getSunList() 
+    + std::vector<Zombie*> getZombiesList() 
+    + std::vector<Bullet> getBulletsList() 
+    + int getSizeX() 
+    + int getSizeZ() 
+    + void zombieSpawn(Zombie &zombie) 
+    + void produceSun(Position position) 
+    + void addSun(Sun sun) 
+	+ bool addPlant(Plant* object, int squareId) 
+    + void addBullet(Bullet bullet) 
+    + BoardSquare getSquare(Position position) 
+	+ void checkSunHoveringStatus(int x, int y) 
+	+ void UpdateSunScreenCoordinate() 
+	+ int selectSun() 
+	+ int checkSquareHoveringStatus(int x, int y) 
+	+ void UpdateSquareScreenCoordinate() 
+	+ void setHouse(House house) 
+    + void draw(GLuint texture[], float animPos, float plantAnimPos) 
+	+ void UpdateZombies() 
+	+ void UpdatePlants() 
+    + void UpdateBullets() 
+    + void UpdateSuns() 
+    + bool isGameover() 
 }
 
 class BoardSquare {
-	- object : GameObject
-}
+	- Plant* plant
+	- int id
+	- int x
+	- int z
+	- int screenCoordX
+	- int screenCoordY
+	- bool isHovered
+	+ const static int size = 100
 
-class Game {
-	- player : Player
-	- gameboard : Gameboard
-	- score : int
-
-	+ play()
-	+ udpdateScore()
+	+ BoardSquare(int x, int z,int id) 
+    + void setPlant(Plant* _plant) 
+	+ void setX(int x) 
+	+ void setZ(int z) 
+	+ void set2DPosition(int x, int z) 
+	+ void setId(int id) 
+	+ int getX() 
+	+ int getZ() 
+	+ Position get2DPosition() 
+    + Plant* getPlant() 
+	+ int getId() 
+    + void draw(GLuint texture[]) 
+	+ float getScreenCoordX() 
+	+ float getScreenCoordY() 
+	+ void setScreencoordX(float _screenCoordX) 
+	+ void setScreencoordY(float _screenCoordY) 
+	+ bool getIsHovered() 
+	+ void setIsHovered(bool status) 
 }

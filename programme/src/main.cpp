@@ -237,7 +237,7 @@ void drawPlayerBoard(){
 // OpenGL window reshape routine.
 void reshape(int w, int h)
 {
-    width = w;
+    width = h;
     height = h;
 	if (h == 0)// Prevent a divide by zero, when window is too short
 		h = 1;
