@@ -9,8 +9,8 @@
 #include "getbmp.h"
 #include "House.h"
 
-#define COOLDOWN 5;
-#define SUN_COOLDOWN 10;
+#define COOLDOWN 10;
+#define SUN_COOLDOWN 20;
 
 #ifdef __APPLE__
 #include "GLUT/glut.h"
@@ -578,7 +578,7 @@ void move2(int value) {
     
    game.UpdatePlants();
     
-    glutTimerFunc(1000, move2, 1);
+    glutTimerFunc(500, move2, 1);
     
 }
 

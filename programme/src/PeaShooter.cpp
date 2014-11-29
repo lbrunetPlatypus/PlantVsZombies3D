@@ -18,7 +18,7 @@ void drawTorus(double ra, double rb, int slices, int stacks) {
 PeaShooter::PeaShooter() {
     setHp(30);
     setPosition(Position(0,0,0));
-    setCooldown(5);
+    setCooldown(10);
     setCooldownState(0);
 }
 
@@ -43,6 +43,25 @@ std::string PeaShooter::getType() {
 }
 
 void PeaShooter::draw(GLuint texture[]) {
+    int mouthRadius = 15;
+    int mouthLength = 0;
+    int angle = 0;
+    if (getCooldownState() >= 2 && getCooldownState() <= 4){
+        angle = (4 - getCooldownState())*5;
+    } else if (getCooldownState() < 2 ) {
+        mouthRadius = 15;
+        mouthRadius -= (2-getCooldownState())*3;
+        mouthLength += (2-getCooldownState())*2;
+        angle = getCooldownState()*5 + 5;
+        
+    }else if (getCooldownState() > 7){
+        mouthRadius = 7;
+        mouthRadius += (getCooldown()-getCooldownState()+1)*2;
+        angle = 0;
+        
+    }
+
+    
     GLUquadric* leavesquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *peaface = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     
@@ -58,6 +77,10 @@ void PeaShooter::draw(GLuint texture[]) {
     glColor3f(0.5, 1, 0);
     glTranslatef(0, 80, 0);
     
+    glPushMatrix();
+    glTranslatef(0, -80, 0);
+    glRotatef(angle, 0, 0, 1);
+    glTranslatef(0, 80, 0);
     //head
     glPushMatrix();
     glTranslatef(-10, -5, 0);
@@ -92,7 +115,6 @@ void PeaShooter::draw(GLuint texture[]) {
     }
     glPopMatrix();
     
-    
     glBindTexture(GL_TEXTURE_2D, texture[1]);
     gluQuadricTexture(stemquad,1);
     //mouth 1
@@ -100,7 +122,7 @@ void PeaShooter::draw(GLuint texture[]) {
         glColor3f(0.5, 1, 0);
         glTranslatef(50, 0, 0);
         glRotatef(90, 0, 1, 0);
-        drawTorus(18, 2, 20, 20);
+        drawTorus(mouthRadius+3, 2, 20, 20);
         glPopMatrix();
         glColor3f(0, 1, 0);
     //mouth 2
@@ -108,11 +130,11 @@ void PeaShooter::draw(GLuint texture[]) {
         glColor3f(0.5, 1, 0);
         glTranslatef(20, 0, 0);
         glRotatef(90, 0, 1, 0);
-        gluCylinder(stemquad, 10, 20, 30, 20, 20);
+        gluCylinder(stemquad, 10, mouthRadius+5, 30+mouthLength, 20, 20);
         glColor3f(0, 0, 0);
-        gluCylinder(stemquad, 10, 16, 30, 20, 20);
-        glTranslatef(0, 0, 10);
-        gluSphere(stemquad, 12, 20, 20);
+        gluCylinder(stemquad, 10, mouthRadius+2, 30+mouthLength, 20, 20);
+        glTranslatef(mouthLength, 0, 10);
+        gluSphere(stemquad, mouthRadius-3, 20, 20);
         glPopMatrix();
     //mouth3
         glColor3f(0.5, 1, 0);
@@ -134,9 +156,13 @@ void PeaShooter::draw(GLuint texture[]) {
     gluCylinder(stemquad, 5, 5, 50, 20, 20);
     glPopMatrix();
     
+    glPopMatrix();
+    
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     gluQuadricTexture(leavesquad,1);
     
+    glTranslatef(0, -52, 0);
+
     //leaves
     glPushMatrix();
     glScalef(1.5, 1, 1);
@@ -234,7 +260,7 @@ Bullet PeaShooter::shoot() {
     if (getCooldownState()==0) {
         setCooldownState(getCooldown());
         Bullet bullet;
-        bullet.setPosition(getPosition()+Position(0, 75, 0));
+        bullet.setPosition(getPosition()+Position(10, 75, 0));
         return bullet;
     } else {
         setCooldownState(getCooldownState()-1);
