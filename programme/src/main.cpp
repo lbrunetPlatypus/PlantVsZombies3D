@@ -70,7 +70,7 @@ House house;
 //animation
 float animPos = 0;
 float deltaAnimMove = 0.5;
-float plantAnimPos=5;
+float plantAnimPos=0;
 float deltaPlantAnimMove = 1;
 float density = 0.001;
 
@@ -554,13 +554,14 @@ void mousePassiveFunc(int x, int y)
 }
 
 void plantAnim(int value){
-	plantAnimPos += deltaPlantAnimMove;
-	//to keep animPos in the intervall [0,4]
-	if (plantAnimPos >= 20 || animPos <= 0){
+	
+	//to keep animPos in the intervall [0,20]
+	if (plantAnimPos >= 10 || plantAnimPos <= -10){
 		deltaPlantAnimMove = -deltaPlantAnimMove;
 	}
-
-	glutTimerFunc(200, plantAnim, 1);
+	plantAnimPos += deltaPlantAnimMove;
+	//std::cout << plantAnimPos << std::endl;
+	glutTimerFunc(100, plantAnim, 1);
 
 }
 

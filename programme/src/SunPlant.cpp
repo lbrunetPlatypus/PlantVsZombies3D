@@ -26,7 +26,7 @@ Sun SunPlant::produceSun() {
 
 	//call gameboard in order to produce a sun.
     if (getCooldownState() == 0) {
-		std::cout << "suuuuuun" << std::endl;
+		//std::cout << "suuuuuun" << std::endl;
         setCooldownState(getCooldown());
         Sun sun;
         sun.setPosition(getPosition()+Position(0, 0, 30));
@@ -56,7 +56,9 @@ void SunPlant::draw(GLuint texture[], float plantAnimPos) {
 	//Head
 	//GlPop
 	glPushMatrix();
-	glTranslatef(0, 0, 10 - plantAnimPos);
+	//std::cout << plantAnimPos  << std::endl;
+	//std::cout << plantAnimPos -10 << std::endl;
+	glTranslatef(0, 0, plantAnimPos);
     glPushMatrix();
     glTranslatef(getPosition().getX(), 30, getPosition().getZ());
     glColor3f(1, 1, 0);
