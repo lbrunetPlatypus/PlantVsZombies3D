@@ -55,7 +55,8 @@ void SunPlant::draw(GLuint texture[], float plantAnimPos) {
 	//glTranslate(5-plantAnim,0,0)
 	//Head
 	//GlPop
-
+	glPushMatrix();
+	glTranslatef(0, 0, 10 - plantAnimPos);
     glPushMatrix();
     glTranslatef(getPosition().getX(), 30, getPosition().getZ());
     glColor3f(1, 1, 0);
@@ -208,4 +209,5 @@ void SunPlant::draw(GLuint texture[], float plantAnimPos) {
     glDisable(GL_TEXTURE_2D);
 
     glPopMatrix();
+	glPopMatrix();
 }

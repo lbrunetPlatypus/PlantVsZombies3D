@@ -70,7 +70,7 @@ House house;
 //animation
 float animPos = 0;
 float deltaAnimMove = 0.5;
-float plantAnimPos=0;
+float plantAnimPos=5;
 float deltaPlantAnimMove = 1;
 
 
@@ -543,11 +543,11 @@ void mousePassiveFunc(int x, int y)
 void plantAnim(int value){
 	plantAnimPos += deltaPlantAnimMove;
 	//to keep animPos in the intervall [0,4]
-	if (plantAnimPos >= 10 || animPos <= 0){
+	if (plantAnimPos >= 20 || animPos <= 0){
 		deltaPlantAnimMove = -deltaPlantAnimMove;
 	}
 
-	glutTimerFunc(100, plantAnim, 1);
+	glutTimerFunc(200, plantAnim, 1);
 
 }
 
@@ -643,6 +643,7 @@ int main(int argc, char **argv)
     
     move(1);
     move2(1);
+	plantAnim(1);
     
     setup();
     
