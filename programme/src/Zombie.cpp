@@ -138,8 +138,7 @@ void Zombie::draw(GLuint texture[], float animPos) {
 
     GLUquadric* zombieface = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture[4]);
-    gluQuadricTexture(zombieface,1);
+    
     
     if (getHp()<=0 && despawn > 0) {
         despawn -= 0.4;
@@ -152,15 +151,17 @@ void Zombie::draw(GLuint texture[], float animPos) {
         glColor3f(1, 1, 1);
 
         //head
-    if (getHp()/200.0 > 0.1) {
+        glBindTexture(GL_TEXTURE_2D, texture[4]);
+        gluQuadricTexture(zombieface,1);
         glPushMatrix();
         glScalef(0.8, 1, 0.8);
         glRotatef(-90, 1, 0, 0);
 
         glRotatef(-90, 0, 0, 1);
-        gluSphere(zombieface, 15, 20, 20);
+        if (getHp()/200.0 > 0.1) {
+            gluSphere(zombieface, 15, 20, 20);
+        }
         glPopMatrix();
-    }
     glBindTexture(GL_TEXTURE_2D, texture[5]);
 
         //torso

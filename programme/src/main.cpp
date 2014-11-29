@@ -304,7 +304,7 @@ void drawFloor() {
             y=0.0;
         }
         
-        glColor3f(1, 1, 1);
+        glColor3f(0, 0.9, 0);
         for (int i=0; i<2*nbMesh; i++) {
             GLfloat p1[] = {-length + i*length/nbMesh, -1, -length + j*length/nbMesh};
             GLfloat p2[] = {-length + i*length/nbMesh, -1, -length + (j+1)*length/nbMesh};

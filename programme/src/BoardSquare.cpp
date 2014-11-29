@@ -75,13 +75,20 @@ void BoardSquare::draw(GLuint texture[]) {
         n = Normal(x*size, 0, z*size,
                    (x+1)*size, 0, (z+1)*size,
                    (x+1)*size, 0, z*size);
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture[10]);
         glBegin(GL_QUADS);
             glNormal3f(n[0],n[1],n[2]);
+            glTexCoord2d(0, 0);
             glVertex3f(x*size, 0, z*size);
+            glTexCoord2d(1, 0);
             glVertex3f((x+1)*size, 0, z*size);
+            glTexCoord2d(1, 1);
             glVertex3f((x+1)*size, 0, (z+1)*size);
+            glTexCoord2d(0, 1);
             glVertex3f(x*size, 0, (z+1)*size);
         glEnd();
+        glDisable(GL_TEXTURE_2D);
         //draw ground cube
         glColor3f(0.55, 0.27, 0);
         glTranslatef((x+0.5)*size, -size/2-1, (z+0.5)*size);
