@@ -10,6 +10,7 @@ class Zombie : public GameObject{
     int speed;
     int coolDown;
     int coolDownState;
+    Position armPosition, legPosition, deadPosition;
     
     public :
     Zombie();

@@ -180,44 +180,109 @@ void Zombie::draw(GLuint texture[], float animPos) {
 				drawCube(10);
 			glPopMatrix();
 		glPopMatrix();
+    //LEFT - arm + hand
 
 		glPushMatrix();
-		glTranslatef(0, 3-animPos, 0);
-        //LEFT - arm + hand
-        glPushMatrix();
-            glTranslatef(-20, -27, 20);
+        if (getHp()/200.0 > 0.7 ) {
+            glTranslatef(0, 3-animPos, 0);
     
             glPushMatrix();
-                glScalef(3, 1, 1);
-                glColor3f(0.36, 0.20, 0.09);
+                glTranslatef(-20, -27, 20);
+                
+                glPushMatrix();
+                    glScalef(3, 1, 1);
+                    glColor3f(0.36, 0.20, 0.09);
+                    drawCube(10);
+                glPopMatrix();
+                
+                glColor3f(0.35, 0.42, 0.34);
+                glTranslatef(-20, 0, 0);
                 drawCube(10);
             glPopMatrix();
-    
+        } else {
+            if (armPosition.getX() == 0) {
+                armPosition.setPosition(getPosition().getX()-20, -27, 0);
+            }
+            if (armPosition.getY() > -70) {
+                armPosition.setPosition(armPosition.getX(), armPosition.getY()-2, armPosition.getZ());
+                
+            }
+            glPushMatrix();
+            glTranslatef((armPosition.getX()), armPosition.getY(), 0);
+            glTranslatef(-getPosition().getX(), 0, 0);
+            
+            glTranslatef(-20, -27, 20);
+            
+            glPushMatrix();
+            glScalef(3, 1, 1);
+            glColor3f(0.36, 0.20, 0.09);
+            drawCube(10);
+            glPopMatrix();
+            
             glColor3f(0.35, 0.42, 0.34);
             glTranslatef(-20, 0, 0);
             drawCube(10);
-        glPopMatrix();
+            glPopMatrix();
+        }
+    
 		glPopMatrix();
 
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[8]);
     //RIGHT - leg + foot
+
     glColor3f(1, 1, 1);
     glPushMatrix();
-    glTranslatef(0, -80, -6);
-    
-    glPushMatrix();
-    glScalef(1, 4, 1);
-    drawCube(10);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
+    if (getHp()/200.0 > 0.4 ) {
+        glPushMatrix();
+        glTranslatef(0, -80, -6);
+        
+        glPushMatrix();
+        glScalef(1, 4, 1);
+        drawCube(10);
+        glPopMatrix();
+        glDisable(GL_TEXTURE_2D);
+        
+        glTranslatef(-5, -20, 0);
+        glScalef(2, 1, 1);
+        glColor3f(0.36, 0.20, 0.09);
+        drawCube(10);
+        glPopMatrix();
+    } else {
+        if (legPosition.getX() == 0) {
+            legPosition.setPosition(getPosition().getX(), 0, 0);
+        }
+        if (legPosition.getY() > -90) {
+            legPosition.setPosition(legPosition.getX(), legPosition.getY()-2, legPosition.getZ());
+            
+        }
+        glPushMatrix();
 
-    glTranslatef(-5, -20, 0);
-    glScalef(2, 1, 1);
-    glColor3f(0.36, 0.20, 0.09);
-    drawCube(10);
+        glTranslatef((legPosition.getX()), 0, 0);
+        glTranslatef(-getPosition().getX(), 0, 0);
+        glPushMatrix();
+        glTranslatef(0, -80, -6);
+        glTranslatef(20, -40, 0);
+        glRotatef(legPosition.getY(), 0, 0, 1);
+        glTranslatef(-20, 40, 0);
+        glPushMatrix();
+        glScalef(1, 4, 1);
+        drawCube(10);
+        glPopMatrix();
+        glDisable(GL_TEXTURE_2D);
+        
+        glTranslatef(-5, -20, 0);
+        glScalef(2, 1, 1);
+        glColor3f(0.36, 0.20, 0.09);
+        drawCube(10);
+        glPopMatrix();
+        glPopMatrix();
+    }
+    
     glPopMatrix();
+    
+    
     
     //LEFT - leg + foot
     glColor3f(1, 1, 1);
