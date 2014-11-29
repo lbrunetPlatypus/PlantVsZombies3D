@@ -19,7 +19,7 @@ PeaShooter::PeaShooter() {
     setHp(30);
     setPosition(Position(0,0,0));
     setCooldown(10);
-    setCooldownState(0);
+    setCooldownState(getCooldown());
 }
 
 PeaShooter::PeaShooter(int attackPoint) {
@@ -43,24 +43,7 @@ std::string PeaShooter::getType() {
 }
 
 void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
-    int mouthRadius = 15;
-    int mouthLength = 0;
-    int angle = 0;
-    if (getCooldownState() >= 2 && getCooldownState() <= 4){
-        angle = (4 - getCooldownState())*5;
-    } else if (getCooldownState() < 2 ) {
-        mouthRadius = 15;
-        mouthRadius -= (2-getCooldownState())*3;
-        mouthLength += (2-getCooldownState())*2;
-        angle = getCooldownState()*5 + 5;
-        
-    }else if (getCooldownState() > 7){
-        mouthRadius = 7;
-        mouthRadius += (getCooldown()-getCooldownState()+1)*2;
-        angle = 0;
-        
-    }
-
+    animation();
     GLUquadric* leavesquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *peaface = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     
@@ -256,6 +239,52 @@ void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
     glDisable(GL_TEXTURE_2D);
     
     glPopMatrix();
+}
+
+void PeaShooter::animation(){
+    if (getCooldownState() < 2 ) {
+        if (mouthRadius > 2) {
+            mouthRadius -= 1;
+        }
+        if (mouthLength > -5) {
+            mouthLength -= 0.5;
+        }
+        if (getCooldownState() == 1)
+            angle += 1;
+        if (getCooldownState() == 0)
+            angle += 1;
+        
+    }else if (getCooldownState() > 8){
+        if (mouthRadius < 15) {
+            mouthRadius += 1;
+        }
+        if (mouthLength < 0) {
+            mouthLength += 0.5;
+        }
+        angle -= 1;
+        
+    }else {
+        if (mouthRadius > 15) {
+            mouthRadius--;
+        } else if (mouthRadius < 15) {
+            mouthRadius++;
+        }
+        
+        if (mouthLength > 0) {
+            mouthLength -= 0.5;
+        } else if (mouthLength < 0) {
+            mouthLength += 0.5;
+        }
+        
+        if (angle > 0) {
+            angle--;
+        } else if (angle < 0) {
+            angle++;
+        }
+        
+    }
+    
+
 }
 
 Bullet PeaShooter::shoot() {

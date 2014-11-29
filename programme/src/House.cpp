@@ -6,7 +6,8 @@ House::House(){
 }
 
 void House::draw(GLuint texture[], int length, int width, int height) {//texture 1=wall,2=window;3=door.
-
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[13]);
 	//float angleRoof = atan2(2 * HeightRoof, width);
 //length wall
 	glPushMatrix();
@@ -15,64 +16,102 @@ void House::draw(GLuint texture[], int length, int width, int height) {//texture
 		glBegin(GL_QUADS);
 			//length wall in the back
 			//glTexCoord2f(0.5 + 0.5*cos(i*PI / 10)*cos(j * 2 * PI / 10), 0.5 + 0.5*cos(i*PI / 10)*sin(j * 2 * PI / 10));
+        glTexCoord2f(1, 1);
 		glVertex3f(-length / 2, height, -width / 2);
+        glTexCoord2f(1,  0);
 		glVertex3f(length / 2, height, -width / 2);
+        glTexCoord2f(0, 0);
 		glVertex3f(length / 2, 0, -width / 2);
+        glTexCoord2f(0,  1);
 		glVertex3f(-length / 2, 0, -width / 2);
+    glEnd();
+    glBegin(GL_QUADS);
 
 		//length wall in front
 		//glTexCoord2f(0.5 + 0.5*cos(i*PI / 10)*cos(j * 2 * PI / 10), 0.5 + 0.5*cos(i*PI / 10)*sin(j * 2 * PI / 10));
+        glTexCoord2f(1,  0);
 		glVertex3f(-length / 2, height, width / 2);
+        glTexCoord2f(1, 1);
 		glVertex3f(length / 2, height, width / 2);
+        glTexCoord2f(0,  1);
 		glVertex3f(length / 2, 0, width / 2);
+        glTexCoord2f(0, 0);
 		glVertex3f(-length / 2, 0, width / 2);
 		
+    glEnd();
+    glBegin(GL_QUADS);
 
 		//SideWall 
 		//left
+        glTexCoord2f(1,  0);
 		glVertex3f(-length / 2, height, width / 2);
+        glTexCoord2f(1, 1);
 		glVertex3f(-length / 2, height, -width / 2);
+        glTexCoord2f(0,  1);
 		glVertex3f(-length / 2, 0, -width / 2);
+        glTexCoord2f(0, 0);
 		glVertex3f(-length / 2, 0, width / 2);
+    glEnd();
+    glBegin(GL_QUADS);
 		//right
+        glTexCoord2f(1,  0);
 		glVertex3f(length / 2, height, width / 2);
+        glTexCoord2f(1, 1);
 		glVertex3f(length / 2, height, -width / 2);
+        glTexCoord2f(0,  1);
 		glVertex3f(length / 2, 0, -width / 2);
+        glTexCoord2f(0, 0);
 		glVertex3f(length / 2, 0, width / 2);
+    
+        glEnd();
+        glBegin(GL_QUADS);
 
 		//door at length wall/2, size = length/12 height=2height/3
 		float doorZ = (width / 2) + 0.05;
 		glColor3f(1, 0, 0);
-		glVertex3f(-length / 12, 2*height/3, doorZ);
-		glVertex3f(length / 12, 2 * height / 3, doorZ);
-		glVertex3f(length / 12, 0, doorZ);
-		glVertex3f(-length / 12, 0, doorZ);
+		glVertex3f(-length / 12, 2*height/3, doorZ+1);
+		glVertex3f(length / 12, 2 * height / 3, doorZ+1);
+		glVertex3f(length / 12, 0, doorZ+1);
+		glVertex3f(-length / 12, 0, doorZ+1);
 
 		//windows
 		float windowZ = (width / 2) + 0.05;
 		float windowWidth = length / 8;
 		float WindowPos = length / 3;
 		glColor4f(0, 0, 1,0.5);
-		glVertex3f(-WindowPos , 3* height / 4, windowZ);
-		glVertex3f(-WindowPos+windowWidth, 3 * height / 4, windowZ);
-		glVertex3f(-WindowPos + windowWidth, 1 * height / 4, windowZ);
-		glVertex3f(-WindowPos, 1 * height / 4, windowZ);
+		glVertex3f(-WindowPos , 3* height / 4, windowZ+1);
+		glVertex3f(-WindowPos+windowWidth, 3 * height / 4, windowZ+1);
+		glVertex3f(-WindowPos + windowWidth, 1 * height / 4, windowZ+1);
+		glVertex3f(-WindowPos, 1 * height / 4, windowZ+1);
 
-		glVertex3f(WindowPos-windowWidth, 3 * height / 4, windowZ);
-		glVertex3f(WindowPos, 3 * height / 4, windowZ);
-		glVertex3f(WindowPos , 1 * height / 4, windowZ);
-		glVertex3f(WindowPos - windowWidth, 1 * height / 4, windowZ);
+		glVertex3f(WindowPos-windowWidth, 3 * height / 4, windowZ+1);
+		glVertex3f(WindowPos, 3 * height / 4, windowZ+1);
+		glVertex3f(WindowPos , 1 * height / 4, windowZ+1);
+		glVertex3f(WindowPos - windowWidth, 1 * height / 4, windowZ+1);
+
+    glEnd();
+    glBindTexture(GL_TEXTURE_2D, texture[12]);
+    glBegin(GL_QUADS);
 
 		//roof big side
 		float roofHeight = height / 3;
+        glColor4f(1, 0, 0,1);
+    glTexCoord2f(1,  0);
 		glVertex3f(-length / 2, height + roofHeight,0);
+    glTexCoord2f(1, 1);
 		glVertex3f(length / 2, height + roofHeight, 0);
+    glTexCoord2f(0,  1);
 		glVertex3f(length / 2, height, -width / 2);
+    glTexCoord2f(0, 0);
 		glVertex3f(-length / 2, height, -width / 2);
 
-		glVertex3f(-length / 2, height + roofHeight, 0);
+    glTexCoord2f(1,  0);
+        glVertex3f(-length / 2, height + roofHeight, 0);
+    glTexCoord2f(1, 1);
 		glVertex3f(length / 2, height + roofHeight,0);
+    glTexCoord2f(0,  1);
 		glVertex3f(length / 2, height, width / 2);
+    glTexCoord2f(0, 0);
 		glVertex3f(-length / 2, height, width / 2);
 
 		glEnd();
@@ -80,17 +119,27 @@ void House::draw(GLuint texture[], int length, int width, int height) {//texture
 
 		// roof small side
 		glBegin(GL_TRIANGLES);
-		glVertex3f(-length / 2, height, width / 2);
+    
+    glTexCoord2f(0, 0);
+	glVertex3f(-length / 2, height, width / 2);
+    glTexCoord2f(0.5, 1);
 		glVertex3f(-length / 2, height + roofHeight, 0);
+    glTexCoord2f(0,  1);
 		glVertex3f(-length / 2, height, -width / 2);
+    glEnd();
+    glBegin(GL_TRIANGLES);
 
+    glTexCoord2f(0, 1);
 		glVertex3f(length / 2, height, width / 2);
+    glTexCoord2f(0, 0);
 		glVertex3f(length / 2, height + roofHeight, 0);
+    glTexCoord2f(1, 1);
 		glVertex3f(length / 2, height, -width / 2);
 
 		glEnd();
 
-		
+    glDisable(GL_TEXTURE_2D);
+
 	glPopMatrix();
 
 

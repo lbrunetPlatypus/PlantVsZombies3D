@@ -336,6 +336,8 @@ void setup(void)
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/stem1.bmp", texture[9]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/floor.bmp", texture[10]);
     loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/sky.bmp", texture[11]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/brick1.bmp", texture[12]);
+    loadExternalTextures("/Users/Xiang/Documents/Concordia/COMP 371 - Computer Graphics/Plant vs Zombie/PlantVsZombies3D/programme/img/brick2.bmp", texture[13]);
 #elif _WIN32
     loadExternalTextures("..\\..\\img\\leaves.bmp", texture[0]);
     loadExternalTextures("..\\..\\img\\stem.bmp", texture[1]);
@@ -349,6 +351,8 @@ void setup(void)
     loadExternalTextures("..\\..\\img\\stem1.bmp", texture[9]);
     loadExternalTextures("..\\..\\img\\floor.bmp", texture[10]);
     loadExternalTextures("..\\..\\img\\sky.bmp", texture[11]);
+    loadExternalTextures("..\\..\\img\\brick1.bmp", texture[12]);
+    loadExternalTextures("..\\..\\img\\brick2.bmp", texture[13]);
 #endif
 
     

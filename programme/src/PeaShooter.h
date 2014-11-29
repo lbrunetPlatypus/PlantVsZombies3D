@@ -6,6 +6,9 @@
 class PeaShooter : public Plant{
     private :
     int attackPoint;
+    int mouthRadius = 15;
+    float mouthLength = 0;
+    int angle = 0;
     
     public :
     PeaShooter();
@@ -15,6 +18,7 @@ class PeaShooter : public Plant{
     void detectZombie();
     std::string getType();
 	void draw(GLuint texture[], float plantAnimPos);
+    void animation();
     Bullet shoot();
 };
 #endif
