@@ -161,7 +161,7 @@ void Zombie::draw(GLuint texture[], float animPos) {
 
 		glBindTexture(GL_TEXTURE_2D, texture[6]);
 		glPushMatrix();
-		glTranslatef(0, animPos, 0);
+		glTranslatef(0,  animPos, 0);
         //RIGHT - arm + hand
         glPushMatrix();
 
@@ -182,7 +182,7 @@ void Zombie::draw(GLuint texture[], float animPos) {
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslatef(0, -animPos, 0);
+		glTranslatef(0, 3-animPos, 0);
         //LEFT - arm + hand
         glPushMatrix();
             glTranslatef(-20, -27, 20);

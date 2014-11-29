@@ -17,7 +17,7 @@ class GameObject {
     GameObject();
     void setPosition(Position newPosition);
 	Position getPosition();
-    virtual void draw(GLuint texture[]);
+	virtual void draw(GLuint texture[], float plantAnimPos);
 };
 
 struct Vec3

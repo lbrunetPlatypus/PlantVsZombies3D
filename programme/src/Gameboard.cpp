@@ -111,7 +111,7 @@ BoardSquare Gameboard::getSquare(Position position){
     return getSquaresList().at(sizeZ*i+j);
 }
 
-void Gameboard::draw(GLuint texture[], float animPos) {
+void Gameboard::draw(GLuint texture[], float animPos, float plantAnimPos) {
 	UpdateSquareScreenCoordinate();
 
 	house.draw(texture, getSizeZ() * 100, getSizeZ() * 100 / 3, getSizeZ() * 100 / 3);
@@ -125,7 +125,7 @@ void Gameboard::draw(GLuint texture[], float animPos) {
             //check if the plant has enough HP
             if ((squaresList.at(i).getPlant())->getHp() > 0) {
                 //draw the plant with the texture
-                squaresList.at(i).getPlant()->draw(texture);
+				squaresList.at(i).getPlant()->draw(texture, plantAnimPos);
             }else {
                 //erase the plant from the square
                 squaresList.at(i).setPlant(nullptr);

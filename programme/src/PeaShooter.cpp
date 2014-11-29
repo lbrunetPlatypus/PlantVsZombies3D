@@ -42,7 +42,7 @@ std::string PeaShooter::getType() {
     return "PEASHOOTER";
 }
 
-void PeaShooter::draw(GLuint texture[]) {
+void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
     GLUquadric* leavesquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *peaface = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     

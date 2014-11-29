@@ -69,6 +69,10 @@ GLuint texture[15];
 House house;
 //animation
 float animPos = 0;
+float deltaAnimMove = 0.5;
+float plantAnimPos=0;
+float deltaPlantAnimMove = 1;
+
 
 //// Read a texture map from a BMP bitmap file.
 void loadExternalTextures(string file, GLuint &texture)
@@ -114,7 +118,7 @@ void drawPlayerViewport(){
                 glTranslatef(-0.4, -1, 0);
                 glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
                 PeaShooter peashooter;
-                peashooter.draw(texture);
+                peashooter.draw(texture,0);
             glPopMatrix();
         }
         else if (plantSelection == 2){
@@ -123,7 +127,7 @@ void drawPlayerViewport(){
                 glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
                 SunPlant sunplant;
                 glRotatef(-90, 0, 1, 0);
-                sunplant.draw(texture);
+				sunplant.draw(texture, 0);
             glPopMatrix();
         }
         glColor3f(0, 0, 0);
@@ -306,7 +310,7 @@ void display()
             drawScene();
         }
 		DrawGrid();
-		game.draw(texture, animPos);
+		game.draw(texture, animPos, plantAnimPos);
     glPopMatrix();
     glDisable(GL_DEPTH_TEST); // Disable depth testing.
     drawPlayerViewport();
@@ -536,15 +540,24 @@ void mousePassiveFunc(int x, int y)
 	currentHoveredSquare = game.checkSquareHoveringStatus(x, y);
 }
 
-float deltaAnimMove=1;
-bool change=false;
+void plantAnim(int value){
+	plantAnimPos += deltaPlantAnimMove;
+	//to keep animPos in the intervall [0,4]
+	if (plantAnimPos >= 10 || animPos <= 0){
+		deltaPlantAnimMove = -deltaPlantAnimMove;
+	}
+
+	glutTimerFunc(100, plantAnim, 1);
+
+}
+
+
 void move(int value) {
 	
 	animPos += deltaAnimMove;
 	//to keep animPos in the intervall [0,4]
 	if (animPos >= 3|| animPos <= 0){
 		deltaAnimMove = -deltaAnimMove;
-		change = (!change);
 	}
 	
 

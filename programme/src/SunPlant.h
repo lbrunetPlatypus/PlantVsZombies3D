@@ -12,6 +12,6 @@ class SunPlant : public Plant{
     SunPlant(int cooldown, int hp);
     Sun produceSun();
     std::string getType();
-    void draw(GLuint texture[]);
+	void draw(GLuint texture[], float plantAnimPos);
 };
 #endif
