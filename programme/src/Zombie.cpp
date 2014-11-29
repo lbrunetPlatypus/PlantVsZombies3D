@@ -49,10 +49,15 @@ void drawCube(int size) {
 
 Zombie::Zombie() {
     hp = 200;
+    despawn = 10;
     attackPoint = 10;
     speed = 5;
     coolDown = 10;
     coolDownState = 0;
+}
+
+int Zombie::getDespawn() {
+    return despawn;
 }
 
 int Zombie::getHp() {
@@ -101,18 +106,20 @@ bool Zombie::detectTarget(Plant& plant){
 
 void Zombie::move(){
     Position position = getPosition();
-    if (getPosition().getX()>0)
+    if (getPosition().getX()>0 && getHp()>0)
     position = position + Position(-1, 0, 0);
     setPosition(position);
     glutPostRedisplay();
 }
 
 void Zombie::nibble(Plant& plant){//makedamages to the objet in front
-    if (coolDownState == 0) {
-        coolDownState = coolDown;
-        plant.ApplyDamages(attackPoint);
-    }else {
-        coolDownState--;
+    if (getHp()>0) {
+        if (coolDownState == 0) {
+            coolDownState = coolDown;
+            plant.ApplyDamages(attackPoint);
+        }else {
+            coolDownState--;
+        }
     }
 }
 
@@ -133,31 +140,54 @@ void Zombie::draw(GLuint texture[], float animPos) {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[4]);
     gluQuadricTexture(zombieface,1);
-
+    
+    if (getHp()<=0 && despawn > 0) {
+        despawn -= 0.4;
+        
+    }
+    
     glPushMatrix();
         glTranslatef(getPosition().getX(), getPosition().getY(), getPosition().getZ());
         glTranslatef(0, 100, 0);
+        glColor3f(1, 1, 1);
 
         //head
+    if (getHp()/200.0 > 0.1) {
         glPushMatrix();
-        glColor3f(1, 1, 1);
         glScalef(0.8, 1, 0.8);
         glRotatef(-90, 1, 0, 0);
 
         glRotatef(-90, 0, 0, 1);
         gluSphere(zombieface, 15, 20, 20);
         glPopMatrix();
-    
-    
-        //torso
+    }
     glBindTexture(GL_TEXTURE_2D, texture[5]);
 
-        glTranslatef(0, 5, 0);
+        //torso
+   
+    int despawn = this->despawn;
+    glTranslatef(0, 5, 0);
+    glPushMatrix();
+        glTranslatef(0, -40, 0);
+        //glScalef(1, 2, 1.5);
         glPushMatrix();
-            glTranslatef(0, -40, 0);
-            glScalef(1, 2, 1.5);
-            drawCube(20);
+        //glTranslatef(-10, -20, -15);
+        glTranslatef(-(10-despawn)*10.0/(10-despawn+1), -(10-despawn)*20.0/(10-despawn+1), -(10-despawn)*20.0/(10-despawn+1));
+        glScalef(1.0/(10-despawn+1), 1.0/(10-despawn+1), 1.0/(10-despawn+1));
+        for (int i=0; i<(10-despawn+1); i++) {
+            for (int j=0; j<(10-despawn+1); j++) {
+                for (int k=0; k<(10-despawn+1); k++) {
+                    glPushMatrix();
+                    glScalef(2, 4, 3);
+                    glTranslatef(i*10.0, j*10.0, k*10.0);
+                    drawCube(despawn);
+                    glPopMatrix();
+                }
+            }
+        }
         glPopMatrix();
+    glPopMatrix();
+    
 
 		glBindTexture(GL_TEXTURE_2D, texture[6]);
 		glPushMatrix();
@@ -258,25 +288,24 @@ void Zombie::draw(GLuint texture[], float animPos) {
             
         }
         glPushMatrix();
-
-        glTranslatef((legPosition.getX()), 0, 0);
-        glTranslatef(-getPosition().getX(), 0, 0);
-        glPushMatrix();
-        glTranslatef(0, -80, -6);
-        glTranslatef(20, -40, 0);
-        glRotatef(legPosition.getY(), 0, 0, 1);
-        glTranslatef(-20, 40, 0);
-        glPushMatrix();
-        glScalef(1, 4, 1);
-        drawCube(10);
-        glPopMatrix();
-        glDisable(GL_TEXTURE_2D);
-        
-        glTranslatef(-5, -20, 0);
-        glScalef(2, 1, 1);
-        glColor3f(0.36, 0.20, 0.09);
-        drawCube(10);
-        glPopMatrix();
+            glTranslatef((legPosition.getX()), 0, 0);
+            glTranslatef(-getPosition().getX(), 0, 0);
+            glPushMatrix();
+            glTranslatef(0, -80, -6);
+            glTranslatef(20, -40, 0);
+            glRotatef(legPosition.getY(), 0, 0, 1);
+            glTranslatef(-20, 40, 0);
+            glPushMatrix();
+            glScalef(1, 4, 1);
+            drawCube(10);
+            glPopMatrix();
+            glDisable(GL_TEXTURE_2D);
+            
+            glTranslatef(-5, -20, 0);
+            glScalef(2, 1, 1);
+            glColor3f(0.36, 0.20, 0.09);
+            drawCube(10);
+            glPopMatrix();
         glPopMatrix();
     }
     

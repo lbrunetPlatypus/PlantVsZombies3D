@@ -136,7 +136,7 @@ void Gameboard::draw(GLuint texture[], float animPos, float plantAnimPos) {
     //draw all zombies
     for (int j=0; j<zombiesList.size(); j++) {
         //check if the zombie has enough HP
-        if (zombiesList[j]->takeDamages(0)) {
+        if (zombiesList[j]->takeDamages(0) && zombiesList[j]->getDespawn()<=0) {
             //delete the zombie from zombiesList
             zombiesList.erase(zombiesList.begin()+j);
         } else {

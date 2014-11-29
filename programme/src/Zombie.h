@@ -6,14 +6,16 @@
 class Zombie : public GameObject{
     private :
     int hp;
+    float despawn;
     int attackPoint;
     int speed;
     int coolDown;
     int coolDownState;
-    Position armPosition, legPosition, deadPosition;
+    Position armPosition, legPosition, headPosition;
     
     public :
     Zombie();
+    int getDespawn();
     int getHp();
     int getAttackPoint();
     int getSpeed();
