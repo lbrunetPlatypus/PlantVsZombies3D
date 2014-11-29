@@ -86,7 +86,7 @@ void Zombie::setCooldownState(int _cooldownState) {
 bool Zombie::detectTarget(Plant& plant){
 	
 	if (getPosition().getZ() == plant.getPosition().getZ()) {
-		if (getPosition().getX() > plant.getPosition().getX()) {
+		if (getPosition().getX()-50 > plant.getPosition().getX()) {
 			return false;
 		}
 		else {
@@ -127,7 +127,7 @@ bool Zombie::takeDamages(int nbDamages){
 	
 }
 
-void Zombie::draw(GLuint texture[]) {
+void Zombie::draw(GLuint texture[], float animPos) {
 
     GLUquadric* zombieface = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
@@ -159,30 +159,33 @@ void Zombie::draw(GLuint texture[]) {
             drawCube(20);
         glPopMatrix();
 
-    
-    glBindTexture(GL_TEXTURE_2D, texture[6]);
-
+		glBindTexture(GL_TEXTURE_2D, texture[6]);
+		glPushMatrix();
+		glTranslatef(0, animPos, 0);
         //RIGHT - arm + hand
         glPushMatrix();
-            glTranslatef(-20, -25, -20);
-    
-            glPushMatrix();
-                glScalef(3, 1, 1);
-                glRotatef(-90, 0, 0, 1);
 
-                drawCube(10);
-            glPopMatrix();
+				glTranslatef(-20, -27, -20);
+    
+				glPushMatrix();
+					glScalef(3, 1, 1);
+					glRotatef(-90, 0, 0, 1);
+
+					drawCube(10);
+				glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
-            glColor3f(0.35, 0.42, 0.34);
-            glTranslatef(-20, 0, 0);
-            drawCube(10);
-        glPopMatrix();
+				glColor3f(0.35, 0.42, 0.34);
+				glTranslatef(-20, 0, 0);
+				drawCube(10);
+			glPopMatrix();
+		glPopMatrix();
 
-
+		glPushMatrix();
+		glTranslatef(0, -animPos, 0);
         //LEFT - arm + hand
         glPushMatrix();
-            glTranslatef(-20, -25, 20);
+            glTranslatef(-20, -27, 20);
     
             glPushMatrix();
                 glScalef(3, 1, 1);
@@ -194,6 +197,9 @@ void Zombie::draw(GLuint texture[]) {
             glTranslatef(-20, 0, 0);
             drawCube(10);
         glPopMatrix();
+		glPopMatrix();
+
+
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[8]);
     //RIGHT - leg + foot

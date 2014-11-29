@@ -7,6 +7,7 @@
 #include "Gameboard.h"
 #include "BoardSquare.h"
 #include "getbmp.h"
+#include "House.h"
 
 #define COOLDOWN 5;
 #define SUN_COOLDOWN 10;
@@ -64,6 +65,10 @@ bool _mouseRight = false;
 
 //textures !
 GLuint texture[15];
+//House
+House house;
+//animation
+float animPos = 0;
 
 //// Read a texture map from a BMP bitmap file.
 void loadExternalTextures(string file, GLuint &texture)
@@ -130,7 +135,7 @@ void drawPlayerViewport(){
             glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
             Zombie zombie;
             glRotatef(180, 0, 1, 0);
-            zombie.draw(texture);
+            zombie.draw(texture, 0);
         glPopMatrix();
         writeBitmapString(" X " + std::to_string(game.getZombiesList().size() + zombiesList.size()));
     }
@@ -260,6 +265,26 @@ void display()
 
     glViewport(0, 0, width, 9*height/10);
 
+	//change density to change fog thickness
+	//____________________________________Fog____________________________________________________
+
+	GLuint filter;                      // Which Filter To Use
+	GLuint fogMode[] = { GL_EXP, GL_EXP2, GL_LINEAR };   // Storage For Three Types Of Fog
+	GLuint fogfilter = 0;                    // Which Fog To Use
+	GLfloat fogColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f };      // Fog Color
+
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);          // We'll Clear To The Color Of The Fog ( Modified )
+
+	glFogi(GL_FOG_MODE, fogMode[fogfilter]);        // Fog Mode
+	glFogfv(GL_FOG_COLOR, fogColor);            // Set Fog Color
+	glFogf(GL_FOG_DENSITY, 0.001f);              // How Dense Will The Fog Be
+	glHint(GL_FOG_HINT, GL_DONT_CARE);          // Fog Hint Value
+	glFogf(GL_FOG_START, 1.0f);             // Fog Start Depth
+	glFogf(GL_FOG_END, 5.0f);               // Fog End Depth
+	glEnable(GL_FOG);                   // Enables GL_FOG
+
+	//____________________________________Fog____________________________________________________
+
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glPushMatrix();
@@ -281,7 +306,7 @@ void display()
             drawScene();
         }
 		DrawGrid();
-		game.draw(texture);
+		game.draw(texture, animPos);
     glPopMatrix();
     glDisable(GL_DEPTH_TEST); // Disable depth testing.
     drawPlayerViewport();
@@ -511,8 +536,19 @@ void mousePassiveFunc(int x, int y)
 	currentHoveredSquare = game.checkSquareHoveringStatus(x, y);
 }
 
-
+float deltaAnimMove=1;
+bool change=false;
 void move(int value) {
+	
+	animPos += deltaAnimMove;
+	//to keep animPos in the intervall [0,4]
+	if (animPos >= 3|| animPos <= 0){
+		deltaAnimMove = -deltaAnimMove;
+		change = (!change);
+	}
+	
+
+
 
     game.UpdateZombies();
     game.UpdateSuns();
@@ -561,6 +597,7 @@ int main(int argc, char **argv)
         zombiesList.push_back(zombie);
     }
 
+	game.setHouse(house);
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(600, 600);

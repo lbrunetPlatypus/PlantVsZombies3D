@@ -8,6 +8,7 @@
 #include "Sun.h"
 #include "Bullet.h"
 #include <ctime>
+#include "House.h"
 
 class Gameboard {
     private :
@@ -17,6 +18,7 @@ class Gameboard {
     std::vector<Bullet> bulletsList;
 	int sizeX;
 	int sizeZ;
+	House house;
     
     public :
 	Gameboard();
@@ -38,9 +40,10 @@ class Gameboard {
 	int selectSun();
 	int checkSquareHoveringStatus(int x, int y);
 	void UpdateSquareScreenCoordinate();
+	void setHouse(House house);
     
 
-    void draw(GLuint texture[]);
+    void draw(GLuint texture[], float animPos);
 	void UpdateZombies();
 	void UpdatePlants();
     void UpdateBullets();

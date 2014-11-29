@@ -24,6 +24,6 @@ class Zombie : public GameObject{
     void move();
 	void nibble(Plant& plant);//attack a plant with attackPoint damage
     bool takeDamages(int nbDamages);//say if the zombie die or not?
-    void draw(GLuint texture[]);
+    void draw(GLuint texture[], float animPos);
 };
 #endif

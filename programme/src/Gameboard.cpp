@@ -111,8 +111,10 @@ BoardSquare Gameboard::getSquare(Position position){
     return getSquaresList().at(sizeZ*i+j);
 }
 
-void Gameboard::draw(GLuint texture[]) {
+void Gameboard::draw(GLuint texture[], float animPos) {
 	UpdateSquareScreenCoordinate();
+
+	house.draw(texture, getSizeZ() * 100, getSizeZ() * 100 / 3, getSizeZ() * 100 / 3);
     
     //draw all Plants and Squares
     for (int i=0; i<squaresList.size(); i++) {
@@ -139,7 +141,7 @@ void Gameboard::draw(GLuint texture[]) {
             zombiesList.erase(zombiesList.begin()+j);
         } else {
             //else draw the zombie with the texture
-            zombiesList[j]->draw(texture);
+            zombiesList[j]->draw(texture, animPos);
         }
     }
     
@@ -426,6 +428,10 @@ bool Gameboard::isGameover() {
     return false;
 }
 
+void Gameboard::setHouse(House _house){
+	house = _house;
+}
+
 const Vec3 operator + (const Vec3& v1, const Vec3& v2){
 	return Vec3(v1.x + v2.x,
 		v1.y + v2.y,
@@ -439,3 +445,5 @@ const Vec3 operator * (const Vec3& v1, const double& coeff){
 const Vec3 operator - (const Vec3& v1, const Vec3& v2){
 	return Vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 }
+
+
