@@ -42,7 +42,7 @@ std::string PeaShooter::getType() {
     return "PEASHOOTER";
 }
 
-void PeaShooter::draw(GLuint texture[]) {
+void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
     int mouthRadius = 15;
     int mouthLength = 0;
     int angle = 0;
@@ -61,7 +61,6 @@ void PeaShooter::draw(GLuint texture[]) {
         
     }
 
-    
     GLUquadric* leavesquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *peaface = gluNewQuadric();
     glEnable(GL_TEXTURE_2D);
     

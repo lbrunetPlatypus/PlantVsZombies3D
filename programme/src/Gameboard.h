@@ -43,7 +43,7 @@ class Gameboard {
 	void setHouse(House house);
     
 
-    void draw(GLuint texture[], float animPos);
+    void draw(GLuint texture[], float animPos, float plantAnimPos);
 	void UpdateZombies();
 	void UpdatePlants();
     void UpdateBullets();

@@ -69,6 +69,10 @@ GLuint texture[15];
 House house;
 //animation
 float animPos = 0;
+float deltaAnimMove = 0.5;
+float plantAnimPos=5;
+float deltaPlantAnimMove = 1;
+float density = 0.001;
 
 //// Read a texture map from a BMP bitmap file.
 void loadExternalTextures(string file, GLuint &texture)
@@ -114,7 +118,7 @@ void drawPlayerViewport(){
                 glTranslatef(-0.4, -1, 0);
                 glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
                 PeaShooter peashooter;
-                peashooter.draw(texture);
+                peashooter.draw(texture,0);
             glPopMatrix();
         }
         else if (plantSelection == 2){
@@ -123,7 +127,7 @@ void drawPlayerViewport(){
                 glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
                 SunPlant sunplant;
                 glRotatef(-90, 0, 1, 0);
-                sunplant.draw(texture);
+				sunplant.draw(texture, 0);
             glPopMatrix();
         }
         glColor3f(0, 0, 0);
@@ -265,8 +269,9 @@ void display()
 
     glViewport(0, 0, width, 9*height/10);
 
+	
 	//change density to change fog thickness
-	//____________________________________Fog____________________________________________________
+	
 
 	GLuint filter;                      // Which Filter To Use
 	GLuint fogMode[] = { GL_EXP, GL_EXP2, GL_LINEAR };   // Storage For Three Types Of Fog
@@ -277,13 +282,13 @@ void display()
 
 	glFogi(GL_FOG_MODE, fogMode[fogfilter]);        // Fog Mode
 	glFogfv(GL_FOG_COLOR, fogColor);            // Set Fog Color
-	glFogf(GL_FOG_DENSITY, 0.001f);              // How Dense Will The Fog Be
+	glFogf(GL_FOG_DENSITY,density);              // How Dense Will The Fog Be
 	glHint(GL_FOG_HINT, GL_DONT_CARE);          // Fog Hint Value
 	glFogf(GL_FOG_START, 1.0f);             // Fog Start Depth
 	glFogf(GL_FOG_END, 5.0f);               // Fog End Depth
 	glEnable(GL_FOG);                   // Enables GL_FOG
 
-	//____________________________________Fog____________________________________________________
+	
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -306,7 +311,7 @@ void display()
             drawScene();
         }
 		DrawGrid();
-		game.draw(texture, animPos);
+		game.draw(texture, animPos, plantAnimPos);
     glPopMatrix();
     glDisable(GL_DEPTH_TEST); // Disable depth testing.
     drawPlayerViewport();
@@ -391,6 +396,14 @@ void keyboard(unsigned char key, int x, int y)
         case '2':
             plantSelection=2;
             break;
+		case 'f':
+			if (density<0.005)
+			density += 0.001;
+			break;
+		case 'F':
+			if (density>0)
+			density -= 0.001;
+			break;
         default:
             
             break;
@@ -536,15 +549,24 @@ void mousePassiveFunc(int x, int y)
 	currentHoveredSquare = game.checkSquareHoveringStatus(x, y);
 }
 
-float deltaAnimMove=1;
-bool change=false;
+void plantAnim(int value){
+	plantAnimPos += deltaPlantAnimMove;
+	//to keep animPos in the intervall [0,4]
+	if (plantAnimPos >= 20 || animPos <= 0){
+		deltaPlantAnimMove = -deltaPlantAnimMove;
+	}
+
+	glutTimerFunc(200, plantAnim, 1);
+
+}
+
+
 void move(int value) {
 	
 	animPos += deltaAnimMove;
 	//to keep animPos in the intervall [0,4]
 	if (animPos >= 3|| animPos <= 0){
 		deltaAnimMove = -deltaAnimMove;
-		change = (!change);
 	}
 	
 
@@ -630,6 +652,7 @@ int main(int argc, char **argv)
     
     move(1);
     move2(1);
+	plantAnim(1);
     
     setup();
     

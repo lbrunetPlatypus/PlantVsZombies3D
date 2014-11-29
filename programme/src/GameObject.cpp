@@ -13,7 +13,7 @@ Position GameObject::getPosition() {
     return position;
 }
 
-void GameObject::draw(GLuint texture[]){
+void GameObject::draw(GLuint texture[], float plantAnimPos){
 
 }
 

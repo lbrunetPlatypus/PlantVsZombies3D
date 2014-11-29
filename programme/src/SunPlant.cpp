@@ -41,7 +41,7 @@ std::string SunPlant::getType() {
     return "SUNPLANT";
 }
 
-void SunPlant::draw(GLuint texture[]) {
+void SunPlant::draw(GLuint texture[], float plantAnimPos) {
     int nPetals = 20;
     int petalLength = 10;
     int sunRadius = 40;
@@ -51,8 +51,12 @@ void SunPlant::draw(GLuint texture[]) {
 
     GLUquadric* leavesquad = gluNewQuadric(), *petalsquad = gluNewQuadric(), *stemquad = gluNewQuadric(), *flowerQuad = gluNewQuadric();
     
-    
-
+    //GlPush
+	//glTranslate(5-plantAnim,0,0)
+	//Head
+	//GlPop
+	glPushMatrix();
+	glTranslatef(0, 0, 10 - plantAnimPos);
     glPushMatrix();
     glTranslatef(getPosition().getX(), 30, getPosition().getZ());
     glColor3f(1, 1, 0);
@@ -205,4 +209,5 @@ void SunPlant::draw(GLuint texture[]) {
     glDisable(GL_TEXTURE_2D);
 
     glPopMatrix();
+	glPopMatrix();
 }
