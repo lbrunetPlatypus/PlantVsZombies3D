@@ -42,6 +42,7 @@ static GLfloat translationY;
 static GLfloat translationZ; //to zoom in/out the scene
 //Game info
 vector<Zombie> zombiesList; //list of zombie to spawn
+int NB_ZOMBIE = 30;
 int spawnCooldown = COOLDOWN;
 int sunCooldown = 0;
 Gameboard game(9,5);
@@ -94,57 +95,143 @@ void loadExternalTextures(string file, GLuint &texture)
 void writeBitmapString(string string)
 {
     for (int i=0; i<string.length() ; i++) {
-        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, string[i]);
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, string[i]);
     }
 }
 
-void drawPlayerViewport(){
-    glViewport(0, 9*height/10, width, height/10);
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(-1, 1, -1, 1, 1, 1);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glColor3f(0, 0, 0);
-    if (game.isGameover()) {
-        glRasterPos2d(0, 0);
-        writeBitmapString("GAME OVER !!");
-    } else {
-        glRasterPos2d(-1, 0);
-        writeBitmapString("Plant selection :");
-        if (plantSelection == 1) {
-            glPushMatrix();
-                glTranslatef(-0.4, -1, 0);
-                glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
-                PeaShooter peashooter;
-                peashooter.draw(texture,0);
-            glPopMatrix();
-        }
-        else if (plantSelection == 2){
-            glPushMatrix();
-                glTranslatef(-0.4, -1, 0);
-                glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
-                SunPlant sunplant;
-                glRotatef(-90, 0, 1, 0);
-				sunplant.draw(texture, 0);
-            glPopMatrix();
-        }
-        glColor3f(0, 0, 0);
-        glRasterPos2d(0, 0);
-        writeBitmapString("Sun : " + std::to_string(nbSun));
-        glRasterPos2f(0.5, 0);
+void drawPlayerBoard(){
+        glMatrixMode(GL_PROJECTION);
         glPushMatrix();
-            glTranslatef(0.4, -1, 0);
-            glScalef(1.0/(9*height/10), 10.0/(9*height/10), 1.0/(9*height/10));
-            Zombie zombie;
-            glRotatef(180, 0, 1, 0);
-            zombie.draw(texture, 0);
-        glPopMatrix();
-        writeBitmapString(" X " + std::to_string(game.getZombiesList().size() + zombiesList.size()));
-    }
-    glPopMatrix();
+        glLoadIdentity();
+        glOrtho(-windowWidth/2, windowWidth/2, -windowHeight/2, windowHeight/2, windowNear, windowFar);
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+        glTranslatef(0, windowHeight/2 - 100, -50);
+        
+
+        if (game.isGameover()) {
+            glRasterPos2d(0, 0);
+            writeBitmapString("GAME OVER !!");
+        } else {
+            
+            //plant selection square
+            glPushMatrix();
+            glScalef(10, 10, 1);
+            glPushMatrix();
+                glTranslatef(-35, 0, 1);
+                glPushMatrix();
+                glColor3f(0, 0, 0);
+                glTranslatef(0, 7.5, 0);
+                glScalef(15 , 1, 1);
+                glutSolidCube(1);
+                glPopMatrix();
+                
+                glPushMatrix();
+                glTranslatef(7.5, 0, 0);
+                glRotatef(90, 0, 0, 1);
+                glScalef(15 , 1, 1);
+                glutSolidCube(1);
+                glPopMatrix();
+
+                glPushMatrix();
+                glTranslatef(0, -7.5, 0);
+                glScalef(15 , 1, 1);
+                glutSolidCube(1);
+                glPopMatrix();
+
+                glPushMatrix();
+                glTranslatef(-7.5, 0, 0);
+                glRotatef(90, 0, 0, 1);
+                glScalef(15 , 1, 1);
+                glutSolidCube(1);
+                glPopMatrix();
+            glPopMatrix();
+            
+            //plant selection
+            if (plantSelection == 1) {
+                glPushMatrix();
+                    glTranslatef(-34, -4, 2);
+                    glRotatef(45, 1, 0, 0);
+                    glRotatef(-45, 0, 1, 0);
+                    glScalef(0.09,0.09,0.09);
+                    PeaShooter peashooter;
+                    peashooter.draw(texture,0);
+                glPopMatrix();
+            }
+            else if (plantSelection == 2){
+                glPushMatrix();
+                glTranslatef(-34, -4, 2);
+                    glRotatef(45, 1, 0, 0);
+                    glRotatef(45, 0, 1, 0);
+                    glScalef(0.09,0.09,0.09);
+                    SunPlant sunplant;
+                    glRotatef(-90, 0, 1, 0);
+                    sunplant.draw(texture, 0);
+                glPopMatrix();
+            }
+            
+            //number of suns
+            glPushMatrix();
+                glColor3f(0, 0, 0);
+
+                glRasterPos2d(35, 0);
+                writeBitmapString("X " + std::to_string(nbSun));
+                
+                glTranslatef(30, 0, 2);
+                glRotatef(45, 1, 0, 0);
+                glRotatef(45, 0, 1, 0);
+                glScalef(0.09,0.09,0.09);
+                Sun sun;
+                glRotatef(-90, 0, 1, 0);
+                sun.draw(texture);
+            glPopMatrix();
+            
+            //number of zombies left
+            
+            glPushMatrix();
+                glColor3f(1, 1, 1);
+                glScalef(10, 1, 0.05);
+                glutSolidCube(4);
+            glPopMatrix();
+            
+            float progress = (NB_ZOMBIE-zombiesList.size()) * 10.0 / NB_ZOMBIE;
+            
+            glPushMatrix();
+                glTranslatef(-20 + 2*progress, 0, 1);
+                
+                glPushMatrix();
+                    glTranslatef(2*progress, 0, 1);
+
+                    GLUquadric* zombieface = gluNewQuadric();
+                    glEnable(GL_TEXTURE_2D);
+                    glBindTexture(GL_TEXTURE_2D, texture[4]);
+                    gluQuadricTexture(zombieface,1);
+                    
+                    //head
+                    glPushMatrix();
+                    glColor3f(1, 1, 1);
+                    glScalef(0.8, 1, 0.8);
+                    glRotatef(90, 0, 1, 0);
+                    glRotatef(-90, 1, 0, 0);
+                    glRotatef(-90, 0, 0, 1);
+                    gluSphere(zombieface, 3, 20, 20);
+                    glPopMatrix();
+                    glDisable(GL_TEXTURE_2D);
+
+                glPopMatrix();
+                glColor3f(0, 1, 0);
+                glScalef(progress-0.1, 0.9, 0.05);
+                glutSolidCube(4);
+            glPopMatrix();
+            
+        }
     
+    glPopMatrix();
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
 }
 
 // OpenGL window reshape routine.
@@ -267,7 +354,7 @@ void drawScene() {
 void display()
 {
 
-    glViewport(0, 0, width, 9*height/10);
+    glViewport(0, 0, width, height);
 
 	
 	//change density to change fog thickness
@@ -300,7 +387,7 @@ void display()
         glPolygonMode(GL_FRONT_AND_BACK, wireShaded);
 		glLoadIdentity();
     //Centering the scene
-		glTranslatef(translationX, translationY, translationZ);
+        glTranslatef(translationX, translationY, translationZ);
 		gluLookAt(camPosX, camPosY, camPosZ, lookAtX, lookATY, lookAtZ, 0, 1, 0); //position of the camera
 		glRotatef(Xangle, 1.0, 0.0, 0.0); //rotation with up/down arrow key
 		glRotatef(Yangle, 0.0, 1.0, 0.0); //rotation with left/right arrow key
@@ -313,8 +400,10 @@ void display()
 		DrawGrid();
 		game.draw(texture, animPos, plantAnimPos);
     glPopMatrix();
+    glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHTING);
+    drawPlayerBoard();
     glDisable(GL_DEPTH_TEST); // Disable depth testing.
-    drawPlayerViewport();
     glFlush();
     glutSwapBuffers();
     
@@ -619,7 +708,7 @@ int main(int argc, char **argv)
         sunPlantsList.push_back(SunPlant());
     }
     
-    for (int i=0; i<30; i++) {
+    for (int i=0; i< NB_ZOMBIE; i++) {
         Zombie zombie;
         zombiesList.push_back(zombie);
     }
