@@ -239,6 +239,17 @@ void reshape(int w, int h)
 {
     width = w;
     height = h;
+	if (h == 0)// Prevent a divide by zero, when window is too short
+		h = 1;
+	float ratio = w * 1.0 / h;
+	// Use the Projection Matrix
+	glMatrixMode(GL_PROJECTION);
+	// Reset Matrix
+	glLoadIdentity();
+	// Set the correct perspective.
+	gluPerspective(fovy, ratio, windowNear, windowFar);
+	// Get Back to the Modelview
+	glMatrixMode(GL_MODELVIEW);
 }
 
 void DrawGrid()
@@ -380,7 +391,7 @@ void display()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glPushMatrix();
-		gluPerspective(fovy, windowWidth / windowHeight, windowNear, windowFar);
+		gluPerspective(fovy, width /height, windowNear, windowFar);
 		glMatrixMode(GL_MODELVIEW);
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST); // Enable depth testing.
