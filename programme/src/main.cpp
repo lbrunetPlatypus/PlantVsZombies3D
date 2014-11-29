@@ -72,7 +72,7 @@ float animPos = 0;
 float deltaAnimMove = 0.5;
 float plantAnimPos=5;
 float deltaPlantAnimMove = 1;
-
+float density = 0.001;
 
 //// Read a texture map from a BMP bitmap file.
 void loadExternalTextures(string file, GLuint &texture)
@@ -269,8 +269,9 @@ void display()
 
     glViewport(0, 0, width, 9*height/10);
 
+	
 	//change density to change fog thickness
-	//____________________________________Fog____________________________________________________
+	
 
 	GLuint filter;                      // Which Filter To Use
 	GLuint fogMode[] = { GL_EXP, GL_EXP2, GL_LINEAR };   // Storage For Three Types Of Fog
@@ -281,13 +282,13 @@ void display()
 
 	glFogi(GL_FOG_MODE, fogMode[fogfilter]);        // Fog Mode
 	glFogfv(GL_FOG_COLOR, fogColor);            // Set Fog Color
-	glFogf(GL_FOG_DENSITY, 0.001f);              // How Dense Will The Fog Be
+	glFogf(GL_FOG_DENSITY,density);              // How Dense Will The Fog Be
 	glHint(GL_FOG_HINT, GL_DONT_CARE);          // Fog Hint Value
 	glFogf(GL_FOG_START, 1.0f);             // Fog Start Depth
 	glFogf(GL_FOG_END, 5.0f);               // Fog End Depth
 	glEnable(GL_FOG);                   // Enables GL_FOG
 
-	//____________________________________Fog____________________________________________________
+	
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -395,6 +396,14 @@ void keyboard(unsigned char key, int x, int y)
         case '2':
             plantSelection=2;
             break;
+		case 'f':
+			if (density<0.005)
+			density += 0.001;
+			break;
+		case 'F':
+			if (density>0)
+			density -= 0.001;
+			break;
         default:
             
             break;

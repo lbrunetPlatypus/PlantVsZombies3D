@@ -10,7 +10,7 @@ void House::draw(GLuint texture[], int length, int width, int height) {//texture
 	//float angleRoof = atan2(2 * HeightRoof, width);
 //length wall
 	glPushMatrix();
-	glTranslatef(-width/2,0,length/2);
+	glTranslatef(-3*width/4 ,0,length/2);
 	glRotatef(90, 0, 1, 0);
 		glBegin(GL_QUADS);
 			//length wall in the back
