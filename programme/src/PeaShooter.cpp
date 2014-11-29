@@ -70,7 +70,8 @@ void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
     glScalef(1, 0.9, 1);
     gluSphere(peaface, 30, 20, 20);
     glPopMatrix();
-
+    
+    
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     gluQuadricTexture(leavesquad,1);
     glColor3f(0, 1, 0);
@@ -118,8 +119,8 @@ void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
         gluCylinder(stemquad, 10, mouthRadius+5, 30, 20, 20);
         glColor3f(0, 0, 0);
         gluCylinder(stemquad, 10, mouthRadius+2, 30, 20, 20);
-        glTranslatef(0, 0, 10);
-        gluSphere(stemquad, mouthRadius-2, 20, 20);
+        glTranslatef(0, 0, 7);
+        gluSphere(stemquad, 12, 20, 20);
         glPopMatrix();
     //mouth3
         glColor3f(0.5, 1, 0);
@@ -128,6 +129,13 @@ void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
         glRotatef(-90, 0, 1, 0);
         gluCylinder(stemquad, 10, 20, 10, 20, 20);
         glPopMatrix();
+    //mouth4
+        glPushMatrix();
+        glTranslatef(10, -5, 0);
+        glScaled(1, 1, 1.5);
+        gluSphere(stemquad, 25-mouthRadius*0.5, 20, 20);
+        glPopMatrix();
+
     
     glPopMatrix();
     
@@ -243,15 +251,15 @@ void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
 
 void PeaShooter::animation(){
     if (getCooldownState() < 2 ) {
-        if (mouthRadius > 2) {
+        if (mouthRadius > 4) {
             mouthRadius -= 1;
         }
         if (mouthLength > -5) {
             mouthLength -= 0.5;
         }
-        if (getCooldownState() == 1)
+        if (getCooldownState() == 1 && angle < 30)
             angle += 1;
-        if (getCooldownState() == 0)
+        if (getCooldownState() == 0 && angle < 30)
             angle += 1;
         
     }else if (getCooldownState() > 8){
@@ -261,7 +269,9 @@ void PeaShooter::animation(){
         if (mouthLength < 0) {
             mouthLength += 0.5;
         }
-        angle -= 1;
+        if (angle > -10) {
+            angle -= 1;
+        }
         
     }else {
         if (mouthRadius > 15) {
