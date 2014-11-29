@@ -119,21 +119,24 @@ void PeaShooter::draw(GLuint texture[], float plantAnimPos) {
     //mouth 1
         glPushMatrix();
         glColor3f(0.5, 1, 0);
+        glTranslatef(mouthLength, 0, 0);
         glTranslatef(50, 0, 0);
         glRotatef(90, 0, 1, 0);
+
         drawTorus(mouthRadius+3, 2, 20, 20);
         glPopMatrix();
         glColor3f(0, 1, 0);
     //mouth 2
         glPushMatrix();
+        glTranslatef(mouthLength, 0, 0);
         glColor3f(0.5, 1, 0);
         glTranslatef(20, 0, 0);
         glRotatef(90, 0, 1, 0);
-        gluCylinder(stemquad, 10, mouthRadius+5, 30+mouthLength, 20, 20);
+        gluCylinder(stemquad, 10, mouthRadius+5, 30, 20, 20);
         glColor3f(0, 0, 0);
-        gluCylinder(stemquad, 10, mouthRadius+2, 30+mouthLength, 20, 20);
-        glTranslatef(mouthLength, 0, 10);
-        gluSphere(stemquad, mouthRadius-3, 20, 20);
+        gluCylinder(stemquad, 10, mouthRadius+2, 30, 20, 20);
+        glTranslatef(0, 0, 10);
+        gluSphere(stemquad, mouthRadius-2, 20, 20);
         glPopMatrix();
     //mouth3
         glColor3f(0.5, 1, 0);
