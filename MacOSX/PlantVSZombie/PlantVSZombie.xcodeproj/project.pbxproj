@@ -1,0 +1,320 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F03E71861A2BDBAC00593DCD /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03E71851A2BDBAC00593DCD /* OpenGL.framework */; };
+		F03E71881A2BDBB300593DCD /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03E71871A2BDBB300593DCD /* GLUT.framework */; };
+		F0D511131A2BDD6A0043DC61 /* BoardSquare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D510FA1A2BDD6A0043DC61 /* BoardSquare.cpp */; };
+		F0D511141A2BDD6A0043DC61 /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D510FC1A2BDD6A0043DC61 /* Bullet.cpp */; };
+		F0D511151A2BDD6A0043DC61 /* Gameboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D510FE1A2BDD6A0043DC61 /* Gameboard.cpp */; };
+		F0D511161A2BDD6A0043DC61 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D511001A2BDD6A0043DC61 /* GameObject.cpp */; };
+		F0D511171A2BDD6A0043DC61 /* getbmp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D511021A2BDD6A0043DC61 /* getbmp.cpp */; };
+		F0D511181A2BDD6A0043DC61 /* House.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D511041A2BDD6A0043DC61 /* House.cpp */; };
+		F0D511191A2BDD6A0043DC61 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D511061A2BDD6A0043DC61 /* main.cpp */; };
+		F0D5111A1A2BDD6A0043DC61 /* PeaShooter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D511071A2BDD6A0043DC61 /* PeaShooter.cpp */; };
+		F0D5111B1A2BDD6A0043DC61 /* Plant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D511091A2BDD6A0043DC61 /* Plant.cpp */; };
+		F0D5111C1A2BDD6A0043DC61 /* Position.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D5110B1A2BDD6A0043DC61 /* Position.cpp */; };
+		F0D5111D1A2BDD6A0043DC61 /* Sun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D5110D1A2BDD6A0043DC61 /* Sun.cpp */; };
+		F0D5111E1A2BDD6A0043DC61 /* SunPlant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D5110F1A2BDD6A0043DC61 /* SunPlant.cpp */; };
+		F0D5111F1A2BDD6A0043DC61 /* Zombie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D511111A2BDD6A0043DC61 /* Zombie.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F03E71781A2BDB5800593DCD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F03E717A1A2BDB5800593DCD /* PlantVSZombie */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlantVSZombie; sourceTree = BUILT_PRODUCTS_DIR; };
+		F03E71851A2BDBAC00593DCD /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		F03E71871A2BDBB300593DCD /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		F0D510FA1A2BDD6A0043DC61 /* BoardSquare.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BoardSquare.cpp; path = ../../../programme/src/BoardSquare.cpp; sourceTree = "<group>"; };
+		F0D510FB1A2BDD6A0043DC61 /* BoardSquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BoardSquare.h; path = ../../../programme/src/BoardSquare.h; sourceTree = "<group>"; };
+		F0D510FC1A2BDD6A0043DC61 /* Bullet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bullet.cpp; path = ../../../programme/src/Bullet.cpp; sourceTree = "<group>"; };
+		F0D510FD1A2BDD6A0043DC61 /* Bullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bullet.h; path = ../../../programme/src/Bullet.h; sourceTree = "<group>"; };
+		F0D510FE1A2BDD6A0043DC61 /* Gameboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gameboard.cpp; path = ../../../programme/src/Gameboard.cpp; sourceTree = "<group>"; };
+		F0D510FF1A2BDD6A0043DC61 /* Gameboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gameboard.h; path = ../../../programme/src/Gameboard.h; sourceTree = "<group>"; };
+		F0D511001A2BDD6A0043DC61 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../../../programme/src/GameObject.cpp; sourceTree = "<group>"; };
+		F0D511011A2BDD6A0043DC61 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../../../programme/src/GameObject.h; sourceTree = "<group>"; };
+		F0D511021A2BDD6A0043DC61 /* getbmp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getbmp.cpp; path = ../../../programme/src/getbmp.cpp; sourceTree = "<group>"; };
+		F0D511031A2BDD6A0043DC61 /* getbmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getbmp.h; path = ../../../programme/src/getbmp.h; sourceTree = "<group>"; };
+		F0D511041A2BDD6A0043DC61 /* House.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = House.cpp; path = ../../../programme/src/House.cpp; sourceTree = "<group>"; };
+		F0D511051A2BDD6A0043DC61 /* House.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = House.h; path = ../../../programme/src/House.h; sourceTree = "<group>"; };
+		F0D511061A2BDD6A0043DC61 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../programme/src/main.cpp; sourceTree = "<group>"; };
+		F0D511071A2BDD6A0043DC61 /* PeaShooter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PeaShooter.cpp; path = ../../../programme/src/PeaShooter.cpp; sourceTree = "<group>"; };
+		F0D511081A2BDD6A0043DC61 /* PeaShooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PeaShooter.h; path = ../../../programme/src/PeaShooter.h; sourceTree = "<group>"; };
+		F0D511091A2BDD6A0043DC61 /* Plant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Plant.cpp; path = ../../../programme/src/Plant.cpp; sourceTree = "<group>"; };
+		F0D5110A1A2BDD6A0043DC61 /* Plant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plant.h; path = ../../../programme/src/Plant.h; sourceTree = "<group>"; };
+		F0D5110B1A2BDD6A0043DC61 /* Position.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Position.cpp; path = ../../../programme/src/Position.cpp; sourceTree = "<group>"; };
+		F0D5110C1A2BDD6A0043DC61 /* Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Position.h; path = ../../../programme/src/Position.h; sourceTree = "<group>"; };
+		F0D5110D1A2BDD6A0043DC61 /* Sun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sun.cpp; path = ../../../programme/src/Sun.cpp; sourceTree = "<group>"; };
+		F0D5110E1A2BDD6A0043DC61 /* Sun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sun.h; path = ../../../programme/src/Sun.h; sourceTree = "<group>"; };
+		F0D5110F1A2BDD6A0043DC61 /* SunPlant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SunPlant.cpp; path = ../../../programme/src/SunPlant.cpp; sourceTree = "<group>"; };
+		F0D511101A2BDD6A0043DC61 /* SunPlant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SunPlant.h; path = ../../../programme/src/SunPlant.h; sourceTree = "<group>"; };
+		F0D511111A2BDD6A0043DC61 /* Zombie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Zombie.cpp; path = ../../../programme/src/Zombie.cpp; sourceTree = "<group>"; };
+		F0D511121A2BDD6A0043DC61 /* Zombie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Zombie.h; path = ../../../programme/src/Zombie.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F03E71771A2BDB5800593DCD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F03E71881A2BDBB300593DCD /* GLUT.framework in Frameworks */,
+				F03E71861A2BDBAC00593DCD /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F03E71711A2BDB5700593DCD = {
+			isa = PBXGroup;
+			children = (
+				F03E71871A2BDBB300593DCD /* GLUT.framework */,
+				F03E71851A2BDBAC00593DCD /* OpenGL.framework */,
+				F03E717C1A2BDB5800593DCD /* PlantVSZombie */,
+				F03E717B1A2BDB5800593DCD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F03E717B1A2BDB5800593DCD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F03E717A1A2BDB5800593DCD /* PlantVSZombie */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F03E717C1A2BDB5800593DCD /* PlantVSZombie */ = {
+			isa = PBXGroup;
+			children = (
+				F0D510FA1A2BDD6A0043DC61 /* BoardSquare.cpp */,
+				F0D510FB1A2BDD6A0043DC61 /* BoardSquare.h */,
+				F0D510FC1A2BDD6A0043DC61 /* Bullet.cpp */,
+				F0D510FD1A2BDD6A0043DC61 /* Bullet.h */,
+				F0D510FE1A2BDD6A0043DC61 /* Gameboard.cpp */,
+				F0D510FF1A2BDD6A0043DC61 /* Gameboard.h */,
+				F0D511001A2BDD6A0043DC61 /* GameObject.cpp */,
+				F0D511011A2BDD6A0043DC61 /* GameObject.h */,
+				F0D511021A2BDD6A0043DC61 /* getbmp.cpp */,
+				F0D511031A2BDD6A0043DC61 /* getbmp.h */,
+				F0D511041A2BDD6A0043DC61 /* House.cpp */,
+				F0D511051A2BDD6A0043DC61 /* House.h */,
+				F0D511061A2BDD6A0043DC61 /* main.cpp */,
+				F0D511071A2BDD6A0043DC61 /* PeaShooter.cpp */,
+				F0D511081A2BDD6A0043DC61 /* PeaShooter.h */,
+				F0D511091A2BDD6A0043DC61 /* Plant.cpp */,
+				F0D5110A1A2BDD6A0043DC61 /* Plant.h */,
+				F0D5110B1A2BDD6A0043DC61 /* Position.cpp */,
+				F0D5110C1A2BDD6A0043DC61 /* Position.h */,
+				F0D5110D1A2BDD6A0043DC61 /* Sun.cpp */,
+				F0D5110E1A2BDD6A0043DC61 /* Sun.h */,
+				F0D5110F1A2BDD6A0043DC61 /* SunPlant.cpp */,
+				F0D511101A2BDD6A0043DC61 /* SunPlant.h */,
+				F0D511111A2BDD6A0043DC61 /* Zombie.cpp */,
+				F0D511121A2BDD6A0043DC61 /* Zombie.h */,
+			);
+			path = PlantVSZombie;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F03E71791A2BDB5800593DCD /* PlantVSZombie */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F03E71811A2BDB5800593DCD /* Build configuration list for PBXNativeTarget "PlantVSZombie" */;
+			buildPhases = (
+				F03E71761A2BDB5800593DCD /* Sources */,
+				F03E71771A2BDB5800593DCD /* Frameworks */,
+				F03E71781A2BDB5800593DCD /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlantVSZombie;
+			productName = PlantVSZombie;
+			productReference = F03E717A1A2BDB5800593DCD /* PlantVSZombie */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F03E71721A2BDB5800593DCD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = CAI;
+				TargetAttributes = {
+					F03E71791A2BDB5800593DCD = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = F03E71751A2BDB5800593DCD /* Build configuration list for PBXProject "PlantVSZombie" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F03E71711A2BDB5700593DCD;
+			productRefGroup = F03E717B1A2BDB5800593DCD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F03E71791A2BDB5800593DCD /* PlantVSZombie */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F03E71761A2BDB5800593DCD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0D511161A2BDD6A0043DC61 /* GameObject.cpp in Sources */,
+				F0D5111D1A2BDD6A0043DC61 /* Sun.cpp in Sources */,
+				F0D5111A1A2BDD6A0043DC61 /* PeaShooter.cpp in Sources */,
+				F0D511131A2BDD6A0043DC61 /* BoardSquare.cpp in Sources */,
+				F0D5111B1A2BDD6A0043DC61 /* Plant.cpp in Sources */,
+				F0D5111F1A2BDD6A0043DC61 /* Zombie.cpp in Sources */,
+				F0D5111C1A2BDD6A0043DC61 /* Position.cpp in Sources */,
+				F0D511181A2BDD6A0043DC61 /* House.cpp in Sources */,
+				F0D511171A2BDD6A0043DC61 /* getbmp.cpp in Sources */,
+				F0D511191A2BDD6A0043DC61 /* main.cpp in Sources */,
+				F0D511151A2BDD6A0043DC61 /* Gameboard.cpp in Sources */,
+				F0D5111E1A2BDD6A0043DC61 /* SunPlant.cpp in Sources */,
+				F0D511141A2BDD6A0043DC61 /* Bullet.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F03E717F1A2BDB5800593DCD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F03E71801A2BDB5800593DCD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F03E71821A2BDB5800593DCD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F03E71831A2BDB5800593DCD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F03E71751A2BDB5800593DCD /* Build configuration list for PBXProject "PlantVSZombie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F03E717F1A2BDB5800593DCD /* Debug */,
+				F03E71801A2BDB5800593DCD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F03E71811A2BDB5800593DCD /* Build configuration list for PBXNativeTarget "PlantVSZombie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F03E71821A2BDB5800593DCD /* Debug */,
+				F03E71831A2BDB5800593DCD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F03E71721A2BDB5800593DCD /* Project object */;
+}
