@@ -1,5 +1,6 @@
 #include "Zombie.h"
 #include "iostream"
+#define HP 200.0
 
 void drawCube(int size) {
     glPushMatrix();
@@ -48,7 +49,7 @@ void drawCube(int size) {
 }
 
 Zombie::Zombie() {
-    hp = 200;
+    hp = HP;
     despawn = 10;
     attackPoint = 10;
     speed = 5;
@@ -158,7 +159,7 @@ void Zombie::draw(GLuint texture[], float animPos) {
         glRotatef(-90, 1, 0, 0);
 
         glRotatef(-90, 0, 0, 1);
-        if (getHp()/200.0 > 0.1) {
+        if (getHp()/HP > 0.1) {
             gluSphere(zombieface, 15, 20, 20);
         }
         glPopMatrix();
@@ -214,7 +215,7 @@ void Zombie::draw(GLuint texture[], float animPos) {
     //LEFT - arm + hand
 
 		glPushMatrix();
-        if (getHp()/200.0 > 0.7 ) {
+        if (getHp()/HP > 0.7 ) {
             glTranslatef(0, 3-animPos, 0);
     
             glPushMatrix();
@@ -265,7 +266,7 @@ void Zombie::draw(GLuint texture[], float animPos) {
 
     glColor3f(1, 1, 1);
     glPushMatrix();
-    if (getHp()/200.0 > 0.4 ) {
+    if (getHp()/HP > 0.4 ) {
         glPushMatrix();
         glTranslatef(0, -80, -6);
         
